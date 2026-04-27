@@ -1,12 +1,18 @@
 {
   "name": "Charge Calculator",
   "short_name": "ChargeCalc",
-  "description": "EV charging cost calculator for Qatar / Kahramaa",
+  "description": "EV charging cost calculator for Qatar — حاسبة تكلفة شحن السيارة الكهربائية في قطر",
+  "lang": "en",
+  "dir": "ltr",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#fafafa",
   "theme_color": "#F5C518",
   "orientation": "portrait",
+  "categories": [
+    "utilities",
+    "productivity"
+  ],
   "icons": [
     {
       "src": "icon-192.png",
