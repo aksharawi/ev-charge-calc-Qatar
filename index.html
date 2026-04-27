@@ -3,150 +3,425 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+ 
+  <!-- ═══════════════════════════════════════════
+       PRIMARY SEO
+  ═══════════════════════════════════════════ -->
+  <title>EV Charge Cost Calculator Qatar | Electricity Tariff 2026</title>
+  <meta name="description" content="Calculate exactly how much it costs to charge your electric or hybrid vehicle in Qatar. Supports wall plug (2.2kW) and AC charger (11kW). Free, works offline, available in English and Arabic." />
+  <meta name="keywords" content="EV charging cost Qatar, electricity tariff Qatar, electric vehicle charging calculator, hybrid car charging cost Qatar, PHEV charging Qatar, حاسبة شحن السيارة الكهربائية, تكلفة شحن السيارة قطر" />
+  <meta name="author" content="@aksharawi" />
+  <meta name="robots" content="index, follow" />
+  <meta name="language" content="English, Arabic" />
+  <meta name="revisit-after" content="30 days" />
+  <meta name="category" content="EV Tools, Automotive, Energy Calculator" />
+  <link rel="canonical" href="https://chargecalc.vercel.app/" />
+ 
+  <link rel="alternate" hreflang="en" href="https://chargecalc.vercel.app/" />
+  <link rel="alternate" hreflang="ar" href="https://chargecalc.vercel.app/" />
+  <link rel="alternate" hreflang="x-default" href="https://chargecalc.vercel.app/" />
+ 
+  <!-- ═══════════════════════════════════════════
+       OPEN GRAPH
+  ═══════════════════════════════════════════ -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://chargecalc.vercel.app/" />
+  <meta property="og:title" content="EV Charge Cost Calculator — Qatar" />
+  <meta property="og:description" content="Free tool to calculate your EV or hybrid charging cost in Qatar. Supports wall plug & AC charger. Works offline. English & Arabic." />
+  <meta property="og:image" content="https://chargecalc.vercel.app/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="EV Charge Cost Calculator Qatar - Electricity Tariff Tool" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:locale:alternate" content="ar_QA" />
+  <meta property="og:site_name" content="Charge Calculator" />
+ 
+  <!-- TWITTER -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="EV Charge Cost Calculator — Qatar" />
+  <meta name="twitter:description" content="Calculate your EV charging cost in Qatar. Wall plug or AC charger. Free & works offline." />
+  <meta name="twitter:image" content="https://chargecalc.vercel.app/og-image.png" />
+  <meta name="twitter:creator" content="@aksharawi" />
+ 
+  <!-- PWA / MOBILE -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="ChargeCalc" />
-  <meta name="theme-color" content="#F5C518" />
-  <title>EV Charge Calculator</title>
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="application-name" content="ChargeCalc" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)" />
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icon-192.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png" />
+ 
+  <!-- STRUCTURED DATA -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "@id": "https://chargecalc.vercel.app/#app",
+        "name": "EV Charge Cost Calculator Qatar",
+        "alternateName": "حاسبة تكلفة شحن السيارة الكهربائية قطر",
+        "url": "https://chargecalc.vercel.app/",
+        "description": "A free web app to calculate electric vehicle and plug-in hybrid charging costs using Qatar electricity tariffs. Supports wall plug (2.2kW Mode 2) and AC charger (11kW Type 2). Available in English and Arabic.",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "QAR" },
+        "featureList": [
+          "Qatar electricity tariff calculator",
+          "Wall plug 2.2kW charging cost",
+          "AC charger 11kW charging cost",
+          "Monthly and annual EV charging cost estimate",
+          "Arabic and English language support",
+          "Light and dark mode",
+          "Offline PWA support"
+        ],
+        "inLanguage": ["en", "ar"],
+        "author": { "@type": "Person", "name": "aksharawi" },
+        "audience": {
+          "@type": "Audience",
+          "geographicArea": { "@type": "Country", "name": "Qatar" }
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://chargecalc.vercel.app/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How much does it cost to charge an electric car in Qatar?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In Qatar, charging an electric vehicle depends on your electricity tariff. Residential rates are around 0.08 QAR/kWh, while commercial rates range from 0.09 to 0.14 QAR/kWh. For a 31.8 kWh battery charged from 20% to 100%, expect to pay between 2.50 and 4.20 QAR per full charge."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the electricity tariff in Qatar 2026?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Residential electricity tariffs in Qatar are 0.08 QAR/kWh for flats and low-consumption villas, and 0.10 QAR/kWh for high-consumption villas. Commercial tariffs are 0.09 QAR/kWh (low tier), 0.12 QAR/kWh (mid tier), and 0.14 QAR/kWh (high tier)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How long does it take to charge an EV with a wall plug in Qatar?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Using a standard wall plug (Mode 2, 2.2kW) in Qatar, charging a 31.8 kWh battery from 20% to 100% takes approximately 12 to 13 hours. Using an 11kW AC charger (Type 2) reduces this to around 2.5 to 3 hours."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much does EV charging cost per month in Qatar?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "If you charge every 3 days (approximately 10 charges per month) using a commercial rate of 0.12 QAR/kWh, monthly EV charging costs in Qatar are approximately 35 to 42 QAR — significantly cheaper than petrol."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+ 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body, #root {
       height: 100%;
-      background: #0d0d0d;
-      color: #fff;
-      font-family: 'DM Mono', 'Courier New', monospace;
       -webkit-font-smoothing: antialiased;
+      transition: background-color 0.25s ease;
     }
     body { overflow-x: hidden; }
     input[type=range] { -webkit-appearance: none; appearance: none; background: transparent; }
     input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 0; height: 0; }
     select { -webkit-appearance: none; appearance: none; }
     ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: #111; }
-    ::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
   </style>
 </head>
 <body>
   <div id="root"></div>
-
+ 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
-
+ 
   <script type="text/babel">
-    const { useState } = React;
-
-    const CHARGERS = [
-      { id: "wall", label: "Wall Plug", sub: "Mode 2 · 2.2 kW", kw: 2.2, icon: "🔌" },
-      { id: "ac11", label: "AC Charger", sub: "Type 2 · 11 kW", kw: 11, icon: "⚡" },
-    ];
-
-    const RATES = [
-      { label: "Residential Flat", value: 0.08 },
-      { label: "Villa (low)", value: 0.08 },
-      { label: "Villa (high)", value: 0.10 },
-      { label: "Commercial (low)", value: 0.09 },
-      { label: "Commercial (mid)", value: 0.12 },
-      { label: "Commercial (high)", value: 0.14 },
-      { label: "Custom", value: null },
-    ];
-
-    function Slider({ label, value, min, max, step, unit, onChange, accent = "#F5C518" }) {
-      const [inputVal, setInputVal] = React.useState(String(value));
+    const { useState, useEffect } = React;
+ 
+    const VERSION = "1.2";
+ 
+    // ═══════════════════════════════════════════
+    //  THEME SYSTEM
+    // ═══════════════════════════════════════════
+    const THEMES = {
+      light: {
+        bg: "#fafafa",
+        cardBg: "#ffffff",
+        cardBgAccent: "#fffbeb",
+        cardBgInactive: "#f5f5f5",
+        chargerCardActive: "#fffbeb",
+        chargerCardInactive: "#fafafa",
+        border: "#e5e5e5",
+        borderActive: "#F5C518",
+        borderSubtle: "#f0f0f0",
+        text: "#111111",
+        textMuted: "#525252",
+        textFaint: "#737373",
+        textVeryFaint: "#a3a3a3",
+        textGhost: "#d4d4d4",
+        inputBg: "#ffffff",
+        inputBorder: "#e5e5e5",
+        yellow: "#F5C518",
+        yellowText: "#111111",     // black text on light bg for max readability
+        green: "#16a34a",
+        blue: "#2563eb",
+        orange: "#ea580c",
+        purple: "#7c3aed",
+        sliderTrack: "#e5e5e5",
+        thumbBorder: "#ffffff",
+        cardShadow: "0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06)",
+        accentCardGradient: "linear-gradient(135deg, #fffbeb 0%, #ffffff 60%)",
+        rateActiveBg: "#F5C518",
+        rateActiveText: "#000",
+        rateInactiveBg: "#f5f5f5",
+        rateInactiveText: "#737373",
+        rateInactiveBorder: "#e5e5e5",
+      },
+      dark: {
+        bg: "#0d0d0d",
+        cardBg: "#111111",
+        cardBgAccent: "#1a1500",
+        cardBgInactive: "#1a1a1a",
+        chargerCardActive: "#1a1500",
+        chargerCardInactive: "#161616",
+        border: "#222222",
+        borderActive: "#F5C518",
+        borderSubtle: "#1a1a1a",
+        text: "#ffffff",
+        textMuted: "#cccccc",
+        textFaint: "#666666",
+        textVeryFaint: "#444444",
+        textGhost: "#2a2a2a",
+        inputBg: "#1a1a1a",
+        inputBorder: "#2a2a2a",
+        yellow: "#F5C518",
+        yellowText: "#F5C518",
+        green: "#4ade80",
+        blue: "#60a5fa",
+        orange: "#f97316",
+        purple: "#a78bfa",
+        sliderTrack: "#222222",
+        thumbBorder: "#0d0d0d",
+        cardShadow: "none",
+        accentCardGradient: "linear-gradient(135deg, #1a1500 0%, #111 60%)",
+        rateActiveBg: "#F5C518",
+        rateActiveText: "#000",
+        rateInactiveBg: "#1a1a1a",
+        rateInactiveText: "#555555",
+        rateInactiveBorder: "#252525",
+      },
+    };
+ 
+    // hex with alpha — used for outlines that should fade
+    const alpha = (hex, a) => {
+      const aa = Math.round(a * 255).toString(16).padStart(2, "0");
+      return hex + aa;
+    };
+ 
+    const STRINGS = {
+      en: {
+        dir: "ltr",
+        fontFamily: "'DM Mono', 'Courier New', monospace",
+        appTitle: "CHARGE CALCULATOR",
+        subtitle: "QATAR",
+        langToggle: "العربية",
+        themeLight: "Light mode",
+        themeDark: "Dark mode",
+        costPerCharge: "Cost per Charge",
+        fromWall: "from wall",
+        charged: "charged",
+        monthly: "Monthly",
+        annual: "Annual",
+        charges: "charges",
+        estimated: "estimated",
+        chargerType: "Charger Type",
+        wallPlug: "Wall Plug",
+        acCharger: "AC Charger",
+        battery: "Battery",
+        capacity: "Capacity",
+        startSOC: "Start SOC",
+        endSOC: "End SOC",
+        efficiency: "Charger Efficiency",
+        tariff: "Electricity Tariff",
+        activeRate: "ACTIVE RATE",
+        rateInput: "Rate (QAR/kWh)",
+        schedule: "Charging Schedule",
+        chargeEvery: "Charge Every",
+        chargesPerMonth: "charges per month",
+        breakdown: "Full Breakdown",
+        chargeRange: "Charge range",
+        energyBattery: "Energy to battery",
+        energyWall: "Energy from wall",
+        charger: "Charger",
+        estTime: "Est. charge time",
+        costCharge: "Cost per charge",
+        chargesMonth: "Charges / month",
+        monthlyCost: "Monthly cost",
+        annualCost: "Annual cost",
+        offlineBadge: "WORKS OFFLINE · QATAR",
+        madeBy: "Made by",
+        rights: "All rights reserved",
+        days: " days",
+        hrs: "hrs",
+        min: "min",
+        rateLabels: [
+          { label: "Residential Flat", value: 0.08 },
+          { label: "Villa (low)", value: 0.08 },
+          { label: "Villa (high)", value: 0.10 },
+          { label: "Commercial (low)", value: 0.09 },
+          { label: "Commercial (mid)", value: 0.12 },
+          { label: "Commercial (high)", value: 0.14 },
+          { label: "Custom", value: null },
+        ],
+      },
+      ar: {
+        dir: "rtl",
+        fontFamily: "'Tajawal', sans-serif",
+        appTitle: "حاسبة الشحن",
+        subtitle: "قطر",
+        langToggle: "English",
+        themeLight: "الوضع الفاتح",
+        themeDark: "الوضع الداكن",
+        costPerCharge: "تكلفة الشحن الواحد",
+        fromWall: "من المقبس",
+        charged: "مشحون",
+        monthly: "شهرياً",
+        annual: "سنوياً",
+        charges: "شحنة",
+        estimated: "تقريبي",
+        chargerType: "نوع الشاحن",
+        wallPlug: "مقبس عادي",
+        acCharger: "شاحن AC",
+        battery: "البطارية",
+        capacity: "السعة",
+        startSOC: "شحن البداية",
+        endSOC: "شحن النهاية",
+        efficiency: "كفاءة الشاحن",
+        tariff: "تعريفة الكهرباء",
+        activeRate: "السعر المعتمد",
+        rateInput: "السعر (ريال/كيلوواط)",
+        schedule: "جدول الشحن",
+        chargeEvery: "اشحن كل",
+        chargesPerMonth: "شحنة في الشهر",
+        breakdown: "التفاصيل الكاملة",
+        chargeRange: "نطاق الشحن",
+        energyBattery: "طاقة البطارية",
+        energyWall: "طاقة من المقبس",
+        charger: "الشاحن",
+        estTime: "وقت الشحن التقديري",
+        costCharge: "تكلفة الشحن",
+        chargesMonth: "شحنات / شهر",
+        monthlyCost: "التكلفة الشهرية",
+        annualCost: "التكلفة السنوية",
+        offlineBadge: "يعمل بدون إنترنت · قطر",
+        madeBy: "من تطوير",
+        rights: "جميع الحقوق محفوظة",
+        days: " أيام",
+        hrs: "ساعة",
+        min: "دقيقة",
+        rateLabels: [
+          { label: "شقة سكنية", value: 0.08 },
+          { label: "فيلا (منخفض)", value: 0.08 },
+          { label: "فيلا (مرتفع)", value: 0.10 },
+          { label: "تجاري (منخفض)", value: 0.09 },
+          { label: "تجاري (متوسط)", value: 0.12 },
+          { label: "تجاري (مرتفع)", value: 0.14 },
+          { label: "مخصص", value: null },
+        ],
+      },
+    };
+ 
+    function Slider({ label, value, min, max, step, unit, onChange, accent, theme }) {
+      const [inputVal, setInputVal] = useState(String(value));
       const pct = ((value - min) / (max - min)) * 100;
-
-      // Keep local input in sync when value changes externally
-      React.useEffect(() => { setInputVal(String(value)); }, [value]);
-
-      const handleInputChange = (e) => {
-        setInputVal(e.target.value);
-      };
-
-      const handleInputBlur = () => {
-        const parsed = parseFloat(inputVal);
-        if (!isNaN(parsed)) {
-          const clamped = Math.min(max, Math.max(min, parsed));
-          onChange(clamped);
-          setInputVal(String(clamped));
-        } else {
-          setInputVal(String(value));
-        }
-      };
-
-      const handleInputKey = (e) => {
-        if (e.key === "Enter") e.target.blur();
-      };
-
+ 
+      useEffect(() => { setInputVal(String(value)); }, [value]);
+ 
       return (
         <div style={{ marginBottom: "1.4rem" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
-            <span style={{ fontSize: "0.72rem", color: "#666", letterSpacing: "0.08em", textTransform: "uppercase" }}>{label}</span>
+            <span style={{ fontSize: "0.72rem", color: theme.textFaint, letterSpacing: "0.05em", textTransform: "uppercase" }}>{label}</span>
             <div style={{ display: "flex", alignItems: "center", gap: "0.2rem" }}>
               <input
-                type="number"
-                value={inputVal}
-                min={min} max={max} step={step}
-                onChange={handleInputChange}
-                onBlur={handleInputBlur}
-                onKeyDown={handleInputKey}
+                type="number" value={inputVal} min={min} max={max} step={step}
+                onChange={e => setInputVal(e.target.value)}
+                onBlur={() => {
+                  const parsed = parseFloat(inputVal);
+                  if (!isNaN(parsed)) { const c = Math.min(max, Math.max(min, parsed)); onChange(c); setInputVal(String(c)); }
+                  else setInputVal(String(value));
+                }}
+                onKeyDown={e => { if (e.key === "Enter") e.target.blur(); }}
                 style={{
-                  width: unit === " kWh" ? "60px" : "48px",
-                  background: "#1a1a1a",
-                  border: `1px solid ${accent}40`,
-                  borderRadius: "6px",
-                  padding: "0.2rem 0.4rem",
-                  color: "#fff",
+                  width: "58px", background: theme.inputBg,
+                  border: `1px solid ${alpha(accent, 0.25)}`, borderRadius: "6px",
+                  padding: "0.2rem 0.4rem", color: theme.text,
                   fontFamily: "'DM Mono', monospace",
-                  fontSize: "0.88rem",
-                  fontWeight: 700,
-                  textAlign: "right",
-                  outline: "none",
+                  fontSize: "0.88rem", fontWeight: 700,
+                  textAlign: "center", outline: "none",
                 }}
               />
-              <span style={{ fontSize: "0.78rem", color: "#555", minWidth: "24px" }}>{unit.trim()}</span>
+              <span style={{ fontSize: "0.75rem", color: theme.textVeryFaint, minWidth: "22px" }}>{unit.trim()}</span>
             </div>
           </div>
-          <div style={{ position: "relative", height: "5px", background: "#222", borderRadius: "3px" }}>
+          <div style={{ position: "relative", height: "5px", background: theme.sliderTrack, borderRadius: "3px" }}>
             <div style={{
               position: "absolute", left: 0, top: 0, height: "100%",
-              width: `${pct}%`, background: accent, borderRadius: "3px",
-              transition: "width 0.1s"
+              width: `${pct}%`, background: accent, borderRadius: "3px", transition: "width 0.1s"
             }} />
             <input type="range" min={min} max={max} step={step} value={value}
               onChange={e => onChange(Number(e.target.value))}
-              style={{
-                position: "absolute", top: "-8px", left: 0,
-                width: "100%", height: "22px", opacity: 0,
-                cursor: "pointer", zIndex: 2
-              }} />
+              style={{ position: "absolute", top: "-8px", left: 0, width: "100%", height: "22px", opacity: 0, cursor: "pointer", zIndex: 2 }} />
             <div style={{
               position: "absolute", top: "50%", left: `${pct}%`,
               transform: "translate(-50%, -50%)",
-              width: "15px", height: "15px",
-              background: accent, borderRadius: "50%",
-              border: "2px solid #0d0d0d",
-              boxShadow: `0 0 10px ${accent}60`,
+              width: "15px", height: "15px", background: accent,
+              borderRadius: "50%", border: `2px solid ${theme.thumbBorder}`,
+              boxShadow: `0 0 10px ${alpha(accent, 0.4)}`,
               transition: "left 0.1s", pointerEvents: "none"
             }} />
           </div>
         </div>
       );
     }
-
-    function Section({ title, children }) {
+ 
+    function Section({ title, children, isRTL, theme }) {
       return (
-        <div style={{ background: "#111", borderRadius: "14px", padding: "1.4rem", marginBottom: "0.75rem" }}>
-          <div style={{ fontSize: "0.65rem", color: "#444", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "1.2rem" }}>{title}</div>
+        <div style={{
+          background: theme.cardBg,
+          border: `1px solid ${theme.border}`,
+          boxShadow: theme.cardShadow,
+          borderRadius: "14px", padding: "1.4rem",
+          marginBottom: "0.75rem"
+        }}>
+          <div style={{ fontSize: "0.65rem", color: theme.textFaint, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "1.2rem", textAlign: isRTL ? "right" : "left" }}>{title}</div>
           {children}
         </div>
       );
     }
-
+ 
     function App() {
+      const [lang, setLang] = useState("en");
+      const [themeName, setThemeName] = useState("light");  // ← default LIGHT
       const [battery, setBattery] = useState(31.8);
       const [startSOC, setStartSOC] = useState(20);
       const [endSOC, setEndSOC] = useState(100);
@@ -155,7 +430,24 @@
       const [customRate, setCustomRate] = useState(false);
       const [freqDays, setFreqDays] = useState(3);
       const [chargerId, setChargerId] = useState("wall");
-
+ 
+      const t = STRINGS[lang];
+      const isRTL = t.dir === "rtl";
+      const theme = THEMES[themeName];
+      const isDark = themeName === "dark";
+ 
+      // Sync body bg with theme
+      useEffect(() => {
+        document.body.style.background = theme.bg;
+        document.documentElement.style.background = theme.bg;
+        document.body.style.color = theme.text;
+      }, [themeName]);
+ 
+      const CHARGERS = [
+        { id: "wall", label: t.wallPlug, sub: "Mode 2 · 2.2 kW", kw: 2.2, icon: "🔌" },
+        { id: "ac11", label: t.acCharger, sub: "Type 2 · 11 kW", kw: 11, icon: "⚡" },
+      ];
+ 
       const charger = CHARGERS.find(c => c.id === chargerId);
       const chargePct = endSOC - startSOC;
       const energyToBattery = (battery * chargePct) / 100;
@@ -166,107 +458,149 @@
       const annualCost = monthlyCost * 12;
       const chargingHours = energyFromWall / charger.kw;
       const chargingTime = chargingHours < 1
-        ? `~${Math.round(chargingHours * 60)} min`
-        : `~${chargingHours.toFixed(1)} hrs`;
-
+        ? `~${Math.round(chargingHours * 60)} ${t.min}`
+        : `~${chargingHours.toFixed(1)} ${t.hrs}`;
+ 
       return (
-        <div style={{ minHeight: "100vh", padding: "env(safe-area-inset-top, 1rem) 1rem 2rem", maxWidth: "460px", margin: "0 auto" }}>
-
+        <div style={{
+          minHeight: "100vh",
+          padding: "env(safe-area-inset-top, 1rem) 1rem 2rem",
+          maxWidth: "460px", margin: "0 auto",
+          fontFamily: t.fontFamily, direction: t.dir,
+          background: theme.bg, color: theme.text,
+          transition: "background-color 0.25s ease, color 0.25s ease",
+        }}>
+ 
           {/* Header */}
-          <div style={{ paddingTop: "1.2rem", marginBottom: "1.8rem" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "0.7rem", marginBottom: "0.2rem" }}>
-              <div style={{
-                width: "32px", height: "32px", background: "#F5C518",
-                borderRadius: "8px", display: "flex", alignItems: "center",
-                justifyContent: "center", fontSize: "16px", flexShrink: 0
-              }}>⚡</div>
-              <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "1.7rem", letterSpacing: "0.06em", color: "#F5C518" }}>
-                CHARGE CALC
-              </span>
+          <div style={{ paddingTop: "1.2rem", marginBottom: "1.8rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.7rem" }}>
+              <img src="icon-192.png" alt="Charge Calculator" style={{ width: "38px", height: "38px", borderRadius: "9px", flexShrink: 0, display: "block" }} />
+              <div>
+                <div style={{
+                  fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Bebas Neue', sans-serif",
+                  fontSize: isRTL ? "1.3rem" : "1.5rem",
+                  fontWeight: 800,
+                  letterSpacing: isRTL ? "0" : "0.05em",
+                  color: theme.yellowText, lineHeight: 1
+                }}>{t.appTitle}</div>
+                <div style={{ fontSize: "0.62rem", color: theme.textVeryFaint, letterSpacing: "0.08em", marginTop: "0.15rem" }}>{t.subtitle}</div>
+              </div>
             </div>
-            <div style={{ fontSize: "0.65rem", color: "#333", letterSpacing: "0.08em", paddingLeft: "2.6rem" }}>
-              DENZA B5 · KAHRAMAA QATAR
+ 
+            {/* Top-right toggles */}
+            <div style={{ display: "flex", gap: "0.4rem", alignItems: "center" }}>
+              {/* Theme toggle */}
+              <button
+                onClick={() => setThemeName(isDark ? "light" : "dark")}
+                aria-label={isDark ? t.themeLight : t.themeDark}
+                title={isDark ? t.themeLight : t.themeDark}
+                style={{
+                  background: theme.cardBgInactive,
+                  border: `1px solid ${alpha(theme.yellow, 0.3)}`,
+                  borderRadius: "8px",
+                  width: "36px", height: "36px",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: "1rem",
+                  color: theme.yellowText,
+                  cursor: "pointer", flexShrink: 0,
+                  transition: "all 0.2s",
+                }}
+              >
+                {isDark ? "☀" : "☾"}
+              </button>
+ 
+              {/* Language toggle */}
+              <button onClick={() => setLang(lang === "en" ? "ar" : "en")} style={{
+                background: theme.cardBgInactive,
+                border: `1px solid ${alpha(theme.yellow, 0.3)}`,
+                borderRadius: "8px",
+                padding: "0.35rem 0.8rem",
+                color: theme.yellowText,
+                fontFamily: isRTL ? "'DM Mono', monospace" : "'Tajawal', sans-serif",
+                fontSize: isRTL ? "0.72rem" : "1rem",
+                fontWeight: 700,
+                cursor: "pointer", flexShrink: 0,
+                letterSpacing: isRTL ? "0.04em" : "0",
+              }}>
+                {t.langToggle}
+              </button>
             </div>
           </div>
-
+ 
           {/* Result Cards */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.6rem", marginBottom: "1.5rem" }}>
-            {/* Big card */}
             <div style={{
               gridColumn: "1 / -1",
-              background: "linear-gradient(135deg, #1a1500 0%, #111 60%)",
-              border: "1px solid #F5C51830",
-              borderRadius: "14px", padding: "1.4rem 1.5rem",
-              position: "relative", overflow: "hidden"
+              background: theme.accentCardGradient,
+              border: `1px solid ${alpha(theme.yellow, isDark ? 0.2 : 0.4)}`,
+              boxShadow: theme.cardShadow,
+              borderRadius: "14px",
+              padding: "1.4rem 1.5rem", position: "relative", overflow: "hidden",
+              textAlign: isRTL ? "right" : "left",
             }}>
-              <div style={{
-                position: "absolute", top: 0, left: 0, right: 0, height: "2px",
-                background: "linear-gradient(90deg, transparent, #F5C518, transparent)"
-              }} />
-              <div style={{ fontSize: "0.65rem", color: "#666", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.3rem" }}>Cost per Charge</div>
-              <div style={{ fontSize: "2.2rem", fontWeight: 800, color: "#F5C518", lineHeight: 1, marginBottom: "0.4rem" }}>
+              <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: `linear-gradient(90deg, transparent, ${theme.yellow}, transparent)` }} />
+              <div style={{ fontSize: "0.65rem", color: theme.textFaint, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "0.3rem" }}>{t.costPerCharge}</div>
+              <div style={{ fontSize: "2.2rem", fontWeight: 800, color: theme.yellowText, lineHeight: 1, marginBottom: "0.4rem", fontFamily: "'DM Mono', monospace" }}>
                 QAR {costPerCharge.toFixed(2)}
               </div>
-              <div style={{ fontSize: "0.72rem", color: "#555" }}>
-                {energyFromWall.toFixed(1)} kWh from wall · {chargingTime} · {chargePct}% charged
+              <div style={{ fontSize: "0.72rem", color: theme.textMuted, fontFamily: "'DM Mono', monospace" }}>
+                {energyFromWall.toFixed(1)} kWh {t.fromWall} · {chargingTime} · {chargePct}% {t.charged}
               </div>
             </div>
-
+ 
             {[
-              { label: "Monthly", value: `QAR ${monthlyCost.toFixed(1)}`, sub: `${chargesPerMonth}× charges`, accent: "#4ade80" },
-              { label: "Annual", value: `QAR ${annualCost.toFixed(0)}`, sub: "estimated", accent: "#60a5fa" },
+              { label: t.monthly, value: `QAR ${monthlyCost.toFixed(1)}`, sub: `${chargesPerMonth} ${t.charges}`, accent: theme.green },
+              { label: t.annual, value: `QAR ${annualCost.toFixed(0)}`, sub: t.estimated, accent: theme.blue },
             ].map(card => (
               <div key={card.label} style={{
-                background: "#111",
-                border: `1px solid ${card.accent}18`,
+                background: theme.cardBg,
+                border: `1px solid ${alpha(card.accent, isDark ? 0.1 : 0.2)}`,
+                boxShadow: theme.cardShadow,
                 borderRadius: "14px", padding: "1rem 1.1rem",
                 position: "relative", overflow: "hidden", textAlign: "center"
               }}>
-                <div style={{
-                  position: "absolute", top: 0, left: 0, right: 0, height: "2px",
-                  background: `linear-gradient(90deg, transparent, ${card.accent}, transparent)`
-                }} />
-                <div style={{ fontSize: "0.65rem", color: "#555", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.3rem" }}>{card.label}</div>
-                <div style={{ fontSize: "1.35rem", fontWeight: 800, color: card.accent, lineHeight: 1 }}>{card.value}</div>
-                <div style={{ fontSize: "0.68rem", color: "#444", marginTop: "0.25rem" }}>{card.sub}</div>
+                <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: `linear-gradient(90deg, transparent, ${card.accent}, transparent)` }} />
+                <div style={{ fontSize: "0.65rem", color: theme.textFaint, letterSpacing: "0.08em", marginBottom: "0.3rem" }}>{card.label}</div>
+                <div style={{ fontSize: "1.35rem", fontWeight: 800, color: card.accent, lineHeight: 1, fontFamily: "'DM Mono', monospace" }}>{card.value}</div>
+                <div style={{ fontSize: "0.68rem", color: theme.textVeryFaint, marginTop: "0.25rem" }}>{card.sub}</div>
               </div>
             ))}
           </div>
-
-          {/* Charger Type Toggle */}
-          <Section title="Charger Type">
+ 
+          {/* Charger Type */}
+          <Section title={t.chargerType} isRTL={isRTL} theme={theme}>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.6rem" }}>
               {CHARGERS.map(c => {
                 const active = chargerId === c.id;
                 return (
                   <button key={c.id} onClick={() => setChargerId(c.id)} style={{
-                    background: active ? "#1a1500" : "#161616",
-                    border: `1.5px solid ${active ? "#F5C518" : "#222"}`,
+                    background: active ? theme.chargerCardActive : theme.chargerCardInactive,
+                    border: `1.5px solid ${active ? theme.borderActive : theme.border}`,
                     borderRadius: "10px", padding: "0.85rem 0.8rem",
-                    cursor: "pointer", textAlign: "left",
-                    transition: "all 0.15s",
+                    cursor: "pointer", textAlign: isRTL ? "right" : "left",
+                    transition: "all 0.15s", fontFamily: t.fontFamily,
                   }}>
                     <div style={{ fontSize: "1.3rem", marginBottom: "0.3rem" }}>{c.icon}</div>
-                    <div style={{ fontSize: "0.8rem", fontWeight: 700, color: active ? "#F5C518" : "#aaa", fontFamily: "'DM Mono', monospace" }}>{c.label}</div>
-                    <div style={{ fontSize: "0.65rem", color: active ? "#F5C51880" : "#444", marginTop: "0.15rem" }}>{c.sub}</div>
+                    <div style={{ fontSize: "0.82rem", fontWeight: 700, color: active ? theme.yellowText : theme.textMuted }}>{c.label}</div>
+                    <div style={{ fontSize: "0.63rem", color: active ? alpha(theme.yellowText, 0.6) : theme.textFaint, marginTop: "0.15rem", fontFamily: "'DM Mono', monospace" }}>{c.sub}</div>
                   </button>
                 );
               })}
             </div>
           </Section>
-
+ 
           {/* Battery */}
-          <Section title="Battery">
-            <Slider label="Capacity" value={battery} min={10} max={100} step={0.1} unit=" kWh" onChange={setBattery} />
-            <Slider label="Start SOC" value={startSOC} min={0} max={99} step={1} unit="%" onChange={v => setStartSOC(Math.min(v, endSOC - 1))} accent="#f97316" />
-            <Slider label="End SOC" value={endSOC} min={1} max={100} step={1} unit="%" onChange={v => setEndSOC(Math.max(v, startSOC + 1))} />
-            <Slider label="Charger Efficiency" value={efficiency} min={70} max={100} step={1} unit="%" onChange={setEfficiency} accent="#a78bfa" />
+          <Section title={t.battery} isRTL={isRTL} theme={theme}>
+            <Slider label={t.capacity} value={battery} min={10} max={100} step={0.1} unit=" kWh" onChange={setBattery} accent={theme.yellow} theme={theme} />
+            <Slider label={t.startSOC} value={startSOC} min={0} max={99} step={1} unit="%" onChange={v => setStartSOC(Math.min(v, endSOC - 1))} accent={theme.orange} theme={theme} />
+            <Slider label={t.endSOC} value={endSOC} min={1} max={100} step={1} unit="%" onChange={v => setEndSOC(Math.max(v, startSOC + 1))} accent={theme.yellow} theme={theme} />
+            <Slider label={t.efficiency} value={efficiency} min={70} max={100} step={1} unit="%" onChange={setEfficiency} accent={theme.purple} theme={theme} />
           </Section>
-
+ 
           {/* Tariff */}
-          <Section title="Kahramaa Tariff">
+          <Section title={t.tariff} isRTL={isRTL} theme={theme}>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", marginBottom: "1rem" }}>
-              {RATES.map(r => {
+              {t.rateLabels.map(r => {
                 const active = r.value !== null
                   ? !customRate && Math.abs(rate - r.value) < 0.001
                   : customRate;
@@ -275,90 +609,86 @@
                     if (r.value !== null) { setCustomRate(false); setRate(r.value); }
                     else setCustomRate(true);
                   }} style={{
-                    padding: "0.3rem 0.55rem",
-                    fontSize: "0.62rem",
-                    letterSpacing: "0.04em",
-                    background: active ? "#F5C518" : "#1a1a1a",
-                    color: active ? "#000" : "#555",
-                    border: `1px solid ${active ? "#F5C518" : "#252525"}`,
-                    borderRadius: "6px",
-                    cursor: "pointer",
-                    fontFamily: "'DM Mono', monospace",
-                    fontWeight: active ? 700 : 400,
-                    transition: "all 0.15s",
+                    padding: "0.3rem 0.55rem", fontSize: "0.65rem",
+                    background: active ? theme.rateActiveBg : theme.rateInactiveBg,
+                    color: active ? theme.rateActiveText : theme.rateInactiveText,
+                    border: `1px solid ${active ? theme.rateActiveBg : theme.rateInactiveBorder}`,
+                    borderRadius: "6px", cursor: "pointer",
+                    fontFamily: t.fontFamily,
+                    fontWeight: active ? 700 : 400, transition: "all 0.15s",
                   }}>
                     {r.label}{r.value !== null ? ` (${r.value})` : ""}
                   </button>
                 );
               })}
             </div>
-
+ 
             {customRate && (
               <div style={{ marginBottom: "1rem" }}>
-                <div style={{ fontSize: "0.68rem", color: "#666", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "0.4rem" }}>Rate (QAR/kWh)</div>
+                <div style={{ fontSize: "0.68rem", color: theme.textFaint, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "0.4rem" }}>{t.rateInput}</div>
                 <input type="number" step="0.01" min="0.01" max="1" value={rate}
                   onChange={e => setRate(Number(e.target.value))}
-                  style={{
-                    width: "100%", background: "#1a1a1a",
-                    border: "1px solid #2a2a2a", borderRadius: "8px",
-                    padding: "0.6rem 0.8rem", color: "#fff",
-                    fontFamily: "'DM Mono', monospace", fontSize: "1rem"
-                  }} />
+                  style={{ width: "100%", background: theme.inputBg, border: `1px solid ${theme.inputBorder}`, borderRadius: "8px", padding: "0.6rem 0.8rem", color: theme.text, fontFamily: "'DM Mono', monospace", fontSize: "1rem" }} />
               </div>
             )}
-
+ 
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: "0.5rem" }}>
-              <span style={{ fontSize: "0.65rem", color: "#444" }}>ACTIVE RATE</span>
-              <span style={{ fontSize: "1.1rem", fontWeight: 700, color: "#F5C518" }}>QAR {rate.toFixed(3)} / kWh</span>
+              <span style={{ fontSize: "0.65rem", color: theme.textFaint }}>{t.activeRate}</span>
+              <span style={{ fontSize: "1.1rem", fontWeight: 700, color: theme.yellowText, fontFamily: "'DM Mono', monospace" }}>QAR {rate.toFixed(3)} / kWh</span>
             </div>
           </Section>
-
+ 
           {/* Schedule */}
-          <Section title="Charging Schedule">
-            <Slider label="Charge Every" value={freqDays} min={1} max={14} step={1} unit=" days" onChange={setFreqDays} accent="#4ade80" />
-            <div style={{ fontSize: "0.72rem", color: "#444", marginTop: "-0.8rem" }}>
-              = {chargesPerMonth} charges per month
+          <Section title={t.schedule} isRTL={isRTL} theme={theme}>
+            <Slider label={t.chargeEvery} value={freqDays} min={1} max={14} step={1} unit={t.days} onChange={setFreqDays} accent={theme.green} theme={theme} />
+            <div style={{ fontSize: "0.72rem", color: theme.textFaint, marginTop: "-0.8rem", textAlign: isRTL ? "right" : "left" }}>
+              = {chargesPerMonth} {t.chargesPerMonth}
             </div>
           </Section>
-
+ 
           {/* Breakdown */}
-          <Section title="Full Breakdown">
+          <Section title={t.breakdown} isRTL={isRTL} theme={theme}>
             {[
-              ["Charge range", `${startSOC}% → ${endSOC}% (${chargePct}%)`],
-              ["Energy to battery", `${energyToBattery.toFixed(2)} kWh`],
-              ["Energy from wall", `${energyFromWall.toFixed(2)} kWh`],
-              ["Charger", `${charger.label} (${charger.kw} kW)`],
-              ["Est. charge time", chargingTime],
-              ["Cost per charge", `QAR ${costPerCharge.toFixed(3)}`],
-              ["Charges / month", `${chargesPerMonth}`],
-              ["Monthly cost", `QAR ${monthlyCost.toFixed(2)}`],
-              ["Annual cost", `QAR ${annualCost.toFixed(2)}`],
+              [t.chargeRange, `${startSOC}% → ${endSOC}% (${chargePct}%)`],
+              [t.energyBattery, `${energyToBattery.toFixed(2)} kWh`],
+              [t.energyWall, `${energyFromWall.toFixed(2)} kWh`],
+              [t.charger, `${charger.label} (${charger.kw} kW)`],
+              [t.estTime, chargingTime],
+              [t.costCharge, `QAR ${costPerCharge.toFixed(3)}`],
+              [t.chargesMonth, `${chargesPerMonth}`],
+              [t.monthlyCost, `QAR ${monthlyCost.toFixed(2)}`],
+              [t.annualCost, `QAR ${annualCost.toFixed(2)}`],
             ].map(([k, v]) => (
               <div key={k} style={{
-                display: "flex", justifyContent: "space-between",
-                padding: "0.5rem 0", borderBottom: "1px solid #1a1a1a"
+                display: "flex",
+                flexDirection: isRTL ? "row-reverse" : "row",
+                justifyContent: "space-between",
+                padding: "0.5rem 0", borderBottom: `1px solid ${theme.borderSubtle}`
               }}>
-                <span style={{ fontSize: "0.72rem", color: "#444" }}>{k}</span>
-                <span style={{ fontSize: "0.78rem", color: "#ccc", fontWeight: 500 }}>{v}</span>
+                <span style={{ fontSize: "0.72rem", color: theme.textFaint }}>{k}</span>
+                <span style={{ fontSize: "0.78rem", color: theme.textMuted, fontWeight: 500, fontFamily: "'DM Mono', monospace" }}>{v}</span>
               </div>
             ))}
           </Section>
-
-          <div style={{ textAlign: "center", marginTop: "1.2rem", paddingBottom: "1rem" }}>
-            <div style={{ fontSize: "0.6rem", color: "#2a2a2a", letterSpacing: "0.08em", marginBottom: "0.4rem" }}>
-              WORKS OFFLINE · KAHRAMAA QATAR
+ 
+          {/* Footer */}
+          <div style={{ textAlign: "center", marginTop: "1.4rem", paddingBottom: "1.5rem" }}>
+            <div style={{ fontSize: "0.6rem", color: theme.textGhost, letterSpacing: "0.08em", marginBottom: "0.5rem", fontFamily: "'DM Mono', monospace" }}>
+              {t.offlineBadge}
             </div>
-            <div style={{ fontSize: "0.65rem", color: "#333", letterSpacing: "0.05em" }}>
-              Made by <span style={{ color: "#F5C518" }}>@aksharawi</span> · All rights reserved
+            <div style={{ fontSize: "0.68rem", color: theme.textVeryFaint, fontFamily: t.fontFamily }}>
+              {t.madeBy} <span style={{ color: theme.yellowText }}>@aksharawi</span> · {t.rights}
+            </div>
+            <div style={{ fontSize: "0.6rem", color: theme.textGhost, letterSpacing: "0.1em", marginTop: "0.4rem", fontFamily: "'DM Mono', monospace" }}>
+              v{VERSION}
             </div>
           </div>
         </div>
       );
     }
-
+ 
     ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-
-    // Register service worker
+ 
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
         navigator.serviceWorker.register("/sw.js").catch(() => {});
