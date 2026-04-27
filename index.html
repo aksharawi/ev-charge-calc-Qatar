@@ -134,6 +134,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet" />
+ 
+  <!-- ═══════════════════════════════════════════
+       GOOGLE ANALYTICS 4
+  ═══════════════════════════════════════════ -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-M4GLDGSHKG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-M4GLDGSHKG', {
+      'anonymize_ip': true,
+      'page_title': 'Charge Calculator'
+    });
+  </script>
+ 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body, #root {
@@ -158,7 +173,16 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
  
-    const VERSION = "1.2";
+    const VERSION = "1.3";
+ 
+    // ═══════════════════════════════════════════
+    //  ANALYTICS HELPER (GA4)
+    // ═══════════════════════════════════════════
+    const track = (eventName, params = {}) => {
+      if (typeof window.gtag === "function") {
+        window.gtag("event", eventName, params);
+      }
+    };
  
     // ═══════════════════════════════════════════
     //  THEME SYSTEM
@@ -491,7 +515,11 @@
             <div style={{ display: "flex", gap: "0.4rem", alignItems: "center" }}>
               {/* Theme toggle */}
               <button
-                onClick={() => setThemeName(isDark ? "light" : "dark")}
+                onClick={() => {
+                  const newTheme = isDark ? "light" : "dark";
+                  setThemeName(newTheme);
+                  track("theme_change", { theme: newTheme });
+                }}
                 aria-label={isDark ? t.themeLight : t.themeDark}
                 title={isDark ? t.themeLight : t.themeDark}
                 style={{
@@ -510,7 +538,11 @@
               </button>
  
               {/* Language toggle */}
-              <button onClick={() => setLang(lang === "en" ? "ar" : "en")} style={{
+              <button onClick={() => {
+                const newLang = lang === "en" ? "ar" : "en";
+                setLang(newLang);
+                track("language_change", { language: newLang });
+              }} style={{
                 background: theme.cardBgInactive,
                 border: `1px solid ${alpha(theme.yellow, 0.3)}`,
                 borderRadius: "8px",
@@ -573,7 +605,10 @@
               {CHARGERS.map(c => {
                 const active = chargerId === c.id;
                 return (
-                  <button key={c.id} onClick={() => setChargerId(c.id)} style={{
+                  <button key={c.id} onClick={() => {
+                    setChargerId(c.id);
+                    track("charger_type_select", { charger_type: c.id, charger_kw: c.kw });
+                  }} style={{
                     background: active ? theme.chargerCardActive : theme.chargerCardInactive,
                     border: `1.5px solid ${active ? theme.borderActive : theme.border}`,
                     borderRadius: "10px", padding: "0.85rem 0.8rem",
@@ -606,8 +641,14 @@
                   : customRate;
                 return (
                   <button key={r.label} onClick={() => {
-                    if (r.value !== null) { setCustomRate(false); setRate(r.value); }
-                    else setCustomRate(true);
+                    if (r.value !== null) {
+                      setCustomRate(false);
+                      setRate(r.value);
+                      track("tariff_select", { tariff_label: r.label, tariff_rate: r.value });
+                    } else {
+                      setCustomRate(true);
+                      track("tariff_select", { tariff_label: "Custom" });
+                    }
                   }} style={{
                     padding: "0.3rem 0.55rem", fontSize: "0.65rem",
                     background: active ? theme.rateActiveBg : theme.rateInactiveBg,
@@ -628,6 +669,7 @@
                 <div style={{ fontSize: "0.68rem", color: theme.textFaint, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "0.4rem" }}>{t.rateInput}</div>
                 <input type="number" step="0.01" min="0.01" max="1" value={rate}
                   onChange={e => setRate(Number(e.target.value))}
+                  onBlur={e => track("custom_rate_set", { rate: Number(e.target.value) })}
                   style={{ width: "100%", background: theme.inputBg, border: `1px solid ${theme.inputBorder}`, borderRadius: "8px", padding: "0.6rem 0.8rem", color: theme.text, fontFamily: "'DM Mono', monospace", fontSize: "1rem" }} />
               </div>
             )}
