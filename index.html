@@ -231,6 +231,15 @@
     input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 0; height: 0; }
     select { -webkit-appearance: none; appearance: none; }
     ::-webkit-scrollbar { width: 4px; }
+
+    @keyframes installPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(245, 197, 24, 0.55); }
+      50% { box-shadow: 0 0 0 8px rgba(245, 197, 24, 0); }
+    }
+    @keyframes toastSlideUp {
+      from { transform: translateY(120%); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
   </style>
 
 </head>
@@ -246,7 +255,7 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
 
-    const VERSION = "2.1.2";
+    const VERSION = "2.2";
 
     // ═══════════════════════════════════════════
     //  ANALYTICS HELPER
@@ -432,6 +441,20 @@
         searchPlaceholder: "Search country or currency...",
         noResults: "No countries found",
         close: "Close",
+        installApp: "Install app",
+        installToastTitle: "Install Charge Calculator",
+        installToastSub: "Faster, works offline, home screen icon",
+        installButton: "INSTALL",
+        notNow: "Not now",
+        iosInstallTitle: "Install on iPhone",
+        iosInstallSub: "Add to Home Screen",
+        iosStep1Line1: "Tap the Share button",
+        iosStep1Line2: "at the bottom of Safari",
+        iosStep2Line1: "Scroll down and tap",
+        iosStep2Line2: "Add to Home Screen",
+        iosStep3Line1: "Tap Add",
+        iosStep3Line2: "in the top right corner",
+        gotIt: "Got it",
         tooltipChargerTitle: "Charger Type",
         tooltipChargerBody: "Choose your charger:\n• Wall Plug (2.2 kW) — A standard household socket using a portable charging cable (Mode 2). Slowest option, takes 10–14 hours for a full charge.\n• AC Charger (11 kW) — A dedicated home wallbox or public charger (Type 2). Roughly 5x faster, full charge in 2–4 hours.",
         tooltipTariffTitle: "Electricity Tariff",
@@ -496,6 +519,20 @@
         searchPlaceholder: "ابحث عن دولة أو عملة...",
         noResults: "لم يتم العثور على دول",
         close: "إغلاق",
+        installApp: "تثبيت التطبيق",
+        installToastTitle: "ثبّت حاسبة الشحن",
+        installToastSub: "أسرع، يعمل بدون إنترنت، أيقونة على الشاشة الرئيسية",
+        installButton: "تثبيت",
+        notNow: "ليس الآن",
+        iosInstallTitle: "تثبيت على iPhone",
+        iosInstallSub: "أضف إلى الشاشة الرئيسية",
+        iosStep1Line1: "اضغط زر المشاركة",
+        iosStep1Line2: "في أسفل Safari",
+        iosStep2Line1: "مرّر للأسفل واضغط",
+        iosStep2Line2: "أضف إلى الشاشة الرئيسية",
+        iosStep3Line1: "اضغط أضف",
+        iosStep3Line2: "في الزاوية العلوية اليمنى",
+        gotIt: "حسناً",
         tooltipChargerTitle: "نوع الشاحن",
         tooltipChargerBody: "اختر الشاحن المناسب:\n• مقبس الحائط (2.2 كيلوواط) — مقبس منزلي عادي يستخدم كابل شحن محمول (الوضع 2). الخيار الأبطأ، ويستغرق من 10 إلى 14 ساعة لشحن كامل.\n• شاحن AC (11 كيلوواط) — صندوق شحن منزلي مخصص أو شاحن عام (النوع 2). أسرع بحوالي 5 مرات، شحن كامل خلال 2–4 ساعات.",
         tooltipTariffTitle: "تعريفة الكهرباء",
@@ -864,6 +901,209 @@
       );
     }
 
+    function InstallToast({ open, onInstall, onDismiss, lang, theme }) {
+      if (!open) return null;
+      const t = STRINGS[lang];
+      const isRTL = lang === "ar";
+
+      return (
+        <div style={{
+          position: "fixed",
+          bottom: "max(env(safe-area-inset-bottom, 0px), 1rem)",
+          left: "1rem", right: "1rem",
+          maxWidth: "440px", margin: "0 auto",
+          zIndex: 997,
+          animation: "toastSlideUp 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2)",
+        }}>
+          <div style={{
+            background: "#0d0d0d",
+            border: `2px solid ${theme.yellow}`,
+            borderRadius: "14px",
+            padding: "1rem",
+            boxShadow: "0 12px 40px rgba(0,0,0,0.5)",
+            direction: isRTL ? "rtl" : "ltr",
+            fontFamily: t.fontFamily,
+          }}>
+            {/* Top row: icon + text + dismiss */}
+            <div style={{
+              display: "flex",
+              flexDirection: isRTL ? "row-reverse" : "row",
+              alignItems: "flex-start", gap: "0.75rem",
+              marginBottom: "0.85rem",
+            }}>
+              <img src="icon-192.png" alt="" style={{
+                width: "44px", height: "44px",
+                borderRadius: "10px", flexShrink: 0,
+              }} />
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{
+                  fontSize: "0.9rem", fontWeight: 700, color: "#fff",
+                  marginBottom: "0.2rem", textAlign: isRTL ? "right" : "left",
+                }}>{t.installToastTitle}</div>
+                <div style={{
+                  fontSize: "0.72rem", color: "#aaa", lineHeight: 1.4,
+                  textAlign: isRTL ? "right" : "left",
+                }}>{t.installToastSub}</div>
+              </div>
+              <button
+                onClick={onDismiss}
+                aria-label={t.close}
+                style={{
+                  background: "transparent", border: "none",
+                  color: "#888", fontSize: "1.4rem",
+                  cursor: "pointer", padding: 0,
+                  lineHeight: 1, flexShrink: 0,
+                  width: "24px", height: "24px",
+                }}
+              >×</button>
+            </div>
+
+            {/* Buttons */}
+            <div style={{
+              display: "flex",
+              flexDirection: isRTL ? "row-reverse" : "row",
+              alignItems: "center", justifyContent: "space-between",
+              gap: "0.7rem",
+            }}>
+              <button
+                onClick={onDismiss}
+                style={{
+                  background: "transparent", border: "none",
+                  color: "#888", fontSize: "0.78rem",
+                  cursor: "pointer", padding: "0.5rem 0.2rem",
+                  fontFamily: t.fontFamily, fontWeight: 500,
+                }}
+              >{t.notNow}</button>
+              <button
+                onClick={onInstall}
+                style={{
+                  background: theme.yellow, color: "#000",
+                  border: "none", borderRadius: "8px",
+                  padding: "0.6rem 1.4rem",
+                  fontSize: "0.78rem", fontWeight: 700,
+                  letterSpacing: "0.08em",
+                  cursor: "pointer", fontFamily: t.fontFamily,
+                }}
+              >{t.installButton}</button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function IOSInstallModal({ open, onClose, lang, theme }) {
+      if (!open) return null;
+      const t = STRINGS[lang];
+      const isRTL = lang === "ar";
+
+      const steps = [
+        { num: "1", line1: t.iosStep1Line1, line2: t.iosStep1Line2 },
+        { num: "2", line1: t.iosStep2Line1, line2: t.iosStep2Line2 },
+        { num: "3", line1: t.iosStep3Line1, line2: t.iosStep3Line2 },
+      ];
+
+      return (
+        <div onClick={onClose} style={{
+          position: "fixed", inset: 0, background: theme.modalBg,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          padding: "1.2rem", zIndex: 999,
+        }}>
+          <div onClick={e => e.stopPropagation()} style={{
+            background: theme.modalCardBg,
+            border: `1px solid ${theme.border}`,
+            borderRadius: "16px",
+            padding: "1.4rem",
+            width: "100%", maxWidth: "360px",
+            boxShadow: "0 20px 50px rgba(0,0,0,0.4)",
+            direction: isRTL ? "rtl" : "ltr",
+            fontFamily: t.fontFamily,
+          }}>
+            {/* Header */}
+            <div style={{
+              display: "flex", justifyContent: "space-between",
+              alignItems: "center", marginBottom: "1rem",
+              paddingBottom: "1rem",
+              borderBottom: `1px solid ${theme.borderSubtle}`,
+              flexDirection: isRTL ? "row-reverse" : "row",
+            }}>
+              <div style={{
+                display: "flex", alignItems: "center", gap: "0.7rem",
+              }}>
+                <img src="icon-192.png" alt="" style={{
+                  width: "36px", height: "36px",
+                  borderRadius: "9px", flexShrink: 0,
+                }} />
+                <div>
+                  <div style={{ fontSize: "0.95rem", fontWeight: 700, color: theme.text }}>
+                    {t.iosInstallTitle}
+                  </div>
+                  <div style={{ fontSize: "0.72rem", color: theme.textFaint, marginTop: "0.1rem" }}>
+                    {t.iosInstallSub}
+                  </div>
+                </div>
+              </div>
+              <button
+                onClick={onClose}
+                aria-label={t.close}
+                style={{
+                  background: "transparent", border: "none",
+                  color: theme.textFaint, fontSize: "1.5rem",
+                  cursor: "pointer", padding: "0 0.3rem",
+                  lineHeight: 1, flexShrink: 0,
+                }}
+              >×</button>
+            </div>
+
+            {/* Steps */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.9rem" }}>
+              {steps.map(s => (
+                <div key={s.num} style={{
+                  display: "flex",
+                  flexDirection: isRTL ? "row-reverse" : "row",
+                  alignItems: "center", gap: "0.85rem",
+                }}>
+                  <div style={{
+                    width: "32px", height: "32px",
+                    borderRadius: "50%",
+                    background: theme.yellow,
+                    color: "#000",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: "0.9rem", fontWeight: 700,
+                    flexShrink: 0,
+                    fontFamily: "'DM Mono', monospace",
+                  }}>{s.num}</div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{
+                      fontSize: "0.86rem", fontWeight: 700, color: theme.text,
+                      lineHeight: 1.4,
+                    }}>{s.line1}</div>
+                    <div style={{
+                      fontSize: "0.74rem", color: theme.textFaint,
+                      marginTop: "0.15rem", lineHeight: 1.4,
+                    }}>{s.line2}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Got it button */}
+            <button
+              onClick={onClose}
+              style={{
+                width: "100%", marginTop: "1.4rem",
+                background: theme.text, color: theme.modalCardBg,
+                border: "none", borderRadius: "10px",
+                padding: "0.8rem",
+                fontSize: "0.85rem", fontWeight: 700,
+                cursor: "pointer", fontFamily: t.fontFamily,
+                letterSpacing: "0.04em",
+              }}
+            >{t.gotIt}</button>
+          </div>
+        </div>
+      );
+    }
+
     // ═══════════════════════════════════════════
     //  MAIN APP
     // ═══════════════════════════════════════════
@@ -881,10 +1121,115 @@
       const [freqDays, setFreqDays] = useState(3);
       const [chargerId, setChargerId] = useState("wall");
 
+      // ── PWA Install state ───────────────────────────────────────
+      const [installPromptEvent, setInstallPromptEvent] = useState(null);
+      const [isStandalone, setIsStandalone] = useState(false);
+      const [isIOS, setIsIOS] = useState(false);
+      const [showToast, setShowToast] = useState(false);
+      const [showIOSModal, setShowIOSModal] = useState(false);
+
       const t = STRINGS[lang];
       const isRTL = t.dir === "rtl";
       const theme = THEMES[themeName];
       const isDark = themeName === "dark";
+
+      // ── Install detection (runs once on mount) ─────────────────
+      useEffect(() => {
+        // 1. Check if running in standalone (already installed)
+        const standalone = window.matchMedia("(display-mode: standalone)").matches
+          || window.navigator.standalone === true;
+        setIsStandalone(standalone);
+
+        // 2. Detect iOS Safari
+        const ua = window.navigator.userAgent;
+        const ios = /iPhone|iPad|iPod/i.test(ua) && !/CriOS|FxiOS|OPiOS|EdgiOS/.test(ua);
+        setIsIOS(ios);
+
+        // 3. Listen for Android/Chrome install prompt
+        const handleBeforeInstall = (e) => {
+          e.preventDefault();
+          setInstallPromptEvent(e);
+          track("install_prompt_available");
+        };
+        window.addEventListener("beforeinstallprompt", handleBeforeInstall);
+
+        // 4. Track installs
+        const handleInstalled = () => {
+          track("install_completed");
+          setInstallPromptEvent(null);
+          setShowToast(false);
+        };
+        window.addEventListener("appinstalled", handleInstalled);
+
+        // 5. Smart toast logic — show on 2nd visit only, not if already installed or dismissed
+        if (!standalone) {
+          try {
+            const dismissed = localStorage.getItem("install_toast_dismissed");
+            const visitCount = parseInt(localStorage.getItem("visit_count") || "0", 10) + 1;
+            localStorage.setItem("visit_count", String(visitCount));
+            // Only show on 2nd visit, and not if previously dismissed within 7 days
+            if (visitCount >= 2 && !dismissed) {
+              setTimeout(() => setShowToast(true), 1800);  // small delay
+            } else if (dismissed) {
+              const daysSince = (Date.now() - parseInt(dismissed, 10)) / (1000 * 60 * 60 * 24);
+              if (daysSince > 7) {
+                localStorage.removeItem("install_toast_dismissed");
+              }
+            }
+          } catch (err) {
+            // localStorage might be blocked (incognito) — silently ignore
+          }
+        }
+
+        return () => {
+          window.removeEventListener("beforeinstallprompt", handleBeforeInstall);
+          window.removeEventListener("appinstalled", handleInstalled);
+        };
+      }, []);
+
+      // ── Install handler ─────────────────────────────────────────
+      const handleInstallClick = () => {
+        track("install_button_click", { source: "header" });
+        if (installPromptEvent) {
+          // Native Android/Chrome flow
+          installPromptEvent.prompt();
+          installPromptEvent.userChoice.then((choice) => {
+            track("install_prompt_response", { outcome: choice.outcome });
+            setInstallPromptEvent(null);
+          });
+        } else if (isIOS) {
+          // iOS doesn't support beforeinstallprompt → show instructions
+          setShowIOSModal(true);
+        } else {
+          // Desktop or unsupported browser → show iOS-style steps as a fallback
+          setShowIOSModal(true);
+        }
+      };
+
+      const handleToastInstall = () => {
+        track("install_button_click", { source: "toast" });
+        setShowToast(false);
+        if (installPromptEvent) {
+          installPromptEvent.prompt();
+          installPromptEvent.userChoice.then((choice) => {
+            track("install_prompt_response", { outcome: choice.outcome });
+            setInstallPromptEvent(null);
+          });
+        } else if (isIOS) {
+          setShowIOSModal(true);
+        } else {
+          setShowIOSModal(true);
+        }
+      };
+
+      const handleToastDismiss = () => {
+        try { localStorage.setItem("install_toast_dismissed", String(Date.now())); } catch {}
+        setShowToast(false);
+        track("install_toast_dismissed");
+      };
+
+      // Should show install button in header? Only if can install AND not already standalone
+      const canShowInstallButton = !isStandalone && (installPromptEvent || isIOS);
 
       // ── Country detection (runs once on mount) ──────────────────
       useEffect(() => {
@@ -982,6 +1327,24 @@
             </div>
 
             <div style={{ display: "flex", gap: "0.4rem", alignItems: "center" }}>
+              {canShowInstallButton && (
+                <button
+                  onClick={handleInstallClick}
+                  aria-label={t.installApp}
+                  title={t.installApp}
+                  style={{
+                    background: theme.yellow,
+                    border: `1px solid ${theme.yellow}`,
+                    borderRadius: "8px", width: "36px", height: "36px",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: "1rem", color: "#000",
+                    cursor: "pointer", flexShrink: 0,
+                    boxShadow: `0 0 0 0 ${alpha(theme.yellow, 0.6)}`,
+                    animation: "installPulse 2.5s ease-in-out infinite",
+                  }}
+                >↓</button>
+              )}
+
               <button
                 onClick={() => {
                   const newTheme = isDark ? "light" : "dark";
@@ -1222,6 +1585,23 @@
               track("country_change", { country: code });
             }}
             currentCountry={country}
+            lang={lang}
+            theme={theme}
+          />
+
+          {/* PWA install toast (smart, 2nd visit) */}
+          <InstallToast
+            open={showToast}
+            onInstall={handleToastInstall}
+            onDismiss={handleToastDismiss}
+            lang={lang}
+            theme={theme}
+          />
+
+          {/* iOS install instructions modal */}
+          <IOSInstallModal
+            open={showIOSModal}
+            onClose={() => setShowIOSModal(false)}
             lang={lang}
             theme={theme}
           />
