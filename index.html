@@ -227,10 +227,57 @@
       transition: background-color 0.25s ease;
     }
     body { overflow-x: hidden; }
-    input[type=range] { -webkit-appearance: none; appearance: none; background: transparent; }
-    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 0; height: 0; }
     select { -webkit-appearance: none; appearance: none; }
     ::-webkit-scrollbar { width: 4px; }
+
+    /* ── Range slider — invisible but touch-draggable ──────────
+       Range input is layered on top of the styled track/thumb.
+       We make the thumb invisible but BIG so the user can grab
+       it anywhere along the track. */
+    input[type=range].cc-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      width: 100%;
+      height: 28px;
+      margin: 0;
+      padding: 0;
+      cursor: pointer;
+      touch-action: none;  /* prevents scroll-while-dragging on mobile */
+      outline: none;
+    }
+    /* WebKit (iOS Safari, Chrome) */
+    input[type=range].cc-slider::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 28px;
+      background: transparent;
+      border: none;
+    }
+    input[type=range].cc-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 28px;
+      height: 28px;
+      background: transparent;
+      border: none;
+      cursor: grab;
+    }
+    input[type=range].cc-slider:active::-webkit-slider-thumb { cursor: grabbing; }
+    /* Firefox */
+    input[type=range].cc-slider::-moz-range-track {
+      width: 100%;
+      height: 28px;
+      background: transparent;
+      border: none;
+    }
+    input[type=range].cc-slider::-moz-range-thumb {
+      width: 28px;
+      height: 28px;
+      background: transparent;
+      border: none;
+      cursor: grab;
+    }
+    input[type=range].cc-slider::-moz-range-progress { background: transparent; }
 
     @keyframes installPulse {
       0%, 100% { box-shadow: 0 0 0 0 rgba(245, 197, 24, 0.55); }
@@ -255,7 +302,7 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
 
-    const VERSION = "2.2.3";
+    const VERSION = "2.2.4";
 
     // ═══════════════════════════════════════════
     //  ANALYTICS HELPER
@@ -547,11 +594,21 @@
     // ═══════════════════════════════════════════
     //  COMPONENTS
     // ═══════════════════════════════════════════
-    function Slider({ label, value, min, max, step, unit, onChange, accent, theme }) {
+    function Slider({ label, value, min, max, step, unit, onChange, accent, theme, isRTL }) {
       const [inputVal, setInputVal] = useState(String(value));
       const pct = ((value - min) / (max - min)) * 100;
 
       useEffect(() => { setInputVal(String(value)); }, [value]);
+
+      // In RTL the visual track fills from the right side; thumb position
+      // is measured from the right as well. The native <input type="range">
+      // gets dir="rtl" so its drag direction also reverses.
+      const fillStyle = isRTL
+        ? { right: 0, width: `${pct}%` }
+        : { left: 0,  width: `${pct}%` };
+      const thumbStyle = isRTL
+        ? { right: `${pct}%`, transform: "translate(50%, -50%)" }
+        : { left:  `${pct}%`, transform: "translate(-50%, -50%)" };
 
       return (
         <div style={{ marginBottom: "1.4rem" }}>
@@ -579,22 +636,43 @@
               <span style={{ fontSize: "0.75rem", color: theme.textVeryFaint, minWidth: "22px" }}>{unit.trim()}</span>
             </div>
           </div>
-          <div style={{ position: "relative", height: "5px", background: theme.sliderTrack, borderRadius: "3px" }}>
+          <div style={{ position: "relative", height: "28px", display: "flex", alignItems: "center" }}>
+            {/* Visual track (background) */}
             <div style={{
-              position: "absolute", left: 0, top: 0, height: "100%",
-              width: `${pct}%`, background: accent, borderRadius: "3px", transition: "width 0.1s"
+              position: "absolute", left: 0, right: 0, top: "50%",
+              transform: "translateY(-50%)",
+              height: "5px", background: theme.sliderTrack,
+              borderRadius: "3px", pointerEvents: "none",
             }} />
-            <input type="range" min={min} max={max} step={step} value={value}
-              onChange={e => onChange(Number(e.target.value))}
-              style={{ position: "absolute", top: "-8px", left: 0, width: "100%", height: "22px", opacity: 0, cursor: "pointer", zIndex: 2 }} />
+            {/* Visual fill */}
             <div style={{
-              position: "absolute", top: "50%", left: `${pct}%`,
-              transform: "translate(-50%, -50%)",
-              width: "15px", height: "15px", background: accent,
+              position: "absolute", top: "50%",
+              ...fillStyle,
+              marginTop: "-2.5px",
+              height: "5px",
+              background: accent, borderRadius: "3px",
+              transition: "width 0.05s linear",
+              pointerEvents: "none",
+            }} />
+            {/* Visual thumb */}
+            <div style={{
+              position: "absolute", top: "50%",
+              ...thumbStyle,
+              width: "18px", height: "18px", background: accent,
               borderRadius: "50%", border: `2px solid ${theme.thumbBorder}`,
-              boxShadow: `0 0 10px ${alpha(accent, 0.4)}`,
-              transition: "left 0.1s", pointerEvents: "none"
+              boxShadow: `0 1px 4px ${alpha(accent, 0.4)}`,
+              transition: "left 0.05s linear, right 0.05s linear",
+              pointerEvents: "none",
             }} />
+            {/* Functional input — invisible, full hit area */}
+            <input
+              type="range"
+              className="cc-slider"
+              dir={isRTL ? "rtl" : "ltr"}
+              min={min} max={max} step={step} value={value}
+              onChange={e => onChange(Number(e.target.value))}
+              style={{ position: "relative", zIndex: 2, opacity: 0 }}
+            />
           </div>
         </div>
       );
@@ -1525,15 +1603,15 @@
 
           {/* Battery */}
           <Section title={t.battery} isRTL={isRTL} theme={theme} lang={lang} infoTitle={t.tooltipBatteryTitle} infoBody={t.tooltipBatteryBody}>
-            <Slider label={t.capacity} value={battery} min={10} max={150} step={0.1} unit=" kWh" onChange={setBattery} accent={theme.yellow} theme={theme} />
-            <Slider label={t.startSOC} value={startSOC} min={0} max={99} step={1} unit="%" onChange={v => setStartSOC(Math.min(v, endSOC - 1))} accent={theme.orange} theme={theme} />
-            <Slider label={t.endSOC} value={endSOC} min={1} max={100} step={1} unit="%" onChange={v => setEndSOC(Math.max(v, startSOC + 1))} accent={theme.yellow} theme={theme} />
-            <Slider label={t.efficiency} value={efficiency} min={70} max={100} step={1} unit="%" onChange={setEfficiency} accent={theme.purple} theme={theme} />
+            <Slider label={t.capacity} value={battery} min={10} max={150} step={0.1} unit=" kWh" onChange={setBattery} accent={theme.yellow} theme={theme} isRTL={isRTL} />
+            <Slider label={t.startSOC} value={startSOC} min={0} max={99} step={1} unit="%" onChange={v => setStartSOC(Math.min(v, endSOC - 1))} accent={theme.orange} theme={theme} isRTL={isRTL} />
+            <Slider label={t.endSOC} value={endSOC} min={1} max={100} step={1} unit="%" onChange={v => setEndSOC(Math.max(v, startSOC + 1))} accent={theme.yellow} theme={theme} isRTL={isRTL} />
+            <Slider label={t.efficiency} value={efficiency} min={70} max={100} step={1} unit="%" onChange={setEfficiency} accent={theme.purple} theme={theme} isRTL={isRTL} />
           </Section>
 
           {/* Schedule */}
           <Section title={t.schedule} isRTL={isRTL} theme={theme} lang={lang} infoTitle={t.tooltipScheduleTitle} infoBody={t.tooltipScheduleBody}>
-            <Slider label={t.chargeEvery} value={freqDays} min={1} max={14} step={1} unit={t.days} onChange={setFreqDays} accent={theme.green} theme={theme} />
+            <Slider label={t.chargeEvery} value={freqDays} min={1} max={14} step={1} unit={t.days} onChange={setFreqDays} accent={theme.green} theme={theme} isRTL={isRTL} />
             <div style={{ fontSize: "0.72rem", color: theme.textFaint, marginTop: "-0.8rem", textAlign: isRTL ? "right" : "left" }}>
               = {chargesPerMonth} {t.chargesPerMonth}
             </div>
