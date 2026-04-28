@@ -246,7 +246,7 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
 
-    const VERSION = "2.1";
+    const VERSION = "2.1.2";
 
     // ═══════════════════════════════════════════
     //  ANALYTICS HELPER
@@ -431,6 +431,15 @@
         detecting: "Detecting...",
         searchPlaceholder: "Search country or currency...",
         noResults: "No countries found",
+        close: "Close",
+        tooltipChargerTitle: "Charger Type",
+        tooltipChargerBody: "Choose your charger:\n• Wall Plug (2.2 kW) — A standard household socket using a portable charging cable (Mode 2). Slowest option, takes 10–14 hours for a full charge.\n• AC Charger (11 kW) — A dedicated home wallbox or public charger (Type 2). Roughly 5x faster, full charge in 2–4 hours.",
+        tooltipTariffTitle: "Electricity Tariff",
+        tooltipTariffBody: "The price you pay per kilowatt-hour (kWh) of electricity. Presets are based on typical residential rates in your country. Use Custom if you know your exact rate from your electricity bill — this gives the most accurate result.",
+        tooltipBatteryTitle: "Battery",
+        tooltipBatteryBody: "• Capacity — Your vehicle's total battery size in kWh (check your owner's manual).\n• Start SOC — Current charge level when you plug in (%).\n• End SOC — Target charge level (100% for full).\n• Charger Efficiency — Energy lost as heat during charging. Wall plugs typically run 80–85%; AC chargers 88–92%.",
+        tooltipScheduleTitle: "Charging Schedule",
+        tooltipScheduleBody: "How often you plug in to charge. The app uses this to estimate your monthly and annual cost. Example: charging every 3 days = ~10 charges per month.",
       },
       ar: {
         dir: "rtl",
@@ -486,6 +495,15 @@
         detecting: "جارٍ الكشف...",
         searchPlaceholder: "ابحث عن دولة أو عملة...",
         noResults: "لم يتم العثور على دول",
+        close: "إغلاق",
+        tooltipChargerTitle: "نوع الشاحن",
+        tooltipChargerBody: "اختر الشاحن المناسب:\n• مقبس الحائط (2.2 كيلوواط) — مقبس منزلي عادي يستخدم كابل شحن محمول (الوضع 2). الخيار الأبطأ، ويستغرق من 10 إلى 14 ساعة لشحن كامل.\n• شاحن AC (11 كيلوواط) — صندوق شحن منزلي مخصص أو شاحن عام (النوع 2). أسرع بحوالي 5 مرات، شحن كامل خلال 2–4 ساعات.",
+        tooltipTariffTitle: "تعريفة الكهرباء",
+        tooltipTariffBody: "السعر الذي تدفعه مقابل كل كيلوواط ساعة (kWh) من الكهرباء. القيم المسبقة مبنية على الأسعار السكنية المعتادة في بلدك. استخدم \"مخصص\" إذا كنت تعرف السعر الدقيق من فاتورة الكهرباء — وهذا يعطي النتيجة الأدق.",
+        tooltipBatteryTitle: "البطارية",
+        tooltipBatteryBody: "• السعة — حجم بطارية سيارتك الإجمالي بالكيلوواط ساعة (راجع دليل المالك).\n• شحن البداية — مستوى الشحن الحالي عند توصيل الشاحن (%).\n• شحن النهاية — مستوى الشحن المستهدف (100% للشحن الكامل).\n• كفاءة الشاحن — الطاقة المفقودة كحرارة أثناء الشحن. مقابس الحائط عادةً 80–85%؛ شواحن AC من 88 إلى 92%.",
+        tooltipScheduleTitle: "جدول الشحن",
+        tooltipScheduleBody: "عدد مرات توصيل الشاحن. يستخدم التطبيق هذا الرقم لتقدير تكلفتك الشهرية والسنوية. مثال: الشحن كل 3 أيام = حوالي 10 شحنات في الشهر.",
       },
     };
 
@@ -545,15 +563,192 @@
       );
     }
 
-    function Section({ title, children, isRTL, theme }) {
+    function TooltipBody({ body, theme, isRTL }) {
+      // Parse body into structured blocks (paragraphs + bullet lists)
+      const lines = body.split("\n").map(l => l.trim()).filter(Boolean);
+
+      // Group into blocks: consecutive bullet lines = list, others = paragraph
+      const blocks = [];
+      let currentList = null;
+      lines.forEach(line => {
+        if (line.startsWith("•")) {
+          if (!currentList) {
+            currentList = { type: "list", items: [] };
+            blocks.push(currentList);
+          }
+          currentList.items.push(line.replace(/^•\s*/, ""));
+        } else {
+          currentList = null;
+          blocks.push({ type: "para", text: line });
+        }
+      });
+
+      // Render inline bold (text between em-dash + bold word at start)
+      // Pattern: "Wall Plug (2.2 kW) — desc"  →  bold the part before the em-dash
+      const renderItem = (text) => {
+        const dashMatch = text.match(/^(.+?)\s+—\s+(.*)$/);
+        if (dashMatch) {
+          return (
+            <>
+              <span style={{ color: theme.text, fontWeight: 700 }}>{dashMatch[1]}</span>
+              <span style={{ color: theme.textMuted }}> — {dashMatch[2]}</span>
+            </>
+          );
+        }
+        return <span style={{ color: theme.textMuted }}>{text}</span>;
+      };
+
+      return (
+        <div style={{
+          fontSize: "0.86rem",
+          textAlign: isRTL ? "right" : "left",
+        }}>
+          {blocks.map((block, i) => {
+            if (block.type === "para") {
+              return (
+                <p key={i} style={{
+                  color: theme.textMuted,
+                  lineHeight: 1.7,
+                  marginBottom: i < blocks.length - 1 ? "1rem" : 0,
+                }}>
+                  {block.text}
+                </p>
+              );
+            }
+            // List
+            return (
+              <ul key={i} style={{
+                listStyle: "none",
+                padding: 0,
+                margin: i < blocks.length - 1 ? "0 0 1rem 0" : 0,
+                display: "flex",
+                flexDirection: "column",
+                gap: "0.85rem",
+              }}>
+                {block.items.map((item, j) => (
+                  <li key={j} style={{
+                    display: "flex",
+                    flexDirection: isRTL ? "row-reverse" : "row",
+                    alignItems: "flex-start",
+                    gap: "0.6rem",
+                    lineHeight: 1.65,
+                  }}>
+                    <span style={{
+                      color: theme.yellow,
+                      fontWeight: 700,
+                      flexShrink: 0,
+                      marginTop: "1px",
+                    }}>•</span>
+                    <span style={{ flex: 1 }}>{renderItem(item)}</span>
+                  </li>
+                ))}
+              </ul>
+            );
+          })}
+        </div>
+      );
+    }
+
+    function Section({ title, children, isRTL, theme, infoTitle, infoBody, lang }) {
+      const [popoverOpen, setPopoverOpen] = useState(false);
+      const t = STRINGS[lang || "en"];
+
       return (
         <div style={{
           background: theme.cardBg, border: `1px solid ${theme.border}`,
           boxShadow: theme.cardShadow, borderRadius: "14px",
-          padding: "1.4rem", marginBottom: "0.75rem"
+          padding: "1.4rem", marginBottom: "0.75rem",
+          position: "relative",
         }}>
-          <div style={{ fontSize: "0.65rem", color: theme.textFaint, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "1.2rem", textAlign: isRTL ? "right" : "left" }}>{title}</div>
+          <div style={{
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+            marginBottom: "1.2rem", flexDirection: isRTL ? "row-reverse" : "row",
+          }}>
+            <div style={{ fontSize: "0.65rem", color: theme.textFaint, letterSpacing: "0.1em", textTransform: "uppercase", textAlign: isRTL ? "right" : "left" }}>{title}</div>
+            {infoBody && (
+              <button
+                onClick={(e) => { e.stopPropagation(); setPopoverOpen(true); track("tooltip_open", { section: infoTitle }); }}
+                aria-label={`Info about ${infoTitle}`}
+                style={{
+                  width: "20px", height: "20px",
+                  borderRadius: "50%",
+                  background: alpha(theme.yellow, 0.15),
+                  border: `1px solid ${alpha(theme.yellow, 0.4)}`,
+                  color: theme.yellowText,
+                  fontSize: "0.7rem", fontWeight: 700,
+                  cursor: "pointer", display: "flex",
+                  alignItems: "center", justifyContent: "center",
+                  fontFamily: "Georgia, serif", fontStyle: "italic",
+                  flexShrink: 0, padding: 0, lineHeight: 1,
+                }}
+              >i</button>
+            )}
+          </div>
           {children}
+
+          {/* Tooltip popover */}
+          {popoverOpen && (
+            <div
+              onClick={() => setPopoverOpen(false)}
+              style={{
+                position: "fixed", inset: 0, background: theme.modalBg,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                padding: "1.2rem", zIndex: 998,
+              }}>
+              <div
+                onClick={e => e.stopPropagation()}
+                style={{
+                  background: theme.modalCardBg,
+                  border: `1px solid ${theme.border}`,
+                  borderRadius: "16px",
+                  padding: "1.5rem 1.4rem 1.4rem",
+                  width: "100%", maxWidth: "360px",
+                  boxShadow: "0 20px 50px rgba(0,0,0,0.4)",
+                  direction: isRTL ? "rtl" : "ltr",
+                  fontFamily: t.fontFamily,
+                }}>
+                {/* Header */}
+                <div style={{
+                  display: "flex", justifyContent: "space-between",
+                  alignItems: "center", marginBottom: "1rem",
+                  paddingBottom: "0.9rem",
+                  borderBottom: `1px solid ${theme.borderSubtle}`,
+                  flexDirection: isRTL ? "row-reverse" : "row",
+                }}>
+                  <div style={{
+                    display: "flex", alignItems: "center", gap: "0.6rem",
+                  }}>
+                    <span style={{
+                      width: "26px", height: "26px",
+                      borderRadius: "50%",
+                      background: theme.yellow,
+                      color: "#000",
+                      fontSize: "0.85rem", fontWeight: 700,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      fontFamily: "Georgia, serif", fontStyle: "italic",
+                      flexShrink: 0,
+                    }}>i</span>
+                    <div style={{ fontSize: "1rem", fontWeight: 700, color: theme.text }}>
+                      {infoTitle}
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setPopoverOpen(false)}
+                    aria-label={t.close}
+                    style={{
+                      background: "transparent", border: "none",
+                      color: theme.textFaint, fontSize: "1.5rem",
+                      cursor: "pointer", padding: "0 0.3rem",
+                      lineHeight: 1, flexShrink: 0,
+                      transition: "color 0.15s",
+                    }}>×</button>
+                </div>
+
+                {/* Body — render bullet points as proper list, paragraphs with breathing room */}
+                <TooltipBody body={infoBody} theme={theme} isRTL={isRTL} />
+              </div>
+            </div>
+          )}
         </div>
       );
     }
@@ -885,7 +1080,7 @@
           </div>
 
           {/* Charger Type */}
-          <Section title={t.chargerType} isRTL={isRTL} theme={theme}>
+          <Section title={t.chargerType} isRTL={isRTL} theme={theme} lang={lang} infoTitle={t.tooltipChargerTitle} infoBody={t.tooltipChargerBody}>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.6rem" }}>
               {CHARGERS.map(c => {
                 const active = chargerId === c.id;
@@ -909,16 +1104,8 @@
             </div>
           </Section>
 
-          {/* Battery */}
-          <Section title={t.battery} isRTL={isRTL} theme={theme}>
-            <Slider label={t.capacity} value={battery} min={10} max={150} step={0.1} unit=" kWh" onChange={setBattery} accent={theme.yellow} theme={theme} />
-            <Slider label={t.startSOC} value={startSOC} min={0} max={99} step={1} unit="%" onChange={v => setStartSOC(Math.min(v, endSOC - 1))} accent={theme.orange} theme={theme} />
-            <Slider label={t.endSOC} value={endSOC} min={1} max={100} step={1} unit="%" onChange={v => setEndSOC(Math.max(v, startSOC + 1))} accent={theme.yellow} theme={theme} />
-            <Slider label={t.efficiency} value={efficiency} min={70} max={100} step={1} unit="%" onChange={setEfficiency} accent={theme.purple} theme={theme} />
-          </Section>
-
           {/* Tariff */}
-          <Section title={t.tariff} isRTL={isRTL} theme={theme}>
+          <Section title={t.tariff} isRTL={isRTL} theme={theme} lang={lang} infoTitle={t.tooltipTariffTitle} infoBody={t.tooltipTariffBody}>
             {countryData ? (
               <>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", marginBottom: "1rem" }}>
@@ -970,8 +1157,16 @@
             )}
           </Section>
 
+          {/* Battery */}
+          <Section title={t.battery} isRTL={isRTL} theme={theme} lang={lang} infoTitle={t.tooltipBatteryTitle} infoBody={t.tooltipBatteryBody}>
+            <Slider label={t.capacity} value={battery} min={10} max={150} step={0.1} unit=" kWh" onChange={setBattery} accent={theme.yellow} theme={theme} />
+            <Slider label={t.startSOC} value={startSOC} min={0} max={99} step={1} unit="%" onChange={v => setStartSOC(Math.min(v, endSOC - 1))} accent={theme.orange} theme={theme} />
+            <Slider label={t.endSOC} value={endSOC} min={1} max={100} step={1} unit="%" onChange={v => setEndSOC(Math.max(v, startSOC + 1))} accent={theme.yellow} theme={theme} />
+            <Slider label={t.efficiency} value={efficiency} min={70} max={100} step={1} unit="%" onChange={setEfficiency} accent={theme.purple} theme={theme} />
+          </Section>
+
           {/* Schedule */}
-          <Section title={t.schedule} isRTL={isRTL} theme={theme}>
+          <Section title={t.schedule} isRTL={isRTL} theme={theme} lang={lang} infoTitle={t.tooltipScheduleTitle} infoBody={t.tooltipScheduleBody}>
             <Slider label={t.chargeEvery} value={freqDays} min={1} max={14} step={1} unit={t.days} onChange={setFreqDays} accent={theme.green} theme={theme} />
             <div style={{ fontSize: "0.72rem", color: theme.textFaint, marginTop: "-0.8rem", textAlign: isRTL ? "right" : "left" }}>
               = {chargesPerMonth} {t.chargesPerMonth}
