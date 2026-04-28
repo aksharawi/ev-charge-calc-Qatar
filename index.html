@@ -255,7 +255,7 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
 
-    const VERSION = "2.2.1";
+    const VERSION = "2.2.2";
 
     // ═══════════════════════════════════════════
     //  ANALYTICS HELPER
@@ -987,6 +987,13 @@
     }
 
     function IOSInstallModal({ open, onClose, lang, theme }) {
+      // Track when modal becomes visible
+      useEffect(() => {
+        if (open) {
+          track("ios_install_modal_shown");
+        }
+      }, [open]);
+
       if (!open) return null;
       const t = STRINGS[lang];
       const isRTL = lang === "ar";
@@ -1163,7 +1170,10 @@
             localStorage.setItem("visit_count", String(visitCount));
             // Only show on 2nd visit, and not if previously dismissed within 7 days
             if (visitCount >= 2 && !dismissed) {
-              setTimeout(() => setShowToast(true), 1800);  // small delay
+              setTimeout(() => {
+                setShowToast(true);
+                track("install_toast_shown", { visit_count: visitCount });
+              }, 1800);  // small delay
             } else if (dismissed) {
               const daysSince = (Date.now() - parseInt(dismissed, 10)) / (1000 * 60 * 60 * 24);
               if (daysSince > 7) {
