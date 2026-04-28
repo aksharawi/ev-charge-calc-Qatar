@@ -1,0 +1,98 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": ".*text/markdown.*"
+        }
+      ],
+      "destination": "/index.md"
+    },
+    {
+      "source": "/index.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": ".*text/markdown.*"
+        }
+      ],
+      "destination": "/index.md"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "</sitemap.xml>; rel=\"sitemap\"; type=\"application/xml\", </robots.txt>; rel=\"describedby\"; type=\"text/plain\", </manifest.json>; rel=\"manifest\"; type=\"application/manifest+json\", </index.md>; rel=\"alternate\"; type=\"text/markdown\", <https://evcalculator.app/>; rel=\"canonical\""
+        },
+        {
+          "key": "Vary",
+          "value": "Accept"
+        }
+      ]
+    },
+    {
+      "source": "/index.html",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "</sitemap.xml>; rel=\"sitemap\"; type=\"application/xml\", </robots.txt>; rel=\"describedby\"; type=\"text/plain\", </manifest.json>; rel=\"manifest\"; type=\"application/manifest+json\", </index.md>; rel=\"alternate\"; type=\"text/markdown\", <https://evcalculator.app/>; rel=\"canonical\""
+        },
+        {
+          "key": "Vary",
+          "value": "Accept"
+        }
+      ]
+    },
+    {
+      "source": "/index.md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "x-markdown-tokens", "value": "1293" },
+        { "key": "Cache-Control", "value": "public, max-age=3600, must-revalidate" },
+        { "key": "Vary", "value": "Accept" }
+      ]
+    },
+    {
+      "source": "/(.*).md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" }
+      ]
+    },
+    {
+      "source": "/robots.txt",
+      "headers": [
+        { "key": "Content-Type", "value": "text/plain; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=86400" }
+      ]
+    },
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        { "key": "Content-Type", "value": "application/xml; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=86400" }
+      ]
+    },
+    {
+      "source": "/manifest.json",
+      "headers": [
+        { "key": "Content-Type", "value": "application/manifest+json; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=86400" }
+      ]
+    },
+    {
+      "source": "/sw.js",
+      "headers": [
+        { "key": "Content-Type", "value": "application/javascript; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+      ]
+    }
+  ]
+}
