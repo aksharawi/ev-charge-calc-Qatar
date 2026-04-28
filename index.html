@@ -1,49 +1,54 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
- 
+
   <!-- ═══════════════════════════════════════════
-       PRIMARY SEO
+       PRIMARY SEO (GLOBAL)
   ═══════════════════════════════════════════ -->
-  <title>EV Charge Cost Calculator Qatar | Electricity Tariff 2026</title>
-  <meta name="description" content="Calculate exactly how much it costs to charge your electric or hybrid vehicle in Qatar. Supports wall plug (2.2kW) and AC charger (11kW). Free, works offline, available in English and Arabic. — احسب تكلفة شحن سيارتك الكهربائية أو الهجينة في قطر. يدعم مقبس الحائط وشاحن AC. مجاني ويعمل بدون إنترنت." />
-  <meta name="keywords" content="EV charging cost Qatar, electricity tariff Qatar, electric vehicle charging calculator, hybrid car charging cost Qatar, PHEV charging Qatar, charge calculator Qatar, EV calculator app, حاسبة شحن السيارة الكهربائية, تكلفة شحن السيارة قطر, تعريفة الكهرباء قطر, حاسبة السيارات الكهربائية, شحن السيارة الهجينة قطر" />
+
+  <title>EV Charge Cost Calculator | Worldwide Electricity Tariff Tool 2026</title>
+  <meta name="description" content="Calculate exactly how much it costs to charge your electric or hybrid vehicle anywhere in the world. Auto-detects your country and currency. Supports wall plug (2.2kW) and AC charger (11kW). Free, works offline. — احسب تكلفة شحن سيارتك الكهربائية في أي مكان في العالم. يكتشف بلدك وعملتك تلقائياً. مجاني ويعمل بدون إنترنت." />
+  <meta name="keywords" content="EV charging cost, electricity tariff calculator, electric vehicle charging calculator, hybrid car charging cost, PHEV charging calculator, charge calculator, EV calculator app, global EV charging, worldwide electricity rates, حاسبة شحن السيارة الكهربائية, تكلفة شحن السيارة, تعريفة الكهرباء, حاسبة السيارات الكهربائية, شحن السيارة الهجينة" />
   <meta name="author" content="@aksharawi" />
   <meta name="robots" content="index, follow" />
   <meta name="language" content="English, Arabic" />
   <meta name="revisit-after" content="30 days" />
   <meta name="category" content="EV Tools, Automotive, Energy Calculator" />
   <link rel="canonical" href="https://evcalculator.app/" />
- 
+
   <link rel="alternate" hreflang="en" href="https://evcalculator.app/" />
   <link rel="alternate" hreflang="ar" href="https://evcalculator.app/" />
   <link rel="alternate" hreflang="x-default" href="https://evcalculator.app/" />
- 
+
   <!-- ═══════════════════════════════════════════
        OPEN GRAPH
   ═══════════════════════════════════════════ -->
+
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://evcalculator.app/" />
-  <meta property="og:title" content="EV Charge Cost Calculator — Qatar | حاسبة تكلفة شحن السيارة الكهربائية" />
-  <meta property="og:description" content="Free tool to calculate your EV or hybrid charging cost in Qatar. Supports wall plug & AC charger. Works offline. English & Arabic. — أداة مجانية لحساب تكلفة شحن سيارتك الكهربائية في قطر." />
+  <meta property="og:title" content="EV Charge Cost Calculator | حاسبة تكلفة شحن السيارة الكهربائية" />
+  <meta property="og:description" content="Free worldwide tool to calculate your EV or hybrid charging cost. Auto-detects country and currency. — أداة مجانية لحساب تكلفة شحن سيارتك الكهربائية في أي بلد." />
   <meta property="og:image" content="https://evcalculator.app/og-image.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="EV Charge Cost Calculator Qatar - Electricity Tariff Tool — حاسبة تكلفة شحن السيارة الكهربائية في قطر" />
+  <meta property="og:image:alt" content="EV Charge Cost Calculator - Worldwide Electricity Tariff Tool — حاسبة تكلفة شحن السيارة الكهربائية عالمياً" />
   <meta property="og:locale" content="en_US" />
-  <meta property="og:locale:alternate" content="ar_QA" />
+  <meta property="og:locale:alternate" content="ar_AR" />
   <meta property="og:site_name" content="Charge Calculator" />
- 
+
   <!-- TWITTER -->
+
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="EV Charge Cost Calculator — Qatar | حاسبة الشحن قطر" />
-  <meta name="twitter:description" content="Calculate your EV charging cost in Qatar. Wall plug or AC charger. Free & works offline. — احسب تكلفة شحن سيارتك الكهربائية في قطر." />
+  <meta name="twitter:title" content="EV Charge Cost Calculator | حاسبة الشحن" />
+  <meta name="twitter:description" content="Calculate your EV charging cost anywhere in the world. Wall plug or AC charger. Free & works offline. — احسب تكلفة شحن سيارتك الكهربائية حول العالم." />
   <meta name="twitter:image" content="https://evcalculator.app/og-image.png" />
   <meta name="twitter:creator" content="@aksharawi" />
- 
+
   <!-- PWA / MOBILE -->
+
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="ChargeCalc" />
@@ -52,11 +57,14 @@
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)" />
   <link rel="manifest" href="manifest.json" />
-  <link rel="apple-touch-icon" href="icon-192.png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png" />
- 
-  <!-- STRUCTURED DATA -->
+
+  <!-- ═══════════════════════════════════════════
+       STRUCTURED DATA — bilingual, global scope
+  ═══════════════════════════════════════════ -->
+
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -64,16 +72,17 @@
       {
         "@type": "WebApplication",
         "@id": "https://evcalculator.app/#app",
-        "name": "EV Charge Cost Calculator Qatar",
-        "alternateName": "حاسبة تكلفة شحن السيارة الكهربائية قطر",
+        "name": "EV Charge Cost Calculator",
+        "alternateName": "حاسبة تكلفة شحن السيارة الكهربائية",
         "url": "https://evcalculator.app/",
-        "description": "A free web app to calculate electric vehicle and plug-in hybrid charging costs using Qatar electricity tariffs. Supports wall plug (2.2kW Mode 2) and AC charger (11kW Type 2). Available in English and Arabic.",
+        "description": "A free worldwide web app to calculate electric vehicle and plug-in hybrid charging costs. Automatically detects user country and displays results in their local currency. Supports wall plug (2.2kW Mode 2) and AC charger (11kW Type 2). Available in English and Arabic.",
         "applicationCategory": "UtilitiesApplication",
         "operatingSystem": "Any",
         "browserRequirements": "Requires JavaScript",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "QAR" },
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
         "featureList": [
-          "Qatar electricity tariff calculator",
+          "Worldwide electricity tariff calculator",
+          "Auto-detects user country and currency",
           "Wall plug 2.2kW charging cost",
           "AC charger 11kW charging cost",
           "Monthly and annual EV charging cost estimate",
@@ -82,25 +91,22 @@
           "Offline PWA support"
         ],
         "inLanguage": "en",
-        "author": { "@type": "Person", "name": "aksharawi" },
-        "audience": {
-          "@type": "Audience",
-          "geographicArea": { "@type": "Country", "name": "Qatar" }
-        }
+        "author": { "@type": "Person", "name": "aksharawi" }
       },
       {
         "@type": "WebApplication",
         "@id": "https://evcalculator.app/#app-ar",
-        "name": "حاسبة تكلفة شحن السيارة الكهربائية قطر",
-        "alternateName": "EV Charge Cost Calculator Qatar",
+        "name": "حاسبة تكلفة شحن السيارة الكهربائية",
+        "alternateName": "EV Charge Cost Calculator",
         "url": "https://evcalculator.app/",
-        "description": "تطبيق ويب مجاني لحساب تكلفة شحن السيارات الكهربائية والهجينة باستخدام تعريفة الكهرباء في قطر. يدعم مقبس الحائط (الوضع 2 بقدرة 2.2 كيلوواط) وشاحن التيار المتردد (النوع 2 بقدرة 11 كيلوواط). متوفر باللغتين العربية والإنجليزية.",
+        "description": "تطبيق ويب مجاني عالمي لحساب تكلفة شحن السيارات الكهربائية والهجينة. يكتشف بلد المستخدم تلقائياً ويعرض النتائج بعملته المحلية. يدعم مقبس الحائط (الوضع 2 بقدرة 2.2 كيلوواط) وشاحن التيار المتردد (النوع 2 بقدرة 11 كيلوواط). متوفر باللغتين العربية والإنجليزية.",
         "applicationCategory": "UtilitiesApplication",
         "operatingSystem": "Any",
         "browserRequirements": "Requires JavaScript",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "QAR" },
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
         "featureList": [
-          "حاسبة تعريفة الكهرباء في قطر",
+          "حاسبة تعريفة الكهرباء حول العالم",
+          "اكتشاف تلقائي لبلد المستخدم وعملته",
           "تكلفة الشحن باستخدام مقبس الحائط 2.2 كيلوواط",
           "تكلفة الشحن باستخدام شاحن AC بقدرة 11 كيلوواط",
           "تقدير التكلفة الشهرية والسنوية لشحن السيارة الكهربائية",
@@ -109,11 +115,7 @@
           "يعمل بدون إنترنت كتطبيق PWA"
         ],
         "inLanguage": "ar",
-        "author": { "@type": "Person", "name": "aksharawi" },
-        "audience": {
-          "@type": "Audience",
-          "geographicArea": { "@type": "Country", "name": "Qatar" }
-        }
+        "author": { "@type": "Person", "name": "aksharawi" }
       },
       {
         "@type": "FAQPage",
@@ -122,34 +124,34 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "How much does it cost to charge an electric car in Qatar?",
+            "name": "How much does it cost to charge an electric car?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "In Qatar, charging an electric vehicle depends on your electricity tariff. Residential rates are around 0.08 QAR/kWh, while commercial rates range from 0.09 to 0.14 QAR/kWh. For a 31.8 kWh battery charged from 20% to 100%, expect to pay between 2.50 and 4.20 QAR per full charge."
+              "text": "The cost to charge an electric vehicle depends on your local electricity tariff and battery size. For a typical 30 kWh battery charged from 20% to 100%, costs typically range from $1 to $15 USD equivalent depending on the country. Use this calculator to get an exact figure for your location."
             }
           },
           {
             "@type": "Question",
-            "name": "What is the electricity tariff in Qatar 2026?",
+            "name": "How long does it take to charge an EV with a wall plug?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Residential electricity tariffs in Qatar are 0.08 QAR/kWh for flats and low-consumption villas, and 0.10 QAR/kWh for high-consumption villas. Commercial tariffs are 0.09 QAR/kWh (low tier), 0.12 QAR/kWh (mid tier), and 0.14 QAR/kWh (high tier)."
+              "text": "Using a standard wall plug (Mode 2, 2.2kW), charging a 30 kWh battery from 20% to 100% takes approximately 12 to 13 hours. Using an 11kW AC charger (Type 2) reduces this to around 2.5 to 3 hours."
             }
           },
           {
             "@type": "Question",
-            "name": "How long does it take to charge an EV with a wall plug in Qatar?",
+            "name": "How much does EV charging cost per month?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Using a standard wall plug (Mode 2, 2.2kW) in Qatar, charging a 31.8 kWh battery from 20% to 100% takes approximately 12 to 13 hours. Using an 11kW AC charger (Type 2) reduces this to around 2.5 to 3 hours."
+              "text": "Monthly EV charging cost depends on charging frequency, battery size, and local electricity rates. For a driver charging every 3 days (about 10 charges per month), expect to pay between $10 and $80 USD equivalent per month, far cheaper than petrol in nearly every country."
             }
           },
           {
             "@type": "Question",
-            "name": "How much does EV charging cost per month in Qatar?",
+            "name": "What is the difference between Mode 2 and Type 2 charging?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "If you charge every 3 days (approximately 10 charges per month) using a commercial rate of 0.12 QAR/kWh, monthly EV charging costs in Qatar are approximately 35 to 42 QAR — significantly cheaper than petrol."
+              "text": "Mode 2 charging uses a portable cable that plugs into a regular household wall socket, typically delivering 2.2kW (slow charging). Type 2 refers to a dedicated AC home charger or public charging station, typically delivering 7kW to 22kW (much faster charging). This calculator supports both."
             }
           }
         ]
@@ -161,34 +163,34 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "كم تكلفة شحن السيارة الكهربائية في قطر؟",
+            "name": "كم تكلفة شحن السيارة الكهربائية؟",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "تعتمد تكلفة شحن السيارة الكهربائية في قطر على تعريفة الكهرباء الخاصة بك. تبلغ الأسعار السكنية حوالي 0.08 ريال قطري لكل كيلوواط ساعة، بينما تتراوح الأسعار التجارية بين 0.09 و 0.14 ريال قطري لكل كيلوواط ساعة. لشحن بطارية بسعة 31.8 كيلوواط ساعة من 20٪ إلى 100٪، تتراوح التكلفة بين 2.50 و 4.20 ريال قطري للشحنة الكاملة."
+              "text": "تعتمد تكلفة شحن السيارة الكهربائية على تعريفة الكهرباء المحلية وحجم البطارية. لشحن بطارية بسعة 30 كيلوواط ساعة من 20٪ إلى 100٪، تتراوح التكاليف عادةً بين دولار واحد و 15 دولاراً أمريكياً اعتماداً على البلد. استخدم هذه الحاسبة للحصول على رقم دقيق لموقعك."
             }
           },
           {
             "@type": "Question",
-            "name": "ما هي تعريفة الكهرباء في قطر لعام 2026؟",
+            "name": "كم تستغرق شحن السيارة الكهربائية باستخدام مقبس الحائط؟",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "تعريفة الكهرباء السكنية في قطر هي 0.08 ريال قطري لكل كيلوواط ساعة للشقق والفلل ذات الاستهلاك المنخفض، و 0.10 ريال قطري لكل كيلوواط ساعة للفلل ذات الاستهلاك المرتفع. أما التعريفات التجارية فهي 0.09 ريال قطري لكل كيلوواط ساعة للشريحة المنخفضة، و 0.12 ريال قطري لكل كيلوواط ساعة للشريحة المتوسطة، و 0.14 ريال قطري لكل كيلوواط ساعة للشريحة المرتفعة."
+              "text": "باستخدام مقبس الحائط القياسي (الوضع 2، بقدرة 2.2 كيلوواط)، يستغرق شحن بطارية سعتها 30 كيلوواط ساعة من 20٪ إلى 100٪ حوالي 12 إلى 13 ساعة. أما باستخدام شاحن تيار متردد بقدرة 11 كيلوواط (النوع 2)، فينخفض الوقت إلى ما بين 2.5 و 3 ساعات تقريباً."
             }
           },
           {
             "@type": "Question",
-            "name": "كم تستغرق شحن السيارة الكهربائية باستخدام مقبس الحائط في قطر؟",
+            "name": "كم تبلغ تكلفة شحن السيارة الكهربائية شهرياً؟",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "باستخدام مقبس الحائط القياسي (الوضع 2، بقدرة 2.2 كيلوواط) في قطر، يستغرق شحن بطارية سعتها 31.8 كيلوواط ساعة من 20٪ إلى 100٪ حوالي 12 إلى 13 ساعة. أما باستخدام شاحن تيار متردد بقدرة 11 كيلوواط (النوع 2)، فينخفض الوقت إلى ما بين 2.5 و 3 ساعات تقريباً."
+              "text": "تعتمد التكلفة الشهرية لشحن السيارة الكهربائية على عدد مرات الشحن وحجم البطارية وأسعار الكهرباء المحلية. بالنسبة للسائق الذي يشحن كل 3 أيام (حوالي 10 شحنات شهرياً)، توقع دفع ما بين 10 و 80 دولاراً أمريكياً شهرياً، وهو أرخص بكثير من البنزين في معظم البلدان."
             }
           },
           {
             "@type": "Question",
-            "name": "كم تبلغ تكلفة شحن السيارة الكهربائية شهرياً في قطر؟",
+            "name": "ما الفرق بين الشحن بالوضع 2 والنوع 2؟",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "إذا قمت بالشحن كل 3 أيام (ما يعادل حوالي 10 شحنات شهرياً) باستخدام السعر التجاري البالغ 0.12 ريال قطري لكل كيلوواط ساعة، فإن التكلفة الشهرية لشحن السيارة الكهربائية في قطر تتراوح بين 35 و 42 ريال قطري تقريباً — وهو أرخص بكثير من تكلفة البنزين."
+              "text": "الشحن بالوضع 2 يستخدم كابلاً محمولاً يتم توصيله بمقبس حائط منزلي عادي، ويوفر عادةً 2.2 كيلوواط (شحن بطيء). أما النوع 2 فيشير إلى شاحن منزلي مخصص للتيار المتردد أو محطة شحن عامة، ويوفر عادةً من 7 إلى 22 كيلوواط (شحن أسرع بكثير). تدعم هذه الحاسبة كلا النوعين."
             }
           }
         ]
@@ -196,16 +198,17 @@
     ]
   }
   </script>
- 
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+  <link rel="dns-prefetch" href="https://ipapi.co" />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet" />
- 
-  <!-- ═══════════════════════════════════════════
-       GOOGLE ANALYTICS 4
-  ═══════════════════════════════════════════ -->
+
+  <!-- GA4 -->
+
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-M4GLDGSHKG"></script>
+
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -215,7 +218,7 @@
       'page_title': 'Charge Calculator'
     });
   </script>
- 
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body, #root {
@@ -229,112 +232,156 @@
     select { -webkit-appearance: none; appearance: none; }
     ::-webkit-scrollbar { width: 4px; }
   </style>
+
 </head>
 <body>
   <div id="root"></div>
- 
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
- 
+
   <script type="text/babel">
     const { useState, useEffect } = React;
- 
-    const VERSION = "1.6";
- 
+
+    const VERSION = "2.1";
+
     // ═══════════════════════════════════════════
-    //  ANALYTICS HELPER (GA4)
+    //  ANALYTICS HELPER
     // ═══════════════════════════════════════════
     const track = (eventName, params = {}) => {
       if (typeof window.gtag === "function") {
         window.gtag("event", eventName, params);
       }
     };
- 
+
+    // ═══════════════════════════════════════════
+    //  COUNTRY → CURRENCY → TARIFF DATABASE
+    //  Rates are typical residential averages in local currency per kWh.
+    //  Sources: national utility tariffs as of 2026.
+    // ═══════════════════════════════════════════
+    const COUNTRIES = {
+      // Gulf
+      QA: { name: { en: "Qatar", ar: "قطر" }, currency: "QAR", symbol: "QAR", symbolBefore: true, low: 0.08, mid: 0.12, high: 0.14, def: 0.12 },
+      AE: { name: { en: "UAE", ar: "الإمارات" }, currency: "AED", symbol: "AED", symbolBefore: true, low: 0.23, mid: 0.32, high: 0.45, def: 0.32 },
+      SA: { name: { en: "Saudi Arabia", ar: "السعودية" }, currency: "SAR", symbol: "SAR", symbolBefore: true, low: 0.18, mid: 0.24, high: 0.32, def: 0.24 },
+      KW: { name: { en: "Kuwait", ar: "الكويت" }, currency: "KWD", symbol: "KWD", symbolBefore: true, low: 0.005, mid: 0.015, high: 0.025, def: 0.015 },
+      BH: { name: { en: "Bahrain", ar: "البحرين" }, currency: "BHD", symbol: "BHD", symbolBefore: true, low: 0.003, mid: 0.016, high: 0.029, def: 0.016 },
+      OM: { name: { en: "Oman", ar: "عُمان" }, currency: "OMR", symbol: "OMR", symbolBefore: true, low: 0.010, mid: 0.020, high: 0.030, def: 0.020 },
+      // MENA
+      EG: { name: { en: "Egypt", ar: "مصر" }, currency: "EGP", symbol: "EGP", symbolBefore: true, low: 0.68, mid: 1.05, high: 1.45, def: 1.05 },
+      JO: { name: { en: "Jordan", ar: "الأردن" }, currency: "JOD", symbol: "JOD", symbolBefore: true, low: 0.05, mid: 0.10, high: 0.16, def: 0.10 },
+      LB: { name: { en: "Lebanon", ar: "لبنان" }, currency: "USD", symbol: "$", symbolBefore: true, low: 0.10, mid: 0.20, high: 0.35, def: 0.20 },
+      TR: { name: { en: "Turkey", ar: "تركيا" }, currency: "TRY", symbol: "₺", symbolBefore: true, low: 1.50, mid: 2.20, high: 3.00, def: 2.20 },
+      // Europe
+      GB: { name: { en: "United Kingdom", ar: "المملكة المتحدة" }, currency: "GBP", symbol: "£", symbolBefore: true, low: 0.24, mid: 0.27, high: 0.34, def: 0.27 },
+      DE: { name: { en: "Germany", ar: "ألمانيا" }, currency: "EUR", symbol: "€", symbolBefore: true, low: 0.30, mid: 0.36, high: 0.42, def: 0.36 },
+      FR: { name: { en: "France", ar: "فرنسا" }, currency: "EUR", symbol: "€", symbolBefore: true, low: 0.20, mid: 0.25, high: 0.30, def: 0.25 },
+      ES: { name: { en: "Spain", ar: "إسبانيا" }, currency: "EUR", symbol: "€", symbolBefore: true, low: 0.15, mid: 0.22, high: 0.30, def: 0.22 },
+      IT: { name: { en: "Italy", ar: "إيطاليا" }, currency: "EUR", symbol: "€", symbolBefore: true, low: 0.25, mid: 0.32, high: 0.45, def: 0.32 },
+      NL: { name: { en: "Netherlands", ar: "هولندا" }, currency: "EUR", symbol: "€", symbolBefore: true, low: 0.30, mid: 0.40, high: 0.50, def: 0.40 },
+      // Americas
+      US: { name: { en: "United States", ar: "الولايات المتحدة" }, currency: "USD", symbol: "$", symbolBefore: true, low: 0.10, mid: 0.16, high: 0.30, def: 0.16 },
+      CA: { name: { en: "Canada", ar: "كندا" }, currency: "CAD", symbol: "C$", symbolBefore: true, low: 0.09, mid: 0.13, high: 0.18, def: 0.13 },
+      MX: { name: { en: "Mexico", ar: "المكسيك" }, currency: "MXN", symbol: "MX$", symbolBefore: true, low: 1.00, mid: 2.00, high: 4.50, def: 2.00 },
+      BR: { name: { en: "Brazil", ar: "البرازيل" }, currency: "BRL", symbol: "R$", symbolBefore: true, low: 0.55, mid: 0.85, high: 1.20, def: 0.85 },
+      // Asia
+      IN: { name: { en: "India", ar: "الهند" }, currency: "INR", symbol: "₹", symbolBefore: true, low: 5.00, mid: 7.00, high: 9.00, def: 7.00 },
+      PK: { name: { en: "Pakistan", ar: "باكستان" }, currency: "PKR", symbol: "PKR", symbolBefore: true, low: 25, mid: 40, high: 50, def: 40 },
+      JP: { name: { en: "Japan", ar: "اليابان" }, currency: "JPY", symbol: "¥", symbolBefore: true, low: 27, mid: 31, high: 37, def: 31 },
+      SG: { name: { en: "Singapore", ar: "سنغافورة" }, currency: "SGD", symbol: "S$", symbolBefore: true, low: 0.27, mid: 0.30, high: 0.32, def: 0.30 },
+      MY: { name: { en: "Malaysia", ar: "ماليزيا" }, currency: "MYR", symbol: "RM", symbolBefore: true, low: 0.22, mid: 0.35, high: 0.55, def: 0.35 },
+      // Oceania
+      AU: { name: { en: "Australia", ar: "أستراليا" }, currency: "AUD", symbol: "A$", symbolBefore: true, low: 0.25, mid: 0.32, high: 0.40, def: 0.32 },
+      NZ: { name: { en: "New Zealand", ar: "نيوزيلندا" }, currency: "NZD", symbol: "NZ$", symbolBefore: true, low: 0.25, mid: 0.32, high: 0.40, def: 0.32 },
+    };
+
+    // Fallback country (used when detection fails)
+    const FALLBACK_COUNTRY = "US";
+
+    // Map browser locale → country code
+    const localeToCountry = (locale) => {
+      if (!locale) return null;
+      const parts = locale.split("-");
+      if (parts.length >= 2) {
+        const cc = parts[1].toUpperCase();
+        if (COUNTRIES[cc]) return cc;
+      }
+      // Language-only mapping (best guess)
+      const lang = parts[0].toLowerCase();
+      const langMap = { ar: "QA", en: "US", fr: "FR", de: "DE", es: "ES", it: "IT", ja: "JP", tr: "TR" };
+      return langMap[lang] || null;
+    };
+
+    // Format amount with currency
+    const formatCurrency = (amount, country, decimals = 2) => {
+      const c = COUNTRIES[country] || COUNTRIES[FALLBACK_COUNTRY];
+      // Show no decimals for currencies where minor units are negligible (JPY, INR for big nums)
+      const noDecimalCurrencies = ["JPY", "PKR"];
+      const dec = noDecimalCurrencies.includes(c.currency) ? 0 : decimals;
+      const formatted = amount.toFixed(dec);
+      // Add thousands separator
+      const withSep = Number(formatted).toLocaleString(undefined, {
+        minimumFractionDigits: dec,
+        maximumFractionDigits: dec,
+      });
+      return c.symbolBefore ? `${c.symbol} ${withSep}` : `${withSep} ${c.symbol}`;
+    };
+
     // ═══════════════════════════════════════════
     //  THEME SYSTEM
     // ═══════════════════════════════════════════
     const THEMES = {
       light: {
-        bg: "#fafafa",
-        cardBg: "#ffffff",
-        cardBgAccent: "#fffbeb",
-        cardBgInactive: "#f5f5f5",
-        chargerCardActive: "#fffbeb",
-        chargerCardInactive: "#fafafa",
-        border: "#e5e5e5",
-        borderActive: "#F5C518",
-        borderSubtle: "#f0f0f0",
-        text: "#111111",
-        textMuted: "#525252",
-        textFaint: "#737373",
-        textVeryFaint: "#a3a3a3",
-        textGhost: "#d4d4d4",
-        inputBg: "#ffffff",
-        inputBorder: "#e5e5e5",
-        yellow: "#F5C518",
-        yellowText: "#111111",     // black text on light bg for max readability
-        green: "#16a34a",
-        blue: "#2563eb",
-        orange: "#ea580c",
-        purple: "#7c3aed",
-        sliderTrack: "#e5e5e5",
-        thumbBorder: "#ffffff",
+        bg: "#fafafa", cardBg: "#ffffff", cardBgAccent: "#fffbeb",
+        cardBgInactive: "#f5f5f5", chargerCardActive: "#fffbeb", chargerCardInactive: "#fafafa",
+        border: "#e5e5e5", borderActive: "#F5C518", borderSubtle: "#f0f0f0",
+        text: "#111111", textMuted: "#525252", textFaint: "#737373",
+        textVeryFaint: "#a3a3a3", textGhost: "#d4d4d4",
+        inputBg: "#ffffff", inputBorder: "#e5e5e5",
+        yellow: "#F5C518", yellowText: "#111111",
+        green: "#16a34a", blue: "#2563eb", orange: "#ea580c", purple: "#7c3aed",
+        sliderTrack: "#e5e5e5", thumbBorder: "#ffffff",
         cardShadow: "0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06)",
         accentCardGradient: "linear-gradient(135deg, #fffbeb 0%, #ffffff 60%)",
-        rateActiveBg: "#F5C518",
-        rateActiveText: "#000",
-        rateInactiveBg: "#f5f5f5",
-        rateInactiveText: "#737373",
-        rateInactiveBorder: "#e5e5e5",
+        rateActiveBg: "#F5C518", rateActiveText: "#000",
+        rateInactiveBg: "#f5f5f5", rateInactiveText: "#737373", rateInactiveBorder: "#e5e5e5",
+        modalBg: "rgba(0,0,0,0.4)", modalCardBg: "#ffffff",
       },
       dark: {
-        bg: "#0d0d0d",
-        cardBg: "#111111",
-        cardBgAccent: "#1a1500",
-        cardBgInactive: "#1a1a1a",
-        chargerCardActive: "#1a1500",
-        chargerCardInactive: "#161616",
-        border: "#222222",
-        borderActive: "#F5C518",
-        borderSubtle: "#1a1a1a",
-        text: "#ffffff",
-        textMuted: "#cccccc",
-        textFaint: "#666666",
-        textVeryFaint: "#444444",
-        textGhost: "#2a2a2a",
-        inputBg: "#1a1a1a",
-        inputBorder: "#2a2a2a",
-        yellow: "#F5C518",
-        yellowText: "#F5C518",
-        green: "#4ade80",
-        blue: "#60a5fa",
-        orange: "#f97316",
-        purple: "#a78bfa",
-        sliderTrack: "#222222",
-        thumbBorder: "#0d0d0d",
+        bg: "#0d0d0d", cardBg: "#111111", cardBgAccent: "#1a1500",
+        cardBgInactive: "#1a1a1a", chargerCardActive: "#1a1500", chargerCardInactive: "#161616",
+        border: "#222222", borderActive: "#F5C518", borderSubtle: "#1a1a1a",
+        text: "#ffffff", textMuted: "#cccccc", textFaint: "#666666",
+        textVeryFaint: "#444444", textGhost: "#2a2a2a",
+        inputBg: "#1a1a1a", inputBorder: "#2a2a2a",
+        yellow: "#F5C518", yellowText: "#F5C518",
+        green: "#4ade80", blue: "#60a5fa", orange: "#f97316", purple: "#a78bfa",
+        sliderTrack: "#222222", thumbBorder: "#0d0d0d",
         cardShadow: "none",
         accentCardGradient: "linear-gradient(135deg, #1a1500 0%, #111 60%)",
-        rateActiveBg: "#F5C518",
-        rateActiveText: "#000",
-        rateInactiveBg: "#1a1a1a",
-        rateInactiveText: "#555555",
-        rateInactiveBorder: "#252525",
+        rateActiveBg: "#F5C518", rateActiveText: "#000",
+        rateInactiveBg: "#1a1a1a", rateInactiveText: "#555555", rateInactiveBorder: "#252525",
+        modalBg: "rgba(0,0,0,0.7)", modalCardBg: "#161616",
       },
     };
- 
-    // hex with alpha — used for outlines that should fade
+
     const alpha = (hex, a) => {
       const aa = Math.round(a * 255).toString(16).padStart(2, "0");
       return hex + aa;
     };
- 
+
+    // ═══════════════════════════════════════════
+    //  STRINGS (BILINGUAL)
+    // ═══════════════════════════════════════════
     const STRINGS = {
       en: {
         dir: "ltr",
         fontFamily: "'DM Mono', 'Courier New', monospace",
         appTitle: "CHARGE CALCULATOR",
-        subtitle: "QATAR",
+        subtitle: "WORLDWIDE",
         langToggle: "العربية",
         themeLight: "Light mode",
         themeDark: "Dark mode",
@@ -354,8 +401,12 @@
         endSOC: "End SOC",
         efficiency: "Charger Efficiency",
         tariff: "Electricity Tariff",
+        tariffLow: "Low",
+        tariffMid: "Medium",
+        tariffHigh: "High",
+        custom: "Custom",
         activeRate: "ACTIVE RATE",
-        rateInput: "Rate (QAR/kWh)",
+        rateInput: "Rate per kWh",
         schedule: "Charging Schedule",
         chargeEvery: "Charge Every",
         chargesPerMonth: "charges per month",
@@ -369,27 +420,23 @@
         chargesMonth: "Charges / month",
         monthlyCost: "Monthly cost",
         annualCost: "Annual cost",
-        offlineBadge: "WORKS OFFLINE · QATAR",
+        offlineBadge: "WORKS OFFLINE",
         madeBy: "Made by",
         rights: "All rights reserved",
         days: " days",
         hrs: "hrs",
         min: "min",
-        rateLabels: [
-          { label: "Residential Flat", value: 0.08 },
-          { label: "Villa (low)", value: 0.08 },
-          { label: "Villa (high)", value: 0.10 },
-          { label: "Commercial (low)", value: 0.09 },
-          { label: "Commercial (mid)", value: 0.12 },
-          { label: "Commercial (high)", value: 0.14 },
-          { label: "Custom", value: null },
-        ],
+        country: "Country",
+        changeCountry: "Change country",
+        detecting: "Detecting...",
+        searchPlaceholder: "Search country or currency...",
+        noResults: "No countries found",
       },
       ar: {
         dir: "rtl",
         fontFamily: "'Tajawal', sans-serif",
         appTitle: "حاسبة الشحن",
-        subtitle: "قطر",
+        subtitle: "عالمياً",
         langToggle: "English",
         themeLight: "الوضع الفاتح",
         themeDark: "الوضع الداكن",
@@ -409,8 +456,12 @@
         endSOC: "شحن النهاية",
         efficiency: "كفاءة الشاحن",
         tariff: "تعريفة الكهرباء",
+        tariffLow: "منخفضة",
+        tariffMid: "متوسطة",
+        tariffHigh: "مرتفعة",
+        custom: "مخصص",
         activeRate: "السعر المعتمد",
-        rateInput: "السعر (ريال/كيلوواط)",
+        rateInput: "السعر لكل كيلوواط ساعة",
         schedule: "جدول الشحن",
         chargeEvery: "اشحن كل",
         chargesPerMonth: "شحنة في الشهر",
@@ -424,30 +475,29 @@
         chargesMonth: "شحنات / شهر",
         monthlyCost: "التكلفة الشهرية",
         annualCost: "التكلفة السنوية",
-        offlineBadge: "يعمل بدون إنترنت · قطر",
+        offlineBadge: "يعمل بدون إنترنت",
         madeBy: "من تطوير",
         rights: "جميع الحقوق محفوظة",
         days: " أيام",
         hrs: "ساعة",
         min: "دقيقة",
-        rateLabels: [
-          { label: "شقة سكنية", value: 0.08 },
-          { label: "فيلا (منخفض)", value: 0.08 },
-          { label: "فيلا (مرتفع)", value: 0.10 },
-          { label: "تجاري (منخفض)", value: 0.09 },
-          { label: "تجاري (متوسط)", value: 0.12 },
-          { label: "تجاري (مرتفع)", value: 0.14 },
-          { label: "مخصص", value: null },
-        ],
+        country: "الدولة",
+        changeCountry: "تغيير الدولة",
+        detecting: "جارٍ الكشف...",
+        searchPlaceholder: "ابحث عن دولة أو عملة...",
+        noResults: "لم يتم العثور على دول",
       },
     };
- 
+
+    // ═══════════════════════════════════════════
+    //  COMPONENTS
+    // ═══════════════════════════════════════════
     function Slider({ label, value, min, max, step, unit, onChange, accent, theme }) {
       const [inputVal, setInputVal] = useState(String(value));
       const pct = ((value - min) / (max - min)) * 100;
- 
+
       useEffect(() => { setInputVal(String(value)); }, [value]);
- 
+
       return (
         <div style={{ marginBottom: "1.4rem" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
@@ -494,51 +544,199 @@
         </div>
       );
     }
- 
+
     function Section({ title, children, isRTL, theme }) {
       return (
         <div style={{
-          background: theme.cardBg,
-          border: `1px solid ${theme.border}`,
-          boxShadow: theme.cardShadow,
-          borderRadius: "14px", padding: "1.4rem",
-          marginBottom: "0.75rem"
+          background: theme.cardBg, border: `1px solid ${theme.border}`,
+          boxShadow: theme.cardShadow, borderRadius: "14px",
+          padding: "1.4rem", marginBottom: "0.75rem"
         }}>
           <div style={{ fontSize: "0.65rem", color: theme.textFaint, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "1.2rem", textAlign: isRTL ? "right" : "left" }}>{title}</div>
           {children}
         </div>
       );
     }
- 
+
+    function CountryModal({ open, onClose, onSelect, currentCountry, lang, theme }) {
+      const [searchQuery, setSearchQuery] = useState("");
+
+      // Reset search when modal closes
+      useEffect(() => {
+        if (!open) setSearchQuery("");
+      }, [open]);
+
+      if (!open) return null;
+      const isRTL = lang === "ar";
+      const t = STRINGS[lang];
+
+      // Filter and sort countries based on search
+      const filteredCountries = Object.entries(COUNTRIES)
+        .filter(([code, c]) => {
+          if (!searchQuery.trim()) return true;
+          const q = searchQuery.toLowerCase().trim();
+          return (
+            c.name.en.toLowerCase().includes(q) ||
+            c.name.ar.includes(searchQuery.trim()) ||
+            c.currency.toLowerCase().includes(q) ||
+            code.toLowerCase().includes(q)
+          );
+        })
+        .sort((a, b) => a[1].name[lang].localeCompare(b[1].name[lang]));
+
+      return (
+        <div onClick={onClose} style={{
+          position: "fixed", inset: 0, background: theme.modalBg,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          padding: "1rem", zIndex: 999,
+        }}>
+          <div onClick={e => e.stopPropagation()} style={{
+            background: theme.modalCardBg, borderRadius: "14px",
+            padding: "1.2rem", width: "100%", maxWidth: "380px",
+            maxHeight: "75vh", display: "flex", flexDirection: "column",
+            border: `1px solid ${theme.border}`, direction: isRTL ? "rtl" : "ltr",
+          }}>
+            <div style={{ fontSize: "0.95rem", fontWeight: 700, color: theme.text, marginBottom: "0.9rem", textAlign: "center" }}>
+              {t.changeCountry}
+            </div>
+
+            {/* Search input */}
+            <div style={{ position: "relative", marginBottom: "0.9rem" }}>
+              <span style={{
+                position: "absolute",
+                [isRTL ? "right" : "left"]: "0.7rem",
+                top: "50%", transform: "translateY(-50%)",
+                fontSize: "0.85rem", color: theme.textFaint,
+                pointerEvents: "none",
+              }}>🔍</span>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                placeholder={t.searchPlaceholder}
+                autoFocus
+                style={{
+                  width: "100%", background: theme.inputBg,
+                  border: `1px solid ${theme.inputBorder}`, borderRadius: "8px",
+                  padding: isRTL ? "0.55rem 2.2rem 0.55rem 0.8rem" : "0.55rem 0.8rem 0.55rem 2.2rem",
+                  color: theme.text, fontFamily: t.fontFamily,
+                  fontSize: "0.85rem", outline: "none",
+                  textAlign: isRTL ? "right" : "left",
+                }}
+              />
+              {searchQuery && (
+                <button onClick={() => setSearchQuery("")} style={{
+                  position: "absolute",
+                  [isRTL ? "left" : "right"]: "0.5rem",
+                  top: "50%", transform: "translateY(-50%)",
+                  background: "transparent", border: "none",
+                  color: theme.textFaint, fontSize: "1rem",
+                  cursor: "pointer", padding: "0.2rem 0.4rem",
+                  lineHeight: 1,
+                }}>×</button>
+              )}
+            </div>
+
+            {/* Country list */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.3rem", overflow: "auto", flex: 1 }}>
+              {filteredCountries.length === 0 ? (
+                <div style={{ textAlign: "center", color: theme.textFaint, padding: "2rem 1rem", fontSize: "0.85rem" }}>
+                  {t.noResults}
+                </div>
+              ) : (
+                filteredCountries.map(([code, c]) => {
+                  const active = code === currentCountry;
+                  return (
+                    <button key={code} onClick={() => { onSelect(code); onClose(); }} style={{
+                      background: active ? alpha(theme.yellow, 0.15) : theme.cardBgInactive,
+                      border: `1px solid ${active ? theme.yellow : theme.border}`,
+                      borderRadius: "8px", padding: "0.7rem 0.9rem",
+                      cursor: "pointer", fontFamily: t.fontFamily,
+                      color: theme.text, textAlign: isRTL ? "right" : "left",
+                      display: "flex", justifyContent: "space-between", alignItems: "center",
+                      fontSize: "0.85rem", fontWeight: active ? 700 : 500,
+                      flexShrink: 0,
+                    }}>
+                      <span>{c.name[lang]}</span>
+                      <span style={{ fontSize: "0.7rem", color: theme.textFaint, fontFamily: "'DM Mono', monospace" }}>{c.currency}</span>
+                    </button>
+                  );
+                })
+              )}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ═══════════════════════════════════════════
+    //  MAIN APP
+    // ═══════════════════════════════════════════
     function App() {
       const [lang, setLang] = useState("en");
-      const [themeName, setThemeName] = useState("light");  // ← default LIGHT
+      const [themeName, setThemeName] = useState("light");
+      const [country, setCountry] = useState(null);
+      const [countryModalOpen, setCountryModalOpen] = useState(false);
       const [battery, setBattery] = useState(31.8);
       const [startSOC, setStartSOC] = useState(20);
       const [endSOC, setEndSOC] = useState(100);
       const [efficiency, setEfficiency] = useState(85);
-      const [rate, setRate] = useState(0.12);
+      const [rate, setRate] = useState(0);
       const [customRate, setCustomRate] = useState(false);
       const [freqDays, setFreqDays] = useState(3);
       const [chargerId, setChargerId] = useState("wall");
- 
+
       const t = STRINGS[lang];
       const isRTL = t.dir === "rtl";
       const theme = THEMES[themeName];
       const isDark = themeName === "dark";
- 
+
+      // ── Country detection (runs once on mount) ──────────────────
+      useEffect(() => {
+        let didCancel = false;
+
+        const setDetectedCountry = (code, source) => {
+          if (didCancel) return;
+          const finalCode = COUNTRIES[code] ? code : FALLBACK_COUNTRY;
+          setCountry(finalCode);
+          setRate(COUNTRIES[finalCode].def);
+          track("country_detected", { country: finalCode, source });
+        };
+
+        // Strategy 1: IP geolocation
+        fetch("https://ipapi.co/json/")
+          .then(r => r.ok ? r.json() : Promise.reject())
+          .then(data => {
+            if (didCancel) return;
+            const cc = (data && data.country_code) ? data.country_code.toUpperCase() : null;
+            if (cc) {
+              setDetectedCountry(cc, "ip");
+            } else {
+              throw new Error("No country in IP response");
+            }
+          })
+          .catch(() => {
+            // Strategy 2: browser language
+            const browserLocale = navigator.language || navigator.languages?.[0];
+            const cc = localeToCountry(browserLocale);
+            setDetectedCountry(cc || FALLBACK_COUNTRY, cc ? "locale" : "fallback");
+          });
+
+        return () => { didCancel = true; };
+      }, []);
+
       // Sync body bg with theme
       useEffect(() => {
         document.body.style.background = theme.bg;
         document.documentElement.style.background = theme.bg;
         document.body.style.color = theme.text;
       }, [themeName]);
- 
+
       const CHARGERS = [
         { id: "wall", label: t.wallPlug, sub: "Mode 2 · 2.2 kW", kw: 2.2, icon: "🔌" },
         { id: "ac11", label: t.acCharger, sub: "Type 2 · 11 kW", kw: 11, icon: "⚡" },
       ];
- 
+
       const charger = CHARGERS.find(c => c.id === chargerId);
       const chargePct = endSOC - startSOC;
       const energyToBattery = (battery * chargePct) / 100;
@@ -551,7 +749,19 @@
       const chargingTime = chargingHours < 1
         ? `~${Math.round(chargingHours * 60)} ${t.min}`
         : `~${chargingHours.toFixed(1)} ${t.hrs}`;
- 
+
+      const countryData = country ? COUNTRIES[country] : null;
+
+      // Generate rate presets based on detected country
+      const ratePresets = countryData ? [
+        { key: "low",  label: t.tariffLow,  value: countryData.low },
+        { key: "mid",  label: t.tariffMid,  value: countryData.mid },
+        { key: "high", label: t.tariffHigh, value: countryData.high },
+        { key: "custom", label: t.custom, value: null },
+      ] : [];
+
+      const fmt = (amount, decimals) => country ? formatCurrency(amount, country, decimals) : "...";
+
       return (
         <div style={{
           minHeight: "100vh",
@@ -561,26 +771,22 @@
           background: theme.bg, color: theme.text,
           transition: "background-color 0.25s ease, color 0.25s ease",
         }}>
- 
           {/* Header */}
-          <div style={{ paddingTop: "1.2rem", marginBottom: "1.8rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ paddingTop: "1.2rem", marginBottom: "1.4rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "0.7rem" }}>
               <img src="icon-192.png" alt="Charge Calculator" style={{ width: "38px", height: "38px", borderRadius: "9px", flexShrink: 0, display: "block" }} />
               <div>
                 <div style={{
                   fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Bebas Neue', sans-serif",
                   fontSize: isRTL ? "1.3rem" : "1.5rem",
-                  fontWeight: 800,
-                  letterSpacing: isRTL ? "0" : "0.05em",
+                  fontWeight: 800, letterSpacing: isRTL ? "0" : "0.05em",
                   color: theme.yellowText, lineHeight: 1
                 }}>{t.appTitle}</div>
                 <div style={{ fontSize: "0.62rem", color: theme.textVeryFaint, letterSpacing: "0.08em", marginTop: "0.15rem" }}>{t.subtitle}</div>
               </div>
             </div>
- 
-            {/* Top-right toggles */}
+
             <div style={{ display: "flex", gap: "0.4rem", alignItems: "center" }}>
-              {/* Theme toggle */}
               <button
                 onClick={() => {
                   const newTheme = isDark ? "light" : "dark";
@@ -592,19 +798,13 @@
                 style={{
                   background: theme.cardBgInactive,
                   border: `1px solid ${alpha(theme.yellow, 0.3)}`,
-                  borderRadius: "8px",
-                  width: "36px", height: "36px",
+                  borderRadius: "8px", width: "36px", height: "36px",
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: "1rem",
-                  color: theme.yellowText,
+                  fontSize: "1rem", color: theme.yellowText,
                   cursor: "pointer", flexShrink: 0,
-                  transition: "all 0.2s",
                 }}
-              >
-                {isDark ? "☀" : "☾"}
-              </button>
- 
-              {/* Language toggle */}
+              >{isDark ? "☀" : "☾"}</button>
+
               <button onClick={() => {
                 const newLang = lang === "en" ? "ar" : "en";
                 setLang(newLang);
@@ -612,60 +812,78 @@
               }} style={{
                 background: theme.cardBgInactive,
                 border: `1px solid ${alpha(theme.yellow, 0.3)}`,
-                borderRadius: "8px",
-                padding: "0.35rem 0.8rem",
+                borderRadius: "8px", padding: "0.35rem 0.8rem",
                 color: theme.yellowText,
                 fontFamily: isRTL ? "'DM Mono', monospace" : "'Tajawal', sans-serif",
                 fontSize: isRTL ? "0.72rem" : "1rem",
-                fontWeight: 700,
-                cursor: "pointer", flexShrink: 0,
+                fontWeight: 700, cursor: "pointer", flexShrink: 0,
                 letterSpacing: isRTL ? "0.04em" : "0",
-              }}>
-                {t.langToggle}
-              </button>
+              }}>{t.langToggle}</button>
             </div>
           </div>
- 
+
+          {/* Country pill */}
+          <button onClick={() => setCountryModalOpen(true)} style={{
+            display: "flex", alignItems: "center", gap: "0.4rem",
+            background: theme.cardBg, border: `1px solid ${theme.border}`,
+            boxShadow: theme.cardShadow,
+            borderRadius: "10px", padding: "0.5rem 0.85rem",
+            color: theme.text, fontFamily: t.fontFamily, fontSize: "0.78rem",
+            cursor: "pointer", marginBottom: "1.4rem",
+            flexDirection: isRTL ? "row-reverse" : "row",
+          }}>
+            <span style={{ fontSize: "0.95rem" }}>📍</span>
+            <span style={{ fontWeight: 600 }}>
+              {countryData ? countryData.name[lang] : t.detecting}
+            </span>
+            {countryData && (
+              <span style={{ fontSize: "0.7rem", color: theme.textFaint, fontFamily: "'DM Mono', monospace" }}>
+                · {countryData.currency}
+              </span>
+            )}
+            <span style={{ marginLeft: isRTL ? 0 : "auto", marginRight: isRTL ? "auto" : 0, color: theme.textFaint, fontSize: "0.7rem" }}>
+              {isRTL ? "◂" : "▸"}
+            </span>
+          </button>
+
           {/* Result Cards */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.6rem", marginBottom: "1.5rem" }}>
             <div style={{
-              gridColumn: "1 / -1",
-              background: theme.accentCardGradient,
+              gridColumn: "1 / -1", background: theme.accentCardGradient,
               border: `1px solid ${alpha(theme.yellow, isDark ? 0.2 : 0.4)}`,
-              boxShadow: theme.cardShadow,
-              borderRadius: "14px",
+              boxShadow: theme.cardShadow, borderRadius: "14px",
               padding: "1.4rem 1.5rem", position: "relative", overflow: "hidden",
               textAlign: isRTL ? "right" : "left",
             }}>
               <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: `linear-gradient(90deg, transparent, ${theme.yellow}, transparent)` }} />
               <div style={{ fontSize: "0.65rem", color: theme.textFaint, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "0.3rem" }}>{t.costPerCharge}</div>
-              <div style={{ fontSize: "2.2rem", fontWeight: 800, color: theme.yellowText, lineHeight: 1, marginBottom: "0.4rem", fontFamily: "'DM Mono', monospace" }}>
-                QAR {costPerCharge.toFixed(2)}
+              <div style={{ fontSize: "2.1rem", fontWeight: 800, color: theme.yellowText, lineHeight: 1, marginBottom: "0.4rem", fontFamily: "'DM Mono', monospace" }}>
+                {fmt(costPerCharge, 2)}
               </div>
               <div style={{ fontSize: "0.72rem", color: theme.textMuted, fontFamily: "'DM Mono', monospace" }}>
                 {energyFromWall.toFixed(1)} kWh {t.fromWall} · {chargingTime} · {chargePct}% {t.charged}
               </div>
             </div>
- 
+
             {[
-              { label: t.monthly, value: `QAR ${monthlyCost.toFixed(1)}`, sub: `${chargesPerMonth} ${t.charges}`, accent: theme.green },
-              { label: t.annual, value: `QAR ${annualCost.toFixed(0)}`, sub: t.estimated, accent: theme.blue },
+              { label: t.monthly, value: fmt(monthlyCost, 1), sub: `${chargesPerMonth} ${t.charges}`, accent: theme.green },
+              { label: t.annual, value: fmt(annualCost, 0), sub: t.estimated, accent: theme.blue },
             ].map(card => (
               <div key={card.label} style={{
                 background: theme.cardBg,
                 border: `1px solid ${alpha(card.accent, isDark ? 0.1 : 0.2)}`,
-                boxShadow: theme.cardShadow,
-                borderRadius: "14px", padding: "1rem 1.1rem",
-                position: "relative", overflow: "hidden", textAlign: "center"
+                boxShadow: theme.cardShadow, borderRadius: "14px",
+                padding: "1rem 1.1rem", position: "relative",
+                overflow: "hidden", textAlign: "center"
               }}>
                 <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: `linear-gradient(90deg, transparent, ${card.accent}, transparent)` }} />
                 <div style={{ fontSize: "0.65rem", color: theme.textFaint, letterSpacing: "0.08em", marginBottom: "0.3rem" }}>{card.label}</div>
-                <div style={{ fontSize: "1.35rem", fontWeight: 800, color: card.accent, lineHeight: 1, fontFamily: "'DM Mono', monospace" }}>{card.value}</div>
+                <div style={{ fontSize: "1.2rem", fontWeight: 800, color: card.accent, lineHeight: 1, fontFamily: "'DM Mono', monospace" }}>{card.value}</div>
                 <div style={{ fontSize: "0.68rem", color: theme.textVeryFaint, marginTop: "0.25rem" }}>{card.sub}</div>
               </div>
             ))}
           </div>
- 
+
           {/* Charger Type */}
           <Section title={t.chargerType} isRTL={isRTL} theme={theme}>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.6rem" }}>
@@ -690,63 +908,68 @@
               })}
             </div>
           </Section>
- 
+
           {/* Battery */}
           <Section title={t.battery} isRTL={isRTL} theme={theme}>
-            <Slider label={t.capacity} value={battery} min={10} max={100} step={0.1} unit=" kWh" onChange={setBattery} accent={theme.yellow} theme={theme} />
+            <Slider label={t.capacity} value={battery} min={10} max={150} step={0.1} unit=" kWh" onChange={setBattery} accent={theme.yellow} theme={theme} />
             <Slider label={t.startSOC} value={startSOC} min={0} max={99} step={1} unit="%" onChange={v => setStartSOC(Math.min(v, endSOC - 1))} accent={theme.orange} theme={theme} />
             <Slider label={t.endSOC} value={endSOC} min={1} max={100} step={1} unit="%" onChange={v => setEndSOC(Math.max(v, startSOC + 1))} accent={theme.yellow} theme={theme} />
             <Slider label={t.efficiency} value={efficiency} min={70} max={100} step={1} unit="%" onChange={setEfficiency} accent={theme.purple} theme={theme} />
           </Section>
- 
+
           {/* Tariff */}
           <Section title={t.tariff} isRTL={isRTL} theme={theme}>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", marginBottom: "1rem" }}>
-              {t.rateLabels.map(r => {
-                const active = r.value !== null
-                  ? !customRate && Math.abs(rate - r.value) < 0.001
-                  : customRate;
-                return (
-                  <button key={r.label} onClick={() => {
-                    if (r.value !== null) {
-                      setCustomRate(false);
-                      setRate(r.value);
-                      track("tariff_select", { tariff_label: r.label, tariff_rate: r.value });
-                    } else {
-                      setCustomRate(true);
-                      track("tariff_select", { tariff_label: "Custom" });
-                    }
-                  }} style={{
-                    padding: "0.3rem 0.55rem", fontSize: "0.65rem",
-                    background: active ? theme.rateActiveBg : theme.rateInactiveBg,
-                    color: active ? theme.rateActiveText : theme.rateInactiveText,
-                    border: `1px solid ${active ? theme.rateActiveBg : theme.rateInactiveBorder}`,
-                    borderRadius: "6px", cursor: "pointer",
-                    fontFamily: t.fontFamily,
-                    fontWeight: active ? 700 : 400, transition: "all 0.15s",
-                  }}>
-                    {r.label}{r.value !== null ? ` (${r.value})` : ""}
-                  </button>
-                );
-              })}
-            </div>
- 
-            {customRate && (
-              <div style={{ marginBottom: "1rem" }}>
-                <div style={{ fontSize: "0.68rem", color: theme.textFaint, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "0.4rem" }}>{t.rateInput}</div>
-                <input type="number" step="0.01" min="0.01" max="1" value={rate}
-                  onChange={e => setRate(Number(e.target.value))}
-                  onBlur={e => track("custom_rate_set", { rate: Number(e.target.value) })}
-                  style={{ width: "100%", background: theme.inputBg, border: `1px solid ${theme.inputBorder}`, borderRadius: "8px", padding: "0.6rem 0.8rem", color: theme.text, fontFamily: "'DM Mono', monospace", fontSize: "1rem" }} />
-              </div>
+            {countryData ? (
+              <>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", marginBottom: "1rem" }}>
+                  {ratePresets.map(r => {
+                    const active = r.value !== null
+                      ? !customRate && Math.abs(rate - r.value) < 0.0001
+                      : customRate;
+                    return (
+                      <button key={r.key} onClick={() => {
+                        if (r.value !== null) {
+                          setCustomRate(false); setRate(r.value);
+                          track("tariff_select", { tariff_label: r.key, tariff_rate: r.value, country });
+                        } else {
+                          setCustomRate(true);
+                          track("tariff_select", { tariff_label: "Custom", country });
+                        }
+                      }} style={{
+                        padding: "0.4rem 0.7rem", fontSize: "0.7rem",
+                        background: active ? theme.rateActiveBg : theme.rateInactiveBg,
+                        color: active ? theme.rateActiveText : theme.rateInactiveText,
+                        border: `1px solid ${active ? theme.rateActiveBg : theme.rateInactiveBorder}`,
+                        borderRadius: "6px", cursor: "pointer",
+                        fontFamily: t.fontFamily,
+                        fontWeight: active ? 700 : 400, transition: "all 0.15s",
+                      }}>
+                        {r.label}{r.value !== null ? ` (${r.value})` : ""}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {customRate && (
+                  <div style={{ marginBottom: "1rem" }}>
+                    <div style={{ fontSize: "0.68rem", color: theme.textFaint, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "0.4rem" }}>{t.rateInput} ({countryData.currency})</div>
+                    <input type="number" step="0.001" min="0.001" max="100" value={rate}
+                      onChange={e => setRate(Number(e.target.value))}
+                      onBlur={e => track("custom_rate_set", { rate: Number(e.target.value), country })}
+                      style={{ width: "100%", background: theme.inputBg, border: `1px solid ${theme.inputBorder}`, borderRadius: "8px", padding: "0.6rem 0.8rem", color: theme.text, fontFamily: "'DM Mono', monospace", fontSize: "1rem" }} />
+                  </div>
+                )}
+
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: "0.5rem" }}>
+                  <span style={{ fontSize: "0.65rem", color: theme.textFaint }}>{t.activeRate}</span>
+                  <span style={{ fontSize: "1rem", fontWeight: 700, color: theme.yellowText, fontFamily: "'DM Mono', monospace" }}>{fmt(rate, 3)} / kWh</span>
+                </div>
+              </>
+            ) : (
+              <div style={{ textAlign: "center", color: theme.textFaint, padding: "1rem", fontSize: "0.85rem" }}>{t.detecting}</div>
             )}
- 
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: "0.5rem" }}>
-              <span style={{ fontSize: "0.65rem", color: theme.textFaint }}>{t.activeRate}</span>
-              <span style={{ fontSize: "1.1rem", fontWeight: 700, color: theme.yellowText, fontFamily: "'DM Mono', monospace" }}>QAR {rate.toFixed(3)} / kWh</span>
-            </div>
           </Section>
- 
+
           {/* Schedule */}
           <Section title={t.schedule} isRTL={isRTL} theme={theme}>
             <Slider label={t.chargeEvery} value={freqDays} min={1} max={14} step={1} unit={t.days} onChange={setFreqDays} accent={theme.green} theme={theme} />
@@ -754,7 +977,7 @@
               = {chargesPerMonth} {t.chargesPerMonth}
             </div>
           </Section>
- 
+
           {/* Breakdown */}
           <Section title={t.breakdown} isRTL={isRTL} theme={theme}>
             {[
@@ -763,10 +986,10 @@
               [t.energyWall, `${energyFromWall.toFixed(2)} kWh`],
               [t.charger, `${charger.label} (${charger.kw} kW)`],
               [t.estTime, chargingTime],
-              [t.costCharge, `QAR ${costPerCharge.toFixed(3)}`],
+              [t.costCharge, fmt(costPerCharge, 3)],
               [t.chargesMonth, `${chargesPerMonth}`],
-              [t.monthlyCost, `QAR ${monthlyCost.toFixed(2)}`],
-              [t.annualCost, `QAR ${annualCost.toFixed(2)}`],
+              [t.monthlyCost, fmt(monthlyCost, 2)],
+              [t.annualCost, fmt(annualCost, 2)],
             ].map(([k, v]) => (
               <div key={k} style={{
                 display: "flex",
@@ -779,7 +1002,7 @@
               </div>
             ))}
           </Section>
- 
+
           {/* Footer */}
           <div style={{ textAlign: "center", marginTop: "1.4rem", paddingBottom: "1.5rem" }}>
             <div style={{ fontSize: "0.6rem", color: theme.textGhost, letterSpacing: "0.08em", marginBottom: "0.5rem", fontFamily: "'DM Mono', monospace" }}>
@@ -792,17 +1015,33 @@
               v{VERSION}
             </div>
           </div>
+
+          {/* Country selection modal */}
+          <CountryModal
+            open={countryModalOpen}
+            onClose={() => setCountryModalOpen(false)}
+            onSelect={(code) => {
+              setCountry(code);
+              setRate(COUNTRIES[code].def);
+              setCustomRate(false);
+              track("country_change", { country: code });
+            }}
+            currentCountry={country}
+            lang={lang}
+            theme={theme}
+          />
         </div>
       );
     }
- 
+
     ReactDOM.createRoot(document.getElementById("root")).render(<App />);
- 
+
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
         navigator.serviceWorker.register("/sw.js").catch(() => {});
       });
     }
   </script>
+
 </body>
 </html>
