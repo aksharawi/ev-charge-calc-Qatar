@@ -302,7 +302,7 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
 
-    const VERSION = "2.2.4";
+    const VERSION = "2.3";
 
     // ═══════════════════════════════════════════
     //  ANALYTICS HELPER
@@ -1691,11 +1691,333 @@
 
     ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 
+    // ═══════════════════════════════════════════
+    //  WebMCP — Expose calculator tools to AI agents
+    //  https://webmachinelearning.github.io/webmcp/
+    // ═══════════════════════════════════════════
+    if (typeof navigator !== "undefined" && navigator.modelContext && typeof navigator.modelContext.registerTool === "function") {
+      try {
+        const mcpController = new AbortController();
+
+        // Helper: shared calculation logic
+        const computeCharge = ({
+          batteryKwh, startPct, endPct, ratePerKwh,
+          chargerKw = 2.2, efficiency = 0.85, chargesPerMonth = 10,
+          currency = "USD",
+        }) => {
+          const chargePct = endPct - startPct;
+          const energyToBattery = (batteryKwh * chargePct) / 100;
+          const energyFromWall = energyToBattery / efficiency;
+          const costPerCharge = energyFromWall * ratePerKwh;
+          const chargingHours = energyFromWall / chargerKw;
+          return {
+            currency,
+            chargePercent: chargePct,
+            energyToBatteryKwh: Number(energyToBattery.toFixed(2)),
+            energyFromWallKwh: Number(energyFromWall.toFixed(2)),
+            costPerCharge: Number(costPerCharge.toFixed(3)),
+            costPerMonth: Number((costPerCharge * chargesPerMonth).toFixed(2)),
+            costPerYear: Number((costPerCharge * chargesPerMonth * 12).toFixed(2)),
+            chargingTimeHours: Number(chargingHours.toFixed(2)),
+            chargesPerMonth,
+            chargerKw,
+            efficiency,
+          };
+        };
+
+        // ─── Tool 1: Calculate charging cost ───────────────
+        navigator.modelContext.registerTool({
+          name: "calculate_ev_charging_cost",
+          description: "Calculate the cost of charging an electric vehicle (EV) or plug-in hybrid (PHEV) given battery size, state of charge range, electricity rate, and charger type. Returns per-charge cost, monthly/annual estimates, and charging time.",
+          inputSchema: {
+            type: "object",
+            required: ["batteryKwh", "startPct", "endPct", "ratePerKwh"],
+            properties: {
+              batteryKwh:    { type: "number", minimum: 1, maximum: 200, description: "Battery capacity in kWh (e.g., 31.8 for a small PHEV, 75 for a Tesla Model 3)" },
+              startPct:      { type: "number", minimum: 0, maximum: 99,  description: "Starting state of charge as percentage (e.g., 20)" },
+              endPct:        { type: "number", minimum: 1, maximum: 100, description: "Target state of charge as percentage (e.g., 100)" },
+              ratePerKwh:    { type: "number", minimum: 0.001, maximum: 100, description: "Electricity rate per kWh in local currency (e.g., 0.12 for $0.12/kWh)" },
+              chargerKw:     { type: "number", enum: [2.2, 11], default: 2.2, description: "Charger power: 2.2 (Wall Plug Mode 2) or 11 (AC Charger Type 2)" },
+              efficiency:    { type: "number", minimum: 0.7, maximum: 1.0, default: 0.85, description: "Charger efficiency (0–1). Wall plugs ~0.85, AC chargers ~0.90" },
+              chargesPerMonth: { type: "integer", minimum: 1, maximum: 60, default: 10, description: "Number of full charging sessions per month" },
+              currency:      { type: "string", default: "USD", description: "Currency code for the result label (USD, EUR, GBP, AED, INR, etc.)" },
+            },
+          },
+          execute: async (args) => {
+            const result = computeCharge(args);
+            try { window.gtag && window.gtag("event", "webmcp_calculate_called"); } catch {}
+            return {
+              content: [{
+                type: "text",
+                text: JSON.stringify(result, null, 2),
+              }],
+            };
+          },
+        }, { signal: mcpController.signal });
+
+        // ─── Tool 2: List supported countries and tariffs ───────────────
+        navigator.modelContext.registerTool({
+          name: "list_supported_countries",
+          description: "Return the list of countries supported by the Charge Calculator with their currency and typical residential electricity tariff bands (low, medium, high) per kWh.",
+          inputSchema: {
+            type: "object",
+            properties: {
+              countryCode: {
+                type: "string",
+                description: "Optional ISO 3166-1 alpha-2 country code (e.g., 'GB', 'US') to filter the result. If omitted, returns all countries.",
+              },
+            },
+          },
+          execute: async ({ countryCode } = {}) => {
+            const data = countryCode && COUNTRIES[countryCode.toUpperCase()]
+              ? { [countryCode.toUpperCase()]: COUNTRIES[countryCode.toUpperCase()] }
+              : COUNTRIES;
+            const summary = Object.entries(data).map(([code, c]) => ({
+              code,
+              name: c.name.en,
+              nameAr: c.name.ar,
+              currency: c.currency,
+              tariff: { low: c.low, medium: c.mid, high: c.high, default: c.def },
+            }));
+            try { window.gtag && window.gtag("event", "webmcp_list_countries_called"); } catch {}
+            return {
+              content: [{
+                type: "text",
+                text: JSON.stringify(summary, null, 2),
+              }],
+            };
+          },
+        }, { signal: mcpController.signal });
+
+        // ─── Tool 3: Estimate charging time ───────────────
+        navigator.modelContext.registerTool({
+          name: "estimate_charging_time",
+          description: "Estimate how long it takes to charge an EV given battery size, state of charge range, and charger power. Useful for quick time-only queries without cost calculation.",
+          inputSchema: {
+            type: "object",
+            required: ["batteryKwh", "startPct", "endPct"],
+            properties: {
+              batteryKwh: { type: "number", minimum: 1, maximum: 200 },
+              startPct:   { type: "number", minimum: 0, maximum: 99 },
+              endPct:     { type: "number", minimum: 1, maximum: 100 },
+              chargerKw:  { type: "number", enum: [2.2, 11], default: 2.2, description: "2.2 = Wall Plug, 11 = AC Charger" },
+              efficiency: { type: "number", minimum: 0.7, maximum: 1.0, default: 0.85 },
+            },
+          },
+          execute: async ({ batteryKwh, startPct, endPct, chargerKw = 2.2, efficiency = 0.85 }) => {
+            const energyToBattery = (batteryKwh * (endPct - startPct)) / 100;
+            const energyFromWall = energyToBattery / efficiency;
+            const hours = energyFromWall / chargerKw;
+            const result = {
+              chargerType: chargerKw === 11 ? "AC Charger (Type 2, 11 kW)" : "Wall Plug (Mode 2, 2.2 kW)",
+              chargingTimeHours: Number(hours.toFixed(2)),
+              chargingTimeFormatted: hours < 1
+                ? `${Math.round(hours * 60)} minutes`
+                : `${hours.toFixed(1)} hours`,
+              energyDeliveredKwh: Number(energyToBattery.toFixed(2)),
+              energyFromWallKwh: Number(energyFromWall.toFixed(2)),
+            };
+            try { window.gtag && window.gtag("event", "webmcp_estimate_time_called"); } catch {}
+            return {
+              content: [{
+                type: "text",
+                text: JSON.stringify(result, null, 2),
+              }],
+            };
+          },
+        }, { signal: mcpController.signal });
+
+        // Cleanup on page unload
+        window.addEventListener("beforeunload", () => mcpController.abort(), { once: true });
+
+        try { window.gtag && window.gtag("event", "webmcp_tools_registered", { tool_count: 3 }); } catch {}
+      } catch (err) {
+        // WebMCP unsupported or registration failed — silently degrade
+        console && console.warn && console.warn("WebMCP registration failed:", err);
+      }
+    }
+
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
         navigator.serviceWorker.register("/sw.js").catch(() => {});
       });
     }
+
+    // ═══════════════════════════════════════════
+    //  WEBMCP — Expose calculator tools to AI agents
+    //  Spec: https://webmachinelearning.github.io/webmcp/
+    // ═══════════════════════════════════════════
+    (function registerWebMCP() {
+      // Feature-detect WebMCP
+      if (!navigator.modelContext || typeof navigator.modelContext.provideContext !== "function") {
+        return;
+      }
+
+      // Bridge — React app writes its current state here so tools can read/update it
+      window.__chargeCalc = window.__chargeCalc || {
+        getState: () => null,
+        setCountry: () => {},
+        setCharger: () => {},
+        setBattery: () => {},
+        setStartSOC: () => {},
+        setEndSOC: () => {},
+        setRate: () => {},
+        setFreqDays: () => {},
+        setLanguage: () => {},
+        setTheme: () => {},
+      };
+
+      // Pure calculation helper — works without touching React state
+      const pureCalculate = ({
+        batteryKWh, startSOC, endSOC, ratePerKWh,
+        chargerKW = 2.2, efficiency = 85, freqDays = 3,
+      }) => {
+        const chargePct = endSOC - startSOC;
+        const energyToBattery = (batteryKWh * chargePct) / 100;
+        const energyFromWall = energyToBattery / (efficiency / 100);
+        const costPerCharge = energyFromWall * ratePerKWh;
+        const chargesPerMonth = Math.round(30 / freqDays);
+        const chargingHours = energyFromWall / chargerKW;
+        return {
+          chargePercent: chargePct,
+          energyToBattery: Number(energyToBattery.toFixed(3)),
+          energyFromWall: Number(energyFromWall.toFixed(3)),
+          costPerCharge: Number(costPerCharge.toFixed(3)),
+          chargingHours: Number(chargingHours.toFixed(2)),
+          chargesPerMonth,
+          monthlyCost: Number((costPerCharge * chargesPerMonth).toFixed(2)),
+          annualCost: Number((costPerCharge * chargesPerMonth * 12).toFixed(2)),
+        };
+      };
+
+      const tools = [
+        {
+          name: "calculate_charging_cost",
+          description: "Calculate the cost to charge an electric vehicle (EV) or plug-in hybrid (PHEV). Returns cost per charge, monthly cost, annual cost, and estimated charging time. Use this when a user wants to know how much EV charging costs.",
+          inputSchema: {
+            type: "object",
+            required: ["batteryKWh", "startSOC", "endSOC", "ratePerKWh"],
+            properties: {
+              batteryKWh:    { type: "number", description: "Battery capacity in kWh (e.g., 31.8 for a small PHEV, 75 for a Tesla Model 3)" },
+              startSOC:      { type: "number", minimum: 0, maximum: 99, description: "Starting state of charge as a percentage (0-99)" },
+              endSOC:        { type: "number", minimum: 1, maximum: 100, description: "Target state of charge as a percentage (1-100)" },
+              ratePerKWh:    { type: "number", description: "Electricity tariff in the user's local currency, per kWh (e.g., 0.12 for $0.12/kWh)" },
+              chargerKW:     { type: "number", description: "Charger power in kW. Common values: 2.2 (wall plug Mode 2), 11 (AC charger Type 2). Default: 2.2", default: 2.2 },
+              efficiency:    { type: "number", minimum: 70, maximum: 100, description: "Charger efficiency as a percentage. Default: 85", default: 85 },
+              freqDays:      { type: "number", minimum: 1, maximum: 30, description: "How often the user charges, in days. Default: 3", default: 3 },
+            },
+          },
+          async execute(input) {
+            const result = pureCalculate(input);
+            return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+          },
+        },
+        {
+          name: "list_supported_countries",
+          description: "Get the list of all 27 countries supported by the calculator with their typical electricity tariffs (Low/Medium/High in local currency per kWh).",
+          inputSchema: { type: "object", properties: {} },
+          async execute() {
+            const list = Object.entries(COUNTRIES).map(([code, c]) => ({
+              code, name: c.name.en, name_ar: c.name.ar,
+              currency: c.currency,
+              tariffs: { low: c.low, medium: c.mid, high: c.high },
+            }));
+            return { content: [{ type: "text", text: JSON.stringify(list, null, 2) }] };
+          },
+        },
+        {
+          name: "get_country_tariff",
+          description: "Get typical residential electricity tariffs (Low/Medium/High) for a specific country, in local currency per kWh.",
+          inputSchema: {
+            type: "object",
+            required: ["countryCode"],
+            properties: {
+              countryCode: { type: "string", description: "ISO 3166-1 alpha-2 country code (e.g., 'US', 'GB', 'AE', 'QA'). Use list_supported_countries to see available codes." },
+            },
+          },
+          async execute({ countryCode }) {
+            const code = String(countryCode).toUpperCase();
+            const c = COUNTRIES[code];
+            if (!c) {
+              return { content: [{ type: "text", text: JSON.stringify({ error: `Country '${code}' not supported. Use list_supported_countries to see available countries.` }) }] };
+            }
+            return { content: [{ type: "text", text: JSON.stringify({
+              code, name: c.name.en, name_ar: c.name.ar,
+              currency: c.currency,
+              tariffs: { low: c.low, medium: c.mid, high: c.high, default: c.def },
+              unit: `${c.currency} per kWh`,
+            }, null, 2) }] };
+          },
+        },
+        {
+          name: "get_current_calculation",
+          description: "Read the current values from the calculator UI (battery, SOC, country, rate, etc.) and return the live calculation results.",
+          inputSchema: { type: "object", properties: {} },
+          async execute() {
+            const state = window.__chargeCalc.getState();
+            if (!state) {
+              return { content: [{ type: "text", text: JSON.stringify({ error: "Calculator not yet ready" }) }] };
+            }
+            return { content: [{ type: "text", text: JSON.stringify(state, null, 2) }] };
+          },
+        },
+        {
+          name: "set_calculator_inputs",
+          description: "Update one or more inputs in the calculator UI (country, battery capacity, SOC range, charger type, etc.). Useful for setting up a calculation scenario the user can see and adjust.",
+          inputSchema: {
+            type: "object",
+            properties: {
+              countryCode: { type: "string", description: "ISO 3166-1 alpha-2 country code" },
+              chargerType: { type: "string", enum: ["wall", "ac11"], description: "'wall' = 2.2kW wall plug, 'ac11' = 11kW AC charger" },
+              batteryKWh:  { type: "number" },
+              startSOC:    { type: "number", minimum: 0, maximum: 99 },
+              endSOC:      { type: "number", minimum: 1, maximum: 100 },
+              ratePerKWh:  { type: "number" },
+              freqDays:    { type: "number", minimum: 1, maximum: 30 },
+              language:    { type: "string", enum: ["en", "ar"] },
+              theme:       { type: "string", enum: ["light", "dark"] },
+            },
+          },
+          async execute(input) {
+            const api = window.__chargeCalc;
+            if (input.countryCode) api.setCountry(String(input.countryCode).toUpperCase());
+            if (input.chargerType) api.setCharger(input.chargerType);
+            if (typeof input.batteryKWh === "number") api.setBattery(input.batteryKWh);
+            if (typeof input.startSOC === "number") api.setStartSOC(input.startSOC);
+            if (typeof input.endSOC === "number") api.setEndSOC(input.endSOC);
+            if (typeof input.ratePerKWh === "number") api.setRate(input.ratePerKWh);
+            if (typeof input.freqDays === "number") api.setFreqDays(input.freqDays);
+            if (input.language) api.setLanguage(input.language);
+            if (input.theme) api.setTheme(input.theme);
+            // Wait a tick so React updates, then return the new state
+            await new Promise(r => setTimeout(r, 50));
+            const state = api.getState();
+            return { content: [{ type: "text", text: JSON.stringify({ updated: true, currentState: state }, null, 2) }] };
+          },
+        },
+      ];
+
+      // Register all tools with WebMCP
+      try {
+        const controller = new AbortController();
+        navigator.modelContext.provideContext({
+          tools,
+          signal: controller.signal,
+        });
+        // Keep controller globally so future code (e.g., page navigation) could abort if needed
+        window.__chargeCalcMCP = { controller, tools };
+        if (typeof window.gtag === "function") {
+          window.gtag("event", "webmcp_registered", { tool_count: tools.length });
+        }
+      } catch (err) {
+        // Older WebMCP draft used registerTool() per-tool — try fallback
+        if (typeof navigator.modelContext.registerTool === "function") {
+          tools.forEach(t => {
+            try { navigator.modelContext.registerTool(t); } catch (e) {}
+          });
+        }
+      }
+    })();
   </script>
 
 </body>
