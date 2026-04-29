@@ -1,7 +1,7 @@
 {
   "name": "Charge Calculator",
   "short_name": "ChargeCalc",
-  "description": "EV charging cost calculator for Qatar — حاسبة تكلفة شحن السيارة الكهربائية في قطر",
+  "description": "Worldwide EV charging cost calculator — auto-detects your country and currency. Calculateur mondial de coût de recharge VE. Calculadora mundial de coste de carga VE. حاسبة تكلفة شحن السيارة الكهربائية حول العالم",
   "lang": "en",
   "dir": "ltr",
   "start_url": "/",
@@ -9,28 +9,10 @@
   "background_color": "#fafafa",
   "theme_color": "#F5C518",
   "orientation": "portrait",
-  "categories": [
-    "utilities",
-    "productivity"
-  ],
+  "categories": ["utilities", "productivity"],
   "icons": [
-    {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }
