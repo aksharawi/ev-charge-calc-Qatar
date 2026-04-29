@@ -1,91 +1,217 @@
 # robots.txt for evcalculator.app
-# RFC 9309 compliant
+
+# RFC 9309 compliant — includes Content Signals (https://contentsignals.org/)
+
 # Last updated: 2026-04-28
 
 # ─────────────────────────────────────────────
-# General web crawlers (Google, Bing, etc.)
+
+# Content Signals policy:
+
+# ai-train  = yes  (allow use as AI model training data)
+
+# search    = yes  (allow indexing in search engines)
+
+# ai-input  = yes  (allow citation in live AI answers)
+
+# Maximum visibility across all surfaces.
+
 # ─────────────────────────────────────────────
+
+# ─────────────────────────────────────────────
+
+# General web crawlers (Google, Bing, etc.)
+
+# ─────────────────────────────────────────────
+
 User-agent: *
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
 Allow: /
 Disallow: /sw.js
 Disallow: /manifest.json
 
 # ─────────────────────────────────────────────
+
 # Search engine specific
+
 # ─────────────────────────────────────────────
+
 User-agent: Googlebot
+Content-Signal: search=yes
 Allow: /
 
 User-agent: Googlebot-Image
+Content-Signal: search=yes
 Allow: /
 
 User-agent: Bingbot
+Content-Signal: search=yes
 Allow: /
 
 User-agent: DuckDuckBot
+Content-Signal: search=yes
 Allow: /
 
 User-agent: Slurp
+Content-Signal: search=yes
 Allow: /
 
 User-agent: Baiduspider
+Content-Signal: search=yes
 Allow: /
 
 User-agent: YandexBot
+Content-Signal: search=yes
 Allow: /
 
 # ─────────────────────────────────────────────
-# AI training & answer engines
-# Allow indexing — this app benefits from AI search visibility
+
+# AI crawlers — OpenAI / ChatGPT
+
 # ─────────────────────────────────────────────
+
 User-agent: GPTBot
+Content-Signal: ai-train=yes, ai-input=yes
 Allow: /
 
 User-agent: ChatGPT-User
+Content-Signal: ai-input=yes
 Allow: /
 
 User-agent: OAI-SearchBot
+Content-Signal: search=yes, ai-input=yes
 Allow: /
 
+# ─────────────────────────────────────────────
+
+# AI crawlers — Anthropic / Claude
+
+# ─────────────────────────────────────────────
+
 User-agent: ClaudeBot
+Content-Signal: ai-train=yes, ai-input=yes
+Allow: /
+
+User-agent: Claude-Web
+Content-Signal: ai-input=yes
+Allow: /
+
+User-agent: Claude-User
+Content-Signal: ai-input=yes
+Allow: /
+
+User-agent: Claude-SearchBot
+Content-Signal: search=yes, ai-input=yes
 Allow: /
 
 User-agent: anthropic-ai
+Content-Signal: ai-train=yes, ai-input=yes
 Allow: /
 
-User-agent: PerplexityBot
-Allow: /
+# ─────────────────────────────────────────────
 
-User-agent: Perplexity-User
-Allow: /
+# AI crawlers — Google AI / Gemini
+
+# ─────────────────────────────────────────────
 
 User-agent: Google-Extended
+Content-Signal: ai-train=yes, ai-input=yes
 Allow: /
 
+User-agent: GoogleOther
+Content-Signal: ai-train=yes, ai-input=yes
+Allow: /
+
+# ─────────────────────────────────────────────
+
+# AI crawlers — Apple Intelligence
+
+# ─────────────────────────────────────────────
+
 User-agent: Applebot
+Content-Signal: search=yes
 Allow: /
 
 User-agent: Applebot-Extended
+Content-Signal: ai-train=yes, ai-input=yes
 Allow: /
 
+# ─────────────────────────────────────────────
+
+# AI crawlers — Perplexity
+
+# ─────────────────────────────────────────────
+
+User-agent: PerplexityBot
+Content-Signal: search=yes, ai-input=yes
+Allow: /
+
+User-agent: Perplexity-User
+Content-Signal: ai-input=yes
+Allow: /
+
+# ─────────────────────────────────────────────
+
+# AI crawlers — Other
+
+# ─────────────────────────────────────────────
+
 User-agent: CCBot
+Content-Signal: ai-train=yes
 Allow: /
 
 User-agent: Bytespider
+Content-Signal: ai-train=yes, ai-input=yes
 Allow: /
 
 User-agent: Amazonbot
+Content-Signal: ai-train=yes, ai-input=yes
 Allow: /
 
 User-agent: Meta-ExternalAgent
+Content-Signal: ai-train=yes, ai-input=yes
 Allow: /
 
 User-agent: FacebookBot
+Content-Signal: search=yes
+Allow: /
+
+User-agent: cohere-ai
+Content-Signal: ai-train=yes, ai-input=yes
+Allow: /
+
+User-agent: cohere-training-data-crawler
+Content-Signal: ai-train=yes
+Allow: /
+
+User-agent: Diffbot
+Content-Signal: ai-train=yes, ai-input=yes
+Allow: /
+
+User-agent: ImagesiftBot
+Content-Signal: ai-train=yes
+Allow: /
+
+User-agent: Omgilibot
+Content-Signal: ai-train=yes
+Allow: /
+
+User-agent: Timpibot
+Content-Signal: ai-train=yes, ai-input=yes
+Allow: /
+
+User-agent: YouBot
+Content-Signal: search=yes, ai-input=yes
 Allow: /
 
 # ─────────────────────────────────────────────
+
 # Block known abusive / aggressive scrapers
+
+# (SEO competitive intelligence bots that hammer servers)
+
 # ─────────────────────────────────────────────
+
 User-agent: SemrushBot
 Disallow: /
 
@@ -102,11 +228,17 @@ User-agent: PetalBot
 Disallow: /
 
 # ─────────────────────────────────────────────
+
 # Sitemap
+
 # ─────────────────────────────────────────────
+
 Sitemap: https://evcalculator.app/sitemap.xml
 
 # ─────────────────────────────────────────────
+
 # Host (helps some crawlers identify canonical)
+
 # ─────────────────────────────────────────────
+
 Host: https://evcalculator.app
