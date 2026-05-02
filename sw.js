@@ -2,7 +2,7 @@
 // Strategy: network-first for HTML (so updates roll out instantly),
 //           cache-first for static assets (icons, fonts, etc.)
 
-const CACHE_VERSION = “v2.4.3”;
+const CACHE_VERSION = “v2.6”;
 const CACHE_NAME = `ev-calc-${CACHE_VERSION}`;
 const STATIC_ASSETS = [
 “/manifest.json”,
