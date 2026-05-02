@@ -360,6 +360,21 @@
     select { -webkit-appearance: none; appearance: none; }
     ::-webkit-scrollbar { width: 4px; }
 
+    /* ── Prevent iOS auto-zoom on input focus ──────────
+       iOS Safari auto-zooms when input font-size < 16px.
+       Force 16px minimum on all text inputs — visual size
+       is preserved via transform: scale where needed. */
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    input[type="search"],
+    input[type="tel"],
+    input[type="url"],
+    textarea,
+    select {
+      font-size: 16px !important;
+    }
+
     /* ── Range slider — invisible but touch-draggable ──────────
        Range input is layered on top of the styled track/thumb.
        We make the thumb invisible but BIG so the user can grab
@@ -432,7 +447,7 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
 
-    const VERSION = "2.4";
+    const VERSION = "2.4.2";
 
     // ═══════════════════════════════════════════
     //  ANALYTICS HELPER
@@ -2203,7 +2218,80 @@
 
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
-        navigator.serviceWorker.register("/sw.js").catch(() => {});
+
+        // ─── Silent auto-cleanup of stale caches ──────────────────
+        // Compare the live VERSION against what's stored in localStorage.
+        // If different (or missing), the user is on a stale build —
+        // wipe ALL caches and force the service worker to refresh.
+        try {
+          const STORAGE_KEY = "ev-calc-installed-version";
+          const storedVersion = localStorage.getItem(STORAGE_KEY);
+
+          if (storedVersion && storedVersion !== VERSION) {
+            // User had an older version cached — nuke everything
+            if (typeof window.gtag === "function") {
+              window.gtag("event", "pwa_silent_cleanup", {
+                from_version: storedVersion,
+                to_version: VERSION,
+              });
+            }
+
+            // Wipe all caches
+            caches.keys().then((keys) => Promise.all(keys.map((k) => caches.delete(k))))
+              .then(() => {
+                // Unregister all old service workers
+                return navigator.serviceWorker.getRegistrations()
+                  .then((regs) => Promise.all(regs.map((r) => r.unregister())));
+              })
+              .then(() => {
+                localStorage.setItem(STORAGE_KEY, VERSION);
+                // Hard reload so a fresh SW + fresh HTML loads
+                window.location.reload();
+              })
+              .catch(() => {
+                // Even if cleanup fails, mark current version so we don't loop
+                try { localStorage.setItem(STORAGE_KEY, VERSION); } catch {}
+              });
+            return;  // Skip normal SW registration this turn — reload will retrigger it
+          }
+
+          // First visit OR version unchanged — record current version
+          localStorage.setItem(STORAGE_KEY, VERSION);
+        } catch (err) {
+          // localStorage blocked (incognito, etc.) — silently continue
+        }
+
+        // ─── Normal service worker registration ─────────────────
+        navigator.serviceWorker.register("/sw.js").then((reg) => {
+          // Check for updates every time the app gains focus or every 60s
+          const checkForUpdate = () => reg.update().catch(() => {});
+          setInterval(checkForUpdate, 60000);
+          window.addEventListener("focus", checkForUpdate);
+
+          // When a new service worker is found, install it
+          reg.addEventListener("updatefound", () => {
+            const newWorker = reg.installing;
+            if (!newWorker) return;
+            newWorker.addEventListener("statechange", () => {
+              // New SW installed and ready, but old one still controls the page
+              if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
+                // Tell the new SW to activate immediately
+                newWorker.postMessage("SKIP_WAITING");
+                if (typeof window.gtag === "function") {
+                  window.gtag("event", "pwa_update_available");
+                }
+              }
+            });
+          });
+        }).catch(() => {});
+
+        // When the new SW takes control, reload to get fresh content
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener("controllerchange", () => {
+          if (refreshing) return;
+          refreshing = true;
+          window.location.reload();
+        });
       });
     }
 
