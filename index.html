@@ -330,7 +330,7 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
 
-    const VERSION = "2.4.3";
+    const VERSION = "2.6";
 
     // ═══════════════════════════════════════════
     //  ANALYTICS HELPER
@@ -504,6 +504,8 @@
         chargesMonth: "Charges / month",
         monthlyCost: "Monthly cost",
         annualCost: "Annual cost",
+        breakdownEnergy: "Energy & Time",
+        breakdownCost: "Cost",
         offlineBadge: "WORKS OFFLINE",
         madeBy: "Made by",
         rights: "All rights reserved",
@@ -518,6 +520,7 @@
         noResults: "No countries found",
         close: "Close",
         installApp: "Install app",
+        installLabel: "GET",
         installToastTitle: "Install Charge Calculator",
         installToastSub: "Faster, works offline, home screen icon",
         installButton: "INSTALL",
@@ -583,6 +586,8 @@
         chargesMonth: "شحنات / شهر",
         monthlyCost: "التكلفة الشهرية",
         annualCost: "التكلفة السنوية",
+        breakdownEnergy: "الطاقة والوقت",
+        breakdownCost: "التكلفة",
         offlineBadge: "يعمل بدون إنترنت",
         madeBy: "من تطوير",
         rights: "جميع الحقوق محفوظة",
@@ -597,6 +602,7 @@
         noResults: "لم يتم العثور على دول",
         close: "إغلاق",
         installApp: "تثبيت التطبيق",
+        installLabel: "تثبيت",
         installToastTitle: "ثبّت حاسبة الشحن",
         installToastSub: "أسرع، يعمل بدون إنترنت، أيقونة على الشاشة الرئيسية",
         installButton: "تثبيت",
@@ -662,6 +668,8 @@
         chargesMonth: "Charges / mois",
         monthlyCost: "Coût mensuel",
         annualCost: "Coût annuel",
+        breakdownEnergy: "Énergie & Temps",
+        breakdownCost: "Coût",
         offlineBadge: "FONCTIONNE HORS LIGNE",
         madeBy: "Conçu par",
         rights: "Tous droits réservés",
@@ -676,6 +684,7 @@
         noResults: "Aucun pays trouvé",
         close: "Fermer",
         installApp: "Installer l'application",
+        installLabel: "OBTENIR",
         installToastTitle: "Installer Charge Calculator",
         installToastSub: "Plus rapide, fonctionne hors ligne, icône sur l'écran d'accueil",
         installButton: "INSTALLER",
@@ -741,6 +750,8 @@
         chargesMonth: "Cargas / mes",
         monthlyCost: "Coste mensual",
         annualCost: "Coste anual",
+        breakdownEnergy: "Energía y Tiempo",
+        breakdownCost: "Coste",
         offlineBadge: "FUNCIONA SIN CONEXIÓN",
         madeBy: "Hecho por",
         rights: "Todos los derechos reservados",
@@ -755,6 +766,7 @@
         noResults: "No se encontraron países",
         close: "Cerrar",
         installApp: "Instalar aplicación",
+        installLabel: "OBTENER",
         installToastTitle: "Instalar Charge Calculator",
         installToastSub: "Más rápido, funciona sin conexión, icono en la pantalla de inicio",
         installButton: "INSTALAR",
@@ -799,10 +811,22 @@
         : { left:  `${pct}%`, transform: "translate(-50%, -50%)" };
 
       return (
-        <div style={{ marginBottom: "1.4rem" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
-            <span style={{ fontSize: "0.72rem", color: theme.textFaint, letterSpacing: "0.05em", textTransform: "uppercase" }}>{label}</span>
-            <div style={{ display: "flex", alignItems: "center", gap: "0.2rem" }}>
+        <div style={{
+          marginBottom: "1rem",
+          padding: "0.6rem 0.7rem 0.7rem",
+          background: alpha(accent, 0.04),
+          borderRadius: "10px",
+          border: `1px solid ${alpha(accent, 0.1)}`,
+        }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.55rem" }}>
+            <span style={{ fontSize: "0.7rem", color: theme.textMuted, letterSpacing: "0.05em", textTransform: "uppercase", fontWeight: 600 }}>{label}</span>
+            <div style={{
+              display: "flex", alignItems: "center", gap: "0.3rem",
+              background: theme.inputBg,
+              border: `1.5px solid ${alpha(accent, 0.4)}`,
+              borderRadius: "7px",
+              padding: "0.15rem 0.4rem 0.15rem 0.5rem",
+            }}>
               <input
                 type="number" value={inputVal} min={min} max={max} step={step}
                 onChange={e => setInputVal(e.target.value)}
@@ -813,15 +837,20 @@
                 }}
                 onKeyDown={e => { if (e.key === "Enter") e.target.blur(); }}
                 style={{
-                  width: "58px", background: theme.inputBg,
-                  border: `1px solid ${alpha(accent, 0.25)}`, borderRadius: "6px",
-                  padding: "0.2rem 0.4rem", color: theme.text,
+                  width: "52px", background: "transparent",
+                  border: "none",
+                  padding: 0, color: theme.text,
                   fontFamily: "'DM Mono', monospace",
-                  fontSize: "0.88rem", fontWeight: 700,
+                  fontWeight: 700,
                   textAlign: "center", outline: "none",
                 }}
               />
-              <span style={{ fontSize: "0.75rem", color: theme.textVeryFaint, minWidth: "22px" }}>{unit.trim()}</span>
+              <span style={{
+                fontSize: "0.7rem",
+                color: alpha(accent, 0.85),
+                fontWeight: 600,
+                fontFamily: "'DM Mono', monospace",
+              }}>{unit.trim()}</span>
             </div>
           </div>
           <div style={{ position: "relative", height: "28px", display: "flex", alignItems: "center" }}>
@@ -829,15 +858,15 @@
             <div style={{
               position: "absolute", left: 0, right: 0, top: "50%",
               transform: "translateY(-50%)",
-              height: "5px", background: theme.sliderTrack,
+              height: "6px", background: alpha(accent, 0.15),
               borderRadius: "3px", pointerEvents: "none",
             }} />
             {/* Visual fill */}
             <div style={{
               position: "absolute", top: "50%",
               ...fillStyle,
-              marginTop: "-2.5px",
-              height: "5px",
+              marginTop: "-3px",
+              height: "6px",
               background: accent, borderRadius: "3px",
               transition: "width 0.05s linear",
               pointerEvents: "none",
@@ -846,9 +875,9 @@
             <div style={{
               position: "absolute", top: "50%",
               ...thumbStyle,
-              width: "18px", height: "18px", background: accent,
-              borderRadius: "50%", border: `2px solid ${theme.thumbBorder}`,
-              boxShadow: `0 1px 4px ${alpha(accent, 0.4)}`,
+              width: "20px", height: "20px", background: accent,
+              borderRadius: "50%", border: `3px solid ${theme.thumbBorder}`,
+              boxShadow: `0 2px 6px ${alpha(accent, 0.45)}`,
               transition: "left 0.05s linear, right 0.05s linear",
               pointerEvents: "none",
             }} />
@@ -972,18 +1001,30 @@
                 onClick={(e) => { e.stopPropagation(); setPopoverOpen(true); track("tooltip_open", { section: infoTitle }); }}
                 aria-label={`Info about ${infoTitle}`}
                 style={{
+                  width: "44px", height: "44px",
+                  margin: "-12px",  // negate the extra space so layout doesn't shift
+                  background: "transparent",
+                  border: "none",
+                  cursor: "pointer", display: "flex",
+                  alignItems: "center", justifyContent: "center",
+                  flexShrink: 0, padding: 0,
+                  WebkitTapHighlightColor: "transparent",
+                }}
+              >
+                <span style={{
                   width: "20px", height: "20px",
                   borderRadius: "50%",
                   background: alpha(theme.yellow, 0.15),
                   border: `1px solid ${alpha(theme.yellow, 0.4)}`,
                   color: theme.yellowText,
                   fontSize: "0.7rem", fontWeight: 700,
-                  cursor: "pointer", display: "flex",
+                  display: "flex",
                   alignItems: "center", justifyContent: "center",
                   fontFamily: "Georgia, serif", fontStyle: "italic",
-                  flexShrink: 0, padding: 0, lineHeight: 1,
-                }}
-              >i</button>
+                  lineHeight: 1,
+                  pointerEvents: "none",
+                }}>i</span>
+              </button>
             )}
           </div>
           {children}
@@ -1633,28 +1674,38 @@
       return (
         <div style={{
           minHeight: "100vh",
-          padding: "env(safe-area-inset-top, 1rem) 1rem 2rem",
+          padding: "env(safe-area-inset-top, 1rem) 1rem calc(env(safe-area-inset-bottom, 0px) + 5rem)",
           maxWidth: "460px", margin: "0 auto",
           fontFamily: t.fontFamily, direction: t.dir,
           background: theme.bg, color: theme.text,
           transition: "background-color 0.25s ease, color 0.25s ease",
         }}>
-          {/* Header */}
-          <div style={{ paddingTop: "1.2rem", marginBottom: "1.4rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "0.7rem" }}>
-              <img src="icon-192.png" alt="Charge Calculator" style={{ width: "38px", height: "38px", borderRadius: "9px", flexShrink: 0, display: "block" }} />
-              <div>
+          {/* Header — single row, compact */}
+          <div style={{
+            paddingTop: "0.8rem",
+            marginBottom: "1rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "0.5rem",
+          }}>
+            {/* Brand */}
+            <div style={{ display: "flex", alignItems: "center", gap: "0.55rem", minWidth: 0 }}>
+              <img src="icon-192.png" alt="Charge Calculator" style={{ width: "34px", height: "34px", borderRadius: "8px", flexShrink: 0, display: "block" }} />
+              <div style={{ minWidth: 0 }}>
                 <div style={{
                   fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Bebas Neue', sans-serif",
-                  fontSize: isRTL ? "1.3rem" : "1.5rem",
-                  fontWeight: 800, letterSpacing: isRTL ? "0" : "0.05em",
-                  color: theme.yellowText, lineHeight: 1
+                  fontSize: isRTL ? "1.05rem" : "1.2rem",
+                  fontWeight: 800, letterSpacing: isRTL ? "0" : "0.04em",
+                  color: theme.yellowText, lineHeight: 1.05,
+                  whiteSpace: "nowrap",
                 }}>{t.appTitle}</div>
-                <div style={{ fontSize: "0.62rem", color: theme.textVeryFaint, letterSpacing: "0.08em", marginTop: "0.15rem" }}>{t.subtitle}</div>
+                <div style={{ fontSize: "0.55rem", color: theme.textVeryFaint, letterSpacing: "0.08em", marginTop: "0.1rem" }}>{t.subtitle}</div>
               </div>
             </div>
 
-            <div style={{ display: "flex", gap: "0.4rem", alignItems: "center" }}>
+            {/* Compact icon-only buttons */}
+            <div style={{ display: "flex", gap: "0.3rem", alignItems: "center", flexShrink: 0 }}>
               {canShowInstallButton && (
                 <button
                   onClick={handleInstallClick}
@@ -1663,14 +1714,21 @@
                   style={{
                     background: theme.yellow,
                     border: `1px solid ${theme.yellow}`,
-                    borderRadius: "8px", width: "36px", height: "36px",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    fontSize: "1rem", color: "#000",
+                    borderRadius: "8px",
+                    height: "32px",
+                    padding: "0 0.55rem",
+                    display: "flex", alignItems: "center", gap: "0.25rem",
+                    fontSize: "0.7rem", color: "#000",
                     cursor: "pointer", flexShrink: 0,
-                    boxShadow: `0 0 0 0 ${alpha(theme.yellow, 0.6)}`,
+                    fontWeight: 700,
+                    fontFamily: lang === "ar" ? "'Tajawal', sans-serif" : "'DM Mono', monospace",
+                    letterSpacing: "0.04em",
                     animation: "installPulse 2.5s ease-in-out infinite",
                   }}
-                >↓</button>
+                >
+                  <span style={{ fontSize: "0.85rem", lineHeight: 1 }}>↓</span>
+                  <span>{t.installLabel}</span>
+                </button>
               )}
 
               <button
@@ -1684,9 +1742,9 @@
                 style={{
                   background: theme.cardBgInactive,
                   border: `1px solid ${alpha(theme.yellow, 0.3)}`,
-                  borderRadius: "8px", width: "36px", height: "36px",
+                  borderRadius: "8px", width: "32px", height: "32px",
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: "1rem", color: theme.yellowText,
+                  fontSize: "0.95rem", color: theme.yellowText,
                   cursor: "pointer", flexShrink: 0,
                 }}
               >{isDark ? "☀" : "☾"}</button>
@@ -1698,39 +1756,40 @@
                 style={{
                   background: theme.cardBgInactive,
                   border: `1px solid ${alpha(theme.yellow, 0.3)}`,
-                  borderRadius: "8px", padding: "0.35rem 0.7rem",
+                  borderRadius: "8px", padding: "0 0.55rem", height: "32px",
                   color: theme.yellowText,
                   fontFamily: lang === "ar" ? "'Tajawal', sans-serif" : "'DM Mono', monospace",
-                  fontSize: lang === "ar" ? "0.72rem" : "0.78rem",
+                  fontSize: "0.7rem",
                   fontWeight: 700, cursor: "pointer", flexShrink: 0,
-                  letterSpacing: lang === "ar" ? "0.04em" : "0.04em",
-                  display: "flex", alignItems: "center", gap: "0.35rem",
+                  letterSpacing: "0.04em",
+                  display: "flex", alignItems: "center", gap: "0.25rem",
                 }}>
-                <span style={{ fontSize: "0.9rem" }}>🌐</span>
+                <span style={{ fontSize: "0.8rem" }}>🌐</span>
                 <span>{lang.toUpperCase()}</span>
               </button>
             </div>
           </div>
 
-          {/* Country pill */}
+          {/* Country pill — slim, inline below header */}
           <button onClick={() => setCountryModalOpen(true)} style={{
             display: "flex", alignItems: "center", gap: "0.4rem",
             background: theme.cardBg, border: `1px solid ${theme.border}`,
             boxShadow: theme.cardShadow,
-            borderRadius: "10px", padding: "0.5rem 0.85rem",
-            color: theme.text, fontFamily: t.fontFamily, fontSize: "0.78rem",
-            cursor: "pointer", marginBottom: "1.4rem",
+            borderRadius: "8px", padding: "0.4rem 0.7rem",
+            color: theme.text, fontFamily: t.fontFamily, fontSize: "0.72rem",
+            cursor: "pointer", marginBottom: "1rem",
+            width: "auto", alignSelf: "flex-start",
           }}>
-            <span style={{ fontSize: "0.95rem" }}>📍</span>
+            <span style={{ fontSize: "0.85rem" }}>📍</span>
             <span style={{ fontWeight: 600 }}>
               {countryData ? countryData.name[lang] : t.detecting}
             </span>
             {countryData && (
-              <span style={{ fontSize: "0.7rem", color: theme.textFaint, fontFamily: "'DM Mono', monospace" }}>
+              <span style={{ fontSize: "0.65rem", color: theme.textFaint, fontFamily: "'DM Mono', monospace" }}>
                 · {countryData.currency}
               </span>
             )}
-            <span style={{ marginLeft: isRTL ? 0 : "auto", marginRight: isRTL ? "auto" : 0, color: theme.textFaint, fontSize: "0.7rem" }}>
+            <span style={{ marginLeft: isRTL ? 0 : "0.2rem", marginRight: isRTL ? "0.2rem" : 0, color: theme.textFaint, fontSize: "0.65rem" }}>
               {isRTL ? "◂" : "▸"}
             </span>
           </button>
@@ -1870,23 +1929,59 @@
           {/* Breakdown */}
           <Section title={t.breakdown} isRTL={isRTL} theme={theme}>
             {[
-              [t.chargeRange, `${startSOC}% → ${endSOC}% (${chargePct}%)`],
-              [t.energyBattery, `${energyToBattery.toFixed(2)} kWh`],
-              [t.energyWall, `${energyFromWall.toFixed(2)} kWh`],
-              [t.charger, `${charger.label} (${charger.kw} kW)`],
-              [t.estTime, chargingTime],
-              [t.costCharge, fmt(costPerCharge, 3)],
-              [t.chargesMonth, `${chargesPerMonth}`],
-              [t.monthlyCost, fmt(monthlyCost, 2)],
-              [t.annualCost, fmt(annualCost, 2)],
-            ].map(([k, v]) => (
-              <div key={k} style={{
-                display: "flex",
-                justifyContent: "space-between",
-                padding: "0.5rem 0", borderBottom: `1px solid ${theme.borderSubtle}`
-              }}>
-                <span style={{ fontSize: "0.72rem", color: theme.textFaint }}>{k}</span>
-                <span style={{ fontSize: "0.78rem", color: theme.textMuted, fontWeight: 500, fontFamily: "'DM Mono', monospace" }}>{v}</span>
+              {
+                label: t.breakdownEnergy,
+                rows: [
+                  [t.chargeRange, `${startSOC}% → ${endSOC}% (${chargePct}%)`],
+                  [t.energyBattery, `${energyToBattery.toFixed(2)} kWh`],
+                  [t.energyWall, `${energyFromWall.toFixed(2)} kWh`],
+                  [t.charger, `${charger.label} (${charger.kw} kW)`],
+                  [t.estTime, chargingTime],
+                ],
+              },
+              {
+                label: t.breakdownCost,
+                rows: [
+                  [t.costCharge, fmt(costPerCharge, 3)],
+                  [t.chargesMonth, `${chargesPerMonth}`],
+                  [t.monthlyCost, fmt(monthlyCost, 2)],
+                  [t.annualCost, fmt(annualCost, 2)],
+                ],
+                highlight: true,
+              },
+            ].map((group, gi) => (
+              <div key={group.label} style={{ marginTop: gi > 0 ? "1rem" : 0 }}>
+                <div style={{
+                  fontSize: "0.58rem", color: theme.textVeryFaint,
+                  letterSpacing: "0.12em", textTransform: "uppercase",
+                  marginBottom: "0.4rem", fontWeight: 600,
+                }}>{group.label}</div>
+                <div style={{
+                  background: group.highlight ? alpha(theme.yellow, 0.04) : "transparent",
+                  borderRadius: group.highlight ? "8px" : 0,
+                  padding: group.highlight ? "0.2rem 0.6rem" : 0,
+                  border: group.highlight ? `1px solid ${alpha(theme.yellow, 0.15)}` : "none",
+                }}>
+                  {group.rows.map(([k, v], ri) => (
+                    <div key={k} style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      padding: "0.42rem 0",
+                      borderBottom: ri < group.rows.length - 1
+                        ? `1px solid ${alpha(theme.borderSubtle, 0.5)}`
+                        : "none",
+                    }}>
+                      <span style={{ fontSize: "0.72rem", color: theme.textFaint }}>{k}</span>
+                      <span style={{
+                        fontSize: "0.78rem",
+                        color: group.highlight ? theme.text : theme.textMuted,
+                        fontWeight: group.highlight ? 600 : 500,
+                        fontFamily: "'DM Mono', monospace",
+                      }}>{v}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
           </Section>
