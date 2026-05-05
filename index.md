@@ -4,7 +4,7 @@
 
 **URL:** https://evcalculator.app
 **Author:** [@aksharawi](https://x.com/aksharawi)
-**Version:** 2.4
+**Version:** 2.7.3
 **Languages:** English, Arabic, French, Spanish
 **License:** All rights reserved
 
@@ -17,11 +17,13 @@ Charge Calculator helps EV and PHEV owners answer questions like:
 - “How much does it cost to fully charge my car?”
 - “What will I spend on charging per month?”
 - “How long will it take using a wall plug versus an AC charger?”
+- “What’s the battery capacity of my Tesla / BYD / Hyundai / etc.?”
 
-Users enter their battery capacity, current/target state of charge, electricity tariff, and charging frequency. The app calculates cost per charge, monthly cost, annual cost, and estimated charging time in real time.
+Users either pick their car from a built-in database of 100+ models (battery is auto-filled) or enter their battery capacity manually. Then they set state of charge, electricity tariff, and charging frequency. The app calculates cost per charge, monthly cost, annual cost, and estimated charging time in real time.
 
 ## Key Features
 
+- **Vehicle picker — 108 EV/PHEV models from 35 brands** including Tesla, BYD, Hyundai, Kia, Volkswagen, Audi, BMW, Mercedes-Benz, Porsche, Ford, Chevrolet, Nissan, Polestar, Volvo, Toyota, Honda, Mazda, Peugeot, Citroën, Opel, Renault, Jeep, Jetour, MG, Lucid, Rivian, Genesis, Lexus, MINI, Fiat, Mitsubishi, NIO, XPeng, Denza, Zeekr, Jaguar, Land Rover. Brand → model → variant flow auto-fills the right battery size.
 - **Auto-detects user country and currency** via IP geolocation (with browser language fallback)
 - **27 supported countries** across Gulf, MENA, Europe, Americas, Asia, and Oceania, each with realistic local electricity tariffs (Low / Medium / High presets)
 - **Two charger types** — Wall Plug (Mode 2, 2.2 kW) and AC Charger (Type 2, 11 kW)
@@ -33,19 +35,41 @@ Users enter their battery capacity, current/target state of charge, electricity 
 ## How To Use It
 
 1. The app auto-detects your country on first visit and pre-fills typical electricity rates.
+1. (Optional) Tap “My Vehicle” → pick your car brand → model → variant. Battery capacity auto-fills.
 1. Choose your charger type: Wall Plug (slow) or AC Charger (fast).
-1. Adjust your battery capacity (kWh), current charge level, and target charge level.
+1. Adjust your battery capacity (kWh — already filled if you picked a vehicle), current charge level, and target charge level.
 1. Pick a tariff preset (Low / Medium / High) or enter a custom rate from your electricity bill.
 1. Set how often you charge (e.g., every 3 days).
 1. Read the live calculations: cost per charge, monthly cost, annual cost, and estimated charging time.
 
 ## Technical Details
 
-- **Default battery example:** 31.8 kWh (small PHEV)
+- **Vehicle database:** 35 brands, 108 models, 173 variants with usable battery sizes (kWh)
 - **Charger efficiency:** 85% default (typical for Mode 2 wall plug)
 - **Wall Plug charging time:** ~12–13 hours for 20% → 100% on a 30 kWh battery
 - **AC Charger charging time:** ~2.5–3 hours for the same range
 - **Currency formatting:** uses local symbol with thousands separators; no decimals for currencies like JPY/PKR
+
+## Sample Vehicle Battery Capacities
+
+|Vehicle                |Variant       |Usable Battery|
+|-----------------------|--------------|--------------|
+|Tesla Model 3          |Long Range    |79 kWh        |
+|Tesla Model Y          |Standard Range|60 kWh        |
+|BYD Atto 3             |Standard      |60.5 kWh      |
+|Hyundai Ioniq 5        |Long Range    |77.4 kWh      |
+|Kia EV6                |GT            |77.4 kWh      |
+|VW ID.4                |Pro S         |82 kWh        |
+|BMW iX                 |xDrive50      |105.2 kWh     |
+|Polestar 2             |Long Range    |79 kWh        |
+|Toyota bZ4X            |Standard      |71.4 kWh      |
+|Toyota Prius Prime PHEV|Standard      |13.6 kWh      |
+|MG4                    |Long Range    |64 kWh        |
+|Rivian R1T             |Max Pack      |180 kWh       |
+|Denza B5               |PHEV          |31.8 kWh      |
+|Denza B8               |PHEV          |38.5 kWh      |
+|Jetour G700            |EREV          |52.4 kWh      |
+|Jetour Shanhai L9      |PHEV          |40.9 kWh      |
 
 -----
 
@@ -67,6 +91,10 @@ Monthly EV charging cost depends on charging frequency, battery size, and local 
 
 Mode 2 charging uses a portable cable that plugs into a regular household wall socket, typically delivering 2.2 kW (slow charging). Type 2 refers to a dedicated AC home charger or public charging station, typically delivering 7 kW to 22 kW (much faster charging).
 
+### Which electric vehicles does the calculator support?
+
+The vehicle picker includes 108 popular EV and PHEV models from 35 brands: Tesla, BYD, Hyundai, Kia, Volkswagen, Audi, BMW, Mercedes-Benz, Porsche, Ford, Chevrolet, Nissan, Polestar, Volvo, Toyota, Honda, Mazda, Peugeot, Citroën, Opel, Renault, Jeep, Jetour, MG, Lucid, Rivian, Genesis, Lexus, MINI, Fiat, Mitsubishi, NIO, XPeng, Denza, Zeekr, Jaguar, Land Rover. Selecting your car auto-fills the battery capacity. If your model isn’t listed, you can enter the kWh manually.
+
 -----
 
 ## Foire aux questions (Français)
@@ -79,13 +107,9 @@ Le coût de recharge d’un véhicule électrique dépend de votre tarif d’él
 
 Avec une prise murale standard (Mode 2, 2,2 kW), recharger une batterie de 30 kWh de 20 % à 100 % prend environ 12 à 13 heures. Avec un chargeur AC de 11 kW (Type 2), le temps se réduit à environ 2,5 à 3 heures.
 
-### Combien coûte la recharge d’un VE par mois ?
+### Quels véhicules le calculateur prend-il en charge ?
 
-Le coût mensuel dépend de la fréquence, de la taille de la batterie et des tarifs locaux. Pour 10 charges par mois, comptez entre 10 € et 80 € par mois.
-
-### Quelle est la différence entre Mode 2 et Type 2 ?
-
-Le Mode 2 utilise un câble portable branché sur une prise murale ordinaire (~2,2 kW). Le Type 2 désigne une wallbox AC dédiée ou une borne publique (7 à 22 kW).
+Le sélecteur de véhicules contient 108 modèles VE et PHEV populaires de 35 marques. Sélectionner votre voiture remplit automatiquement la capacité de la batterie.
 
 -----
 
@@ -95,17 +119,9 @@ Le Mode 2 utilise un câble portable branché sur une prise murale ordinaire (~2
 
 El coste de cargar un VE depende de tu tarifa eléctrica local y del tamaño de la batería. Para una batería típica de 30 kWh del 20 % al 100 %, los costes oscilan entre 1 € y 15 € según el país.
 
-### ¿Cuánto tarda en cargarse un VE con un enchufe de pared?
+### ¿Qué vehículos soporta la calculadora?
 
-Con un enchufe de pared estándar (Modo 2, 2,2 kW), cargar una batería de 30 kWh del 20 % al 100 % tarda entre 12 y 13 horas. Con un cargador AC de 11 kW (Tipo 2), entre 2,5 y 3 horas.
-
-### ¿Cuánto cuesta cargar un VE al mes?
-
-El coste mensual depende de la frecuencia, batería y tarifas locales. Para 10 cargas al mes, espera pagar entre 10 € y 80 € al mes.
-
-### ¿Cuál es la diferencia entre Modo 2 y Tipo 2?
-
-El Modo 2 usa un cable portátil en un enchufe doméstico (~2,2 kW). El Tipo 2 es una wallbox AC dedicada o estación pública (7 a 22 kW).
+El selector de vehículos incluye 108 modelos populares de VE y PHEV de 35 marcas. Al seleccionar tu coche, se rellena automáticamente la capacidad de la batería.
 
 -----
 
@@ -115,17 +131,9 @@ El Modo 2 usa un cable portátil en un enchufe doméstico (~2,2 kW). El Tipo 2 e
 
 تعتمد تكلفة شحن السيارة الكهربائية على تعريفة الكهرباء المحلية وحجم البطارية. لشحن بطارية بسعة 30 كيلوواط ساعة من 20٪ إلى 100٪، تتراوح التكاليف عادةً بين دولار واحد و 15 دولاراً اعتماداً على البلد.
 
-### كم تستغرق شحن السيارة الكهربائية باستخدام مقبس الحائط؟
+### ما هي السيارات التي تدعمها الحاسبة؟
 
-باستخدام مقبس الحائط القياسي (الوضع 2، بقدرة 2.2 كيلوواط)، يستغرق شحن بطارية 30 كيلوواط ساعة من 20٪ إلى 100٪ حوالي 12 إلى 13 ساعة. أما باستخدام شاحن 11 كيلوواط (النوع 2) فحوالي 2.5 إلى 3 ساعات.
-
-### كم تبلغ تكلفة شحن السيارة الكهربائية شهرياً؟
-
-تعتمد التكلفة الشهرية على عدد مرات الشحن وحجم البطارية وأسعار الكهرباء المحلية. لـ 10 شحنات شهرياً، توقع دفع ما بين 10 و 80 دولاراً شهرياً.
-
-### ما الفرق بين الشحن بالوضع 2 والنوع 2؟
-
-الوضع 2 يستخدم كابلاً محمولاً في مقبس عادي (~2.2 كيلوواط). النوع 2 هو شاحن AC مخصص أو محطة عامة (7 إلى 22 كيلوواط).
+يتضمن منتقي السيارات 108 موديلات من السيارات الكهربائية والهجينة الشهيرة من 35 علامة تجارية. اختيار سيارتك يعبئ سعة البطارية تلقائياً.
 
 -----
 
@@ -138,4 +146,4 @@ El Modo 2 usa un cable portátil en un enchufe doméstico (~2,2 kW). El Tipo 2 e
 
 -----
 
-*Last updated: 2026-04-29*
+*Last updated: 2026-05-05*
