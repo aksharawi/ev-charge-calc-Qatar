@@ -58,8 +58,8 @@
   <meta name="apple-mobile-web-app-title" content="ChargeCalc" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="application-name" content="ChargeCalc" />
-  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-  <meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#F8FAFB" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0A1116" media="(prefers-color-scheme: dark)" />
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
@@ -250,7 +250,7 @@
       font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
       transition: background-color 0.25s ease;
     }
-    body { overflow-x: hidden; background: #FBF8EE; }
+    body { overflow-x: hidden; background: #F8FAFB; }
     button { font-family: inherit; }
     select { -webkit-appearance: none; appearance: none; }
     ::-webkit-scrollbar { width: 4px; }
@@ -325,8 +325,8 @@
     input[type=range].cc-slider::-moz-range-progress { background: transparent; }
 
     @keyframes installPulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(245, 197, 24, 0.55); }
-      50% { box-shadow: 0 0 0 8px rgba(245, 197, 24, 0); }
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0, 200, 150, 0.55); }
+      50% { box-shadow: 0 0 0 8px rgba(0, 200, 150, 0); }
     }
     @keyframes toastSlideUp {
       from { transform: translateY(120%); opacity: 0; }
@@ -351,7 +351,7 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
 
-    const VERSION = "3.1.1";
+    const VERSION = "3.2";
 
     // ═══════════════════════════════════════════
     //  ANALYTICS HELPER
@@ -821,103 +821,117 @@
     //  THEME SYSTEM
     // ═══════════════════════════════════════════
     const THEMES = {
-      // ─── LIGHT — Option A "Refined" warm cream palette ───────────
+      // ═══════════════════════════════════════════
+      //  AURORA — Modern Climate palette
+      //  Light: cool off-white + electric mint accent
+      //  Dark: deep navy-black + glowing mint accent
+      //  Both modes signal EV / clean energy directly.
+      // ═══════════════════════════════════════════
       light: {
-        // Surfaces (warm cream)
-        bg: "#FBF8EE",
+        // Surfaces — cool off-white with subtle blue tint
+        bg: "#F8FAFB",
         cardBg: "#FFFFFF",
-        cardBgAccent: "#FFF6D1",
-        cardBgInactive: "#FAF6E8",
-        chargerCardActive: "#141413",
+        cardBgAccent: "#E8FBF4",
+        cardBgInactive: "#F1F5F7",
+        chargerCardActive: "#0E1418",
         chargerCardInactive: "#FFFFFF",
-        // Borders
-        border: "rgba(20,20,15,0.14)",
-        borderActive: "#FCD441",
-        borderSubtle: "rgba(20,20,15,0.08)",
+        // Borders — soft, low-contrast
+        border: "rgba(14,20,24,0.10)",
+        borderActive: "#00C896",
+        borderSubtle: "rgba(14,20,24,0.06)",
         // Ink
-        text: "#0F0F0E",
-        textMuted: "#3A3A38",
-        textFaint: "#7A776F",
-        textVeryFaint: "#B8B5A8",
-        textGhost: "#D8D5C8",
+        text: "#0E1418",
+        textMuted: "#3A4A52",
+        textFaint: "#5A6B74",
+        textVeryFaint: "#A8B5BC",
+        textGhost: "#D1DAE0",
         // Inputs
         inputBg: "#FFFFFF",
-        inputBorder: "rgba(20,20,15,0.14)",
-        // Brand
-        yellow: "#FCD441",
-        yellowSoft: "#FFF6D1",
-        yellowDeep: "#E8B92F",
-        yellowText: "#141413",
-        black: "#141413",
-        // Semantic surface-on-color tokens (used by buttons/pills)
-        onYellow: "#141413",  // text drawn on a yellow surface — always actual dark
-        onBlack: "#FFFFFF",   // text drawn on a black/dark surface — light in light mode
-        // Semantic dots
-        green: "#2EB872",
-        blue: "#2D6CFF",
-        orange: "#FF7A45",
-        purple: "#7A5BFF",
-        cap: "#2D6CFF",
-        start: "#FF7A45",
-        end: "#E8B92F",
-        eff: "#2EB872",
-        schedule: "#7A5BFF",
+        inputBorder: "rgba(14,20,24,0.10)",
+        // Brand — electric mint primary
+        yellow: "#00C896",       // legacy name kept for code compat; this is the accent
+        yellowSoft: "#E8FBF4",
+        yellowDeep: "#00A07C",
+        yellowText: "#005A47",
+        black: "#0E1418",
+        // Semantic surface-on-color tokens
+        onYellow: "#003D2E",     // text on mint surface — deep mint-shadow
+        onBlack: "#FFFFFF",      // text on dark surface
+        // Semantic dots — climate-tech inspired
+        green: "#00C896",
+        blue: "#38BDF8",
+        orange: "#FB7185",
+        purple: "#A78BFA",
+        cap: "#38BDF8",          // sky blue
+        start: "#FB7185",        // coral
+        end: "#00C896",          // mint
+        eff: "#A3E635",          // lime
+        schedule: "#A78BFA",     // violet
         // Sliders
-        sliderTrack: "#FAF6E8",
+        sliderTrack: "#E8F1F4",
         thumbBorder: "#FFFFFF",
         // Effects
-        cardShadow: "0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.04)",
-        heroShadow: "0 6px 24px rgba(252,212,65,0.35)",
-        accentCardGradient: "linear-gradient(155deg, #FCD441 0%, #FFE17A 100%)",
-        // Rate buttons
-        rateActiveBg: "#141413", rateActiveText: "#FCD441",
-        rateInactiveBg: "#FAF6E8", rateInactiveText: "#0F0F0E", rateInactiveBorder: "rgba(20,20,15,0.14)",
+        cardShadow: "0 1px 3px rgba(14,30,40,0.04), 0 1px 2px rgba(14,30,40,0.04)",
+        heroShadow: "0 6px 28px rgba(0,200,150,0.28)",
+        accentCardGradient: "linear-gradient(155deg, #00C896 0%, #00E5A8 60%, #5EEAD4 100%)",
+        // Rate buttons (legacy)
+        rateActiveBg: "#0E1418", rateActiveText: "#00E5A8",
+        rateInactiveBg: "#F1F5F7", rateInactiveText: "#0E1418", rateInactiveBorder: "rgba(14,20,24,0.10)",
         // Modals
-        modalBg: "rgba(20,15,10,0.4)", modalCardBg: "#FFFFFF",
+        modalBg: "rgba(10,17,22,0.45)", modalCardBg: "#FFFFFF",
       },
-      // ─── DARK — placeholder, will be reviewed/refined later ──────
       dark: {
-        bg: "#161510",
-        cardBg: "#1F1E18",
-        cardBgAccent: "#2A2516",
-        cardBgInactive: "#1A1914",
-        chargerCardActive: "#FCD441",
-        chargerCardInactive: "#1F1E18",
-        border: "rgba(255,250,230,0.10)",
-        borderActive: "#FCD441",
-        borderSubtle: "rgba(255,250,230,0.06)",
-        text: "#F5F2E8",
-        textMuted: "#C7C2B0",
-        textFaint: "#8E8A7C",
-        textVeryFaint: "#5A574E",
-        textGhost: "#3A382F",
-        inputBg: "#1A1914",
-        inputBorder: "rgba(255,250,230,0.12)",
-        yellow: "#FCD441",
-        yellowSoft: "#3A2E0A",
-        yellowDeep: "#E8B92F",
-        yellowText: "#FCD441",
-        black: "#0A0A08",  // CTA dark surface — actually dark in dark mode (was confusingly set to yellow)
-        // Semantic surface-on-color tokens
-        onYellow: "#141413",  // text on yellow — always actual dark
-        onBlack: "#FCD441",   // text on black surface — yellow for contrast
-        green: "#4ADE80",
+        // Surfaces — deep navy-black with subtle teal undertone
+        bg: "#0A1116",
+        cardBg: "#121C24",
+        cardBgAccent: "#0C231E",
+        cardBgInactive: "#0F171D",
+        chargerCardActive: "#00E5A8",
+        chargerCardInactive: "#121C24",
+        // Borders
+        border: "rgba(180,220,235,0.10)",
+        borderActive: "#00E5A8",
+        borderSubtle: "rgba(180,220,235,0.06)",
+        // Ink
+        text: "#E8F0F4",
+        textMuted: "#9BAFB9",
+        textFaint: "#758891",
+        textVeryFaint: "#3F4F58",
+        textGhost: "#2A363D",
+        // Inputs
+        inputBg: "#0F171D",
+        inputBorder: "rgba(180,220,235,0.12)",
+        // Brand — glowing mint
+        yellow: "#00E5A8",
+        yellowSoft: "#0C231E",
+        yellowDeep: "#00C896",
+        yellowText: "#00E5A8",
+        black: "#04090C",        // CTA dark surface — actually dark in dark mode
+        // Semantic surface-on-color
+        onYellow: "#003D2E",     // text on mint — always deep mint-shadow
+        onBlack: "#00E5A8",      // text on dark CTA — mint accent for visibility
+        // Semantic dots
+        green: "#34D399",
         blue: "#60A5FA",
-        orange: "#FB923C",
-        purple: "#A78BFA",
-        cap: "#60A5FA",
-        start: "#FB923C",
-        end: "#FCD441",
-        eff: "#4ADE80",
-        schedule: "#A78BFA",
-        sliderTrack: "#2A2820",
-        thumbBorder: "#1F1E18",
+        orange: "#FB7185",
+        purple: "#C5B4FA",
+        cap: "#66C7EB",          // soft sky
+        start: "#FB7185",        // coral
+        end: "#00E5A8",          // mint
+        eff: "#BEF05F",          // lime
+        schedule: "#C5B4FA",     // soft violet
+        // Sliders
+        sliderTrack: "#1A2530",
+        thumbBorder: "#121C24",
+        // Effects
         cardShadow: "none",
-        heroShadow: "0 6px 24px rgba(252,212,65,0.18)",
-        accentCardGradient: "linear-gradient(155deg, #FCD441 0%, #E8B92F 100%)",
-        rateActiveBg: "#FCD441", rateActiveText: "#141413",
-        rateInactiveBg: "#1A1914", rateInactiveText: "#F5F2E8", rateInactiveBorder: "rgba(255,250,230,0.10)",
-        modalBg: "rgba(0,0,0,0.7)", modalCardBg: "#1F1E18",
+        heroShadow: "0 6px 32px rgba(0,229,168,0.18)",
+        accentCardGradient: "linear-gradient(155deg, #00B384 0%, #00C896 60%, #00E5A8 100%)",
+        // Rate buttons (legacy)
+        rateActiveBg: "#00E5A8", rateActiveText: "#003D2E",
+        rateInactiveBg: "#0F171D", rateInactiveText: "#E8F0F4", rateInactiveBorder: "rgba(180,220,235,0.10)",
+        // Modals
+        modalBg: "rgba(0,0,0,0.7)", modalCardBg: "#121C24",
       },
     };
 
@@ -1554,7 +1568,7 @@
             background: theme.yellow,
             borderRadius: "10px",
             transition: "left 0.22s cubic-bezier(.2,.7,.3,1), right 0.22s cubic-bezier(.2,.7,.3,1)",
-            boxShadow: "0 1px 4px rgba(252,212,65,0.45)",
+            boxShadow: "0 1px 4px rgba(0, 200, 150, 0.45)",
           }} />
           {[
             { k: "wall", label: t.wallPlug, sub: "Mode 2 · 2.2 kW" },
@@ -3117,7 +3131,7 @@
                           background: theme.yellow,
                           borderRadius: "10px",
                           transition: "left 0.22s cubic-bezier(.2,.7,.3,1), right 0.22s cubic-bezier(.2,.7,.3,1)",
-                          boxShadow: "0 1px 4px rgba(252,212,65,0.45)",
+                          boxShadow: "0 1px 4px rgba(0, 200, 150, 0.45)",
                         }} />
                       )}
                       {ratePresets.map(r => {
