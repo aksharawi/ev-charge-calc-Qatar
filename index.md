@@ -4,7 +4,7 @@
 
 **URL:** https://evcalculator.app
 **Author:** [@aksharawi](https://x.com/aksharawi)
-**Version:** 3.2
+**Version:** 3.2.1
 **Languages:** English, Arabic, French, Spanish
 **License:** All rights reserved
 
