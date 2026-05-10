@@ -4,7 +4,7 @@
 
 **URL:** https://evcalculator.app
 **Author:** [@aksharawi](https://x.com/aksharawi)
-**Version:** 3.1.1
+**Version:** 3.2
 **Languages:** English, Arabic, French, Spanish
 **License:** All rights reserved
 
@@ -146,4 +146,4 @@ El selector de vehículos incluye 108 modelos populares de VE y PHEV de 35 marca
 
 -----
 
-*Last updated: 2026-05-10*
+*Last updated: 2026-05-11*
