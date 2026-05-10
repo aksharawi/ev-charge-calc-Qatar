@@ -225,7 +225,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
   <link rel="dns-prefetch" href="https://ipapi.co" />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Roboto+Mono:wght@400;500;600;700&family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet" />
 
   <!-- GA4 -->
 
@@ -246,16 +246,21 @@
     html, body, #root {
       height: 100%;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
       transition: background-color 0.25s ease;
     }
-    body { overflow-x: hidden; }
+    body { overflow-x: hidden; background: #FBF8EE; }
+    button { font-family: inherit; }
     select { -webkit-appearance: none; appearance: none; }
     ::-webkit-scrollbar { width: 4px; }
 
     /* ── Prevent iOS auto-zoom on input focus ──────────
        iOS Safari auto-zooms when input font-size < 16px.
        Force 16px minimum on all text inputs — visual size
-       is preserved via transform: scale where needed. */
+       is preserved via transform: scale where needed.
+       Exception: .cc-stepper-input keeps small typography
+       (safe because we set maximum-scale=1 in viewport). */
     input[type="text"],
     input[type="number"],
     input[type="email"],
@@ -265,6 +270,9 @@
     textarea,
     select {
       font-size: 16px !important;
+    }
+    input.cc-stepper-input {
+      font-size: 0.85rem !important;
     }
 
     /* ── Range slider — invisible but touch-draggable ──────────
@@ -324,6 +332,10 @@
       from { transform: translateY(120%); opacity: 0; }
       to   { transform: translateY(0); opacity: 1; }
     }
+    @keyframes sectionExpand {
+      from { opacity: 0; transform: translateY(-4px); max-height: 0; }
+      to   { opacity: 1; transform: translateY(0); max-height: 2000px; }
+    }
   </style>
 
 </head>
@@ -339,7 +351,7 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
 
-    const VERSION = "2.7.3";
+    const VERSION = "3.1.1";
 
     // ═══════════════════════════════════════════
     //  ANALYTICS HELPER
@@ -794,41 +806,118 @@
       return c.symbolBefore ? `${c.symbol} ${withSep}` : `${withSep} ${c.symbol}`;
     };
 
+    // Just the number with separators — for placing alongside a symbol manually.
+    const formatNumber = (amount, country, decimals = 2) => {
+      const c = COUNTRIES[country] || COUNTRIES[FALLBACK_COUNTRY];
+      const noDecimalCurrencies = ["JPY", "PKR"];
+      const dec = noDecimalCurrencies.includes(c.currency) ? 0 : decimals;
+      return Number(amount.toFixed(dec)).toLocaleString(undefined, {
+        minimumFractionDigits: dec,
+        maximumFractionDigits: dec,
+      });
+    };
+
     // ═══════════════════════════════════════════
     //  THEME SYSTEM
     // ═══════════════════════════════════════════
     const THEMES = {
+      // ─── LIGHT — Option A "Refined" warm cream palette ───────────
       light: {
-        bg: "#fafafa", cardBg: "#ffffff", cardBgAccent: "#fffbeb",
-        cardBgInactive: "#f5f5f5", chargerCardActive: "#fffbeb", chargerCardInactive: "#fafafa",
-        border: "#e5e5e5", borderActive: "#F5C518", borderSubtle: "#f0f0f0",
-        text: "#111111", textMuted: "#525252", textFaint: "#737373",
-        textVeryFaint: "#a3a3a3", textGhost: "#d4d4d4",
-        inputBg: "#ffffff", inputBorder: "#e5e5e5",
-        yellow: "#F5C518", yellowText: "#111111",
-        green: "#16a34a", blue: "#2563eb", orange: "#ea580c", purple: "#7c3aed",
-        sliderTrack: "#e5e5e5", thumbBorder: "#ffffff",
-        cardShadow: "0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06)",
-        accentCardGradient: "linear-gradient(135deg, #fffbeb 0%, #ffffff 60%)",
-        rateActiveBg: "#F5C518", rateActiveText: "#000",
-        rateInactiveBg: "#f5f5f5", rateInactiveText: "#737373", rateInactiveBorder: "#e5e5e5",
-        modalBg: "rgba(0,0,0,0.4)", modalCardBg: "#ffffff",
+        // Surfaces (warm cream)
+        bg: "#FBF8EE",
+        cardBg: "#FFFFFF",
+        cardBgAccent: "#FFF6D1",
+        cardBgInactive: "#FAF6E8",
+        chargerCardActive: "#141413",
+        chargerCardInactive: "#FFFFFF",
+        // Borders
+        border: "rgba(20,20,15,0.14)",
+        borderActive: "#FCD441",
+        borderSubtle: "rgba(20,20,15,0.08)",
+        // Ink
+        text: "#0F0F0E",
+        textMuted: "#3A3A38",
+        textFaint: "#7A776F",
+        textVeryFaint: "#B8B5A8",
+        textGhost: "#D8D5C8",
+        // Inputs
+        inputBg: "#FFFFFF",
+        inputBorder: "rgba(20,20,15,0.14)",
+        // Brand
+        yellow: "#FCD441",
+        yellowSoft: "#FFF6D1",
+        yellowDeep: "#E8B92F",
+        yellowText: "#141413",
+        black: "#141413",
+        // Semantic surface-on-color tokens (used by buttons/pills)
+        onYellow: "#141413",  // text drawn on a yellow surface — always actual dark
+        onBlack: "#FFFFFF",   // text drawn on a black/dark surface — light in light mode
+        // Semantic dots
+        green: "#2EB872",
+        blue: "#2D6CFF",
+        orange: "#FF7A45",
+        purple: "#7A5BFF",
+        cap: "#2D6CFF",
+        start: "#FF7A45",
+        end: "#E8B92F",
+        eff: "#2EB872",
+        schedule: "#7A5BFF",
+        // Sliders
+        sliderTrack: "#FAF6E8",
+        thumbBorder: "#FFFFFF",
+        // Effects
+        cardShadow: "0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.04)",
+        heroShadow: "0 6px 24px rgba(252,212,65,0.35)",
+        accentCardGradient: "linear-gradient(155deg, #FCD441 0%, #FFE17A 100%)",
+        // Rate buttons
+        rateActiveBg: "#141413", rateActiveText: "#FCD441",
+        rateInactiveBg: "#FAF6E8", rateInactiveText: "#0F0F0E", rateInactiveBorder: "rgba(20,20,15,0.14)",
+        // Modals
+        modalBg: "rgba(20,15,10,0.4)", modalCardBg: "#FFFFFF",
       },
+      // ─── DARK — placeholder, will be reviewed/refined later ──────
       dark: {
-        bg: "#0d0d0d", cardBg: "#111111", cardBgAccent: "#1a1500",
-        cardBgInactive: "#1a1a1a", chargerCardActive: "#1a1500", chargerCardInactive: "#161616",
-        border: "#222222", borderActive: "#F5C518", borderSubtle: "#1a1a1a",
-        text: "#ffffff", textMuted: "#cccccc", textFaint: "#666666",
-        textVeryFaint: "#444444", textGhost: "#2a2a2a",
-        inputBg: "#1a1a1a", inputBorder: "#2a2a2a",
-        yellow: "#F5C518", yellowText: "#F5C518",
-        green: "#4ade80", blue: "#60a5fa", orange: "#f97316", purple: "#a78bfa",
-        sliderTrack: "#222222", thumbBorder: "#0d0d0d",
+        bg: "#161510",
+        cardBg: "#1F1E18",
+        cardBgAccent: "#2A2516",
+        cardBgInactive: "#1A1914",
+        chargerCardActive: "#FCD441",
+        chargerCardInactive: "#1F1E18",
+        border: "rgba(255,250,230,0.10)",
+        borderActive: "#FCD441",
+        borderSubtle: "rgba(255,250,230,0.06)",
+        text: "#F5F2E8",
+        textMuted: "#C7C2B0",
+        textFaint: "#8E8A7C",
+        textVeryFaint: "#5A574E",
+        textGhost: "#3A382F",
+        inputBg: "#1A1914",
+        inputBorder: "rgba(255,250,230,0.12)",
+        yellow: "#FCD441",
+        yellowSoft: "#3A2E0A",
+        yellowDeep: "#E8B92F",
+        yellowText: "#FCD441",
+        black: "#0A0A08",  // CTA dark surface — actually dark in dark mode (was confusingly set to yellow)
+        // Semantic surface-on-color tokens
+        onYellow: "#141413",  // text on yellow — always actual dark
+        onBlack: "#FCD441",   // text on black surface — yellow for contrast
+        green: "#4ADE80",
+        blue: "#60A5FA",
+        orange: "#FB923C",
+        purple: "#A78BFA",
+        cap: "#60A5FA",
+        start: "#FB923C",
+        end: "#FCD441",
+        eff: "#4ADE80",
+        schedule: "#A78BFA",
+        sliderTrack: "#2A2820",
+        thumbBorder: "#1F1E18",
         cardShadow: "none",
-        accentCardGradient: "linear-gradient(135deg, #1a1500 0%, #111 60%)",
-        rateActiveBg: "#F5C518", rateActiveText: "#000",
-        rateInactiveBg: "#1a1a1a", rateInactiveText: "#555555", rateInactiveBorder: "#252525",
-        modalBg: "rgba(0,0,0,0.7)", modalCardBg: "#161616",
+        heroShadow: "0 6px 24px rgba(252,212,65,0.18)",
+        accentCardGradient: "linear-gradient(155deg, #FCD441 0%, #E8B92F 100%)",
+        rateActiveBg: "#FCD441", rateActiveText: "#141413",
+        rateInactiveBg: "#1A1914", rateInactiveText: "#F5F2E8", rateInactiveBorder: "rgba(255,250,230,0.10)",
+        modalBg: "rgba(0,0,0,0.7)", modalCardBg: "#1F1E18",
       },
     };
 
@@ -843,7 +932,7 @@
     const STRINGS = {
       en: {
         dir: "ltr",
-        fontFamily: "'DM Mono', 'Courier New', monospace",
+        fontFamily: "'Roboto', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
         appTitle: "CHARGE CALCULATOR",
         subtitle: "WORLDWIDE",
         langToggle: "العربية",
@@ -896,6 +985,10 @@
         changeCountry: "Change country",
         changeLanguage: "Change language",
         myVehicle: "My Vehicle",
+        stateOfCharge: "State of charge",
+        energyShort: "Energy",
+        timeShort: "Time",
+        rangeShort: "Range",
         pickVehicle: "Tap to select your vehicle",
         pickVehicleSub: "Auto-fills battery capacity",
         selectedVehicle: "Selected vehicle",
@@ -992,6 +1085,10 @@
         changeCountry: "تغيير الدولة",
         changeLanguage: "تغيير اللغة",
         myVehicle: "سيارتي",
+        stateOfCharge: "حالة الشحن",
+        energyShort: "الطاقة",
+        timeShort: "الوقت",
+        rangeShort: "النطاق",
         pickVehicle: "اضغط لاختيار سيارتك",
         pickVehicleSub: "يعبئ سعة البطارية تلقائياً",
         selectedVehicle: "السيارة المحددة",
@@ -1035,7 +1132,7 @@
       },
       fr: {
         dir: "ltr",
-        fontFamily: "'DM Mono', 'Courier New', monospace",
+        fontFamily: "'Roboto', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
         appTitle: "CHARGE CALCULATOR",
         subtitle: "MONDIAL",
         langToggle: "Français",
@@ -1088,6 +1185,10 @@
         changeCountry: "Changer de pays",
         changeLanguage: "Changer de langue",
         myVehicle: "Mon véhicule",
+        stateOfCharge: "État de charge",
+        energyShort: "Énergie",
+        timeShort: "Temps",
+        rangeShort: "Plage",
         pickVehicle: "Touchez pour sélectionner votre véhicule",
         pickVehicleSub: "Remplit automatiquement la capacité de la batterie",
         selectedVehicle: "Véhicule sélectionné",
@@ -1131,7 +1232,7 @@
       },
       es: {
         dir: "ltr",
-        fontFamily: "'DM Mono', 'Courier New', monospace",
+        fontFamily: "'Roboto', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
         appTitle: "CHARGE CALCULATOR",
         subtitle: "MUNDIAL",
         langToggle: "Español",
@@ -1184,6 +1285,10 @@
         changeCountry: "Cambiar país",
         changeLanguage: "Cambiar idioma",
         myVehicle: "Mi vehículo",
+        stateOfCharge: "Estado de carga",
+        energyShort: "Energía",
+        timeShort: "Tiempo",
+        rangeShort: "Rango",
         pickVehicle: "Toca para seleccionar tu vehículo",
         pickVehicleSub: "Rellena automáticamente la capacidad de la batería",
         selectedVehicle: "Vehículo seleccionado",
@@ -1230,6 +1335,361 @@
     // ═══════════════════════════════════════════
     //  COMPONENTS
     // ═══════════════════════════════════════════
+    // ═══════════════════════════════════════════
+    //  v3.0 COMPONENTS — Option A "Refined"
+    // ═══════════════════════════════════════════
+
+    // Stepper: − [number] + with a colored semantic dot.
+    // Replaces sliders for inputs where precision matters (capacity, efficiency, schedule).
+    function Stepper({ label, value, unit, color, onChange, step, min, max, dec = 0, theme, isRTL, last }) {
+      const [editVal, setEditVal] = useState(String(Number(value).toFixed(dec)));
+
+      // Keep input in sync when value changes externally (e.g. vehicle picker).
+      useEffect(() => {
+        setEditVal(String(Number(value).toFixed(dec)));
+      }, [value, dec]);
+
+      const decrease = () => onChange(Math.max(min, +(value - step).toFixed(3)));
+      const increase = () => onChange(Math.min(max, +(value + step).toFixed(3)));
+
+      const commit = () => {
+        const parsed = parseFloat(editVal.replace(",", "."));
+        if (isNaN(parsed)) {
+          // Restore to current value
+          setEditVal(String(Number(value).toFixed(dec)));
+          return;
+        }
+        const clamped = Math.max(min, Math.min(max, parsed));
+        const rounded = +clamped.toFixed(3);
+        onChange(rounded);
+        setEditVal(String(rounded.toFixed(dec)));
+      };
+
+      return (
+        <div style={{
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          padding: "10px 0",
+          borderBottom: last ? "none" : `1px solid ${theme.borderSubtle}`,
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", minWidth: 0, flex: 1 }}>
+            <span style={{
+              width: "8px", height: "8px", borderRadius: "4px",
+              background: color, flexShrink: 0,
+            }} />
+            <span style={{
+              fontSize: "0.875rem", fontWeight: 500, color: theme.text,
+              whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+            }}>{label}</span>
+          </div>
+          <div style={{
+            display: "flex", alignItems: "center", gap: "4px",
+            background: theme.cardBgInactive,
+            border: `1px solid ${theme.border}`,
+            borderRadius: "10px",
+            padding: "3px",
+            flexShrink: 0,
+          }}>
+            <button onClick={decrease} aria-label="Decrease" style={stepperBtnStyle(theme)}>−</button>
+            <div style={{
+              display: "flex", alignItems: "center", justifyContent: "center",
+              gap: "3px", padding: "0 6px", minWidth: "0",
+            }}>
+              <input
+                type="text"
+                inputMode="decimal"
+                value={editVal}
+                onChange={(e) => setEditVal(e.target.value)}
+                onBlur={commit}
+                onKeyDown={(e) => { if (e.key === "Enter") e.target.blur(); }}
+                onFocus={(e) => e.target.select()}
+                aria-label={label}
+                className="cc-stepper-input"
+                style={{
+                  width: "52px", minWidth: 0,
+                  textAlign: "center",
+                  background: "transparent", border: "none", outline: "none",
+                  fontWeight: 700,
+                  fontFamily: "'Roboto Mono', 'SF Mono', monospace",
+                  fontFeatureSettings: '"tnum"',
+                  color: theme.text, padding: 0,
+                  lineHeight: 1.2,
+                }}
+              />
+              <span style={{
+                color: theme.textFaint, fontSize: "0.65rem",
+                fontWeight: 500, flexShrink: 0,
+              }}>{unit}</span>
+            </div>
+            <button onClick={increase} aria-label="Increase" style={stepperBtnStyle(theme)}>+</button>
+          </div>
+        </div>
+      );
+    }
+
+    function stepperBtnStyle(theme) {
+      return {
+        width: "30px", height: "30px",
+        borderRadius: "8px",
+        background: theme.cardBg,
+        border: `1px solid ${theme.border}`,
+        color: theme.text,
+        fontSize: "1rem", fontWeight: 600,
+        cursor: "pointer",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        padding: 0, lineHeight: 1,
+        fontFamily: "inherit",
+      };
+    }
+
+    // Dual-handle SoC range — combines start + end into one visual control.
+    // Pointer events on the entire bar; nearest handle gets dragged.
+    function DualSocSlider({ start, end, onStart, onEnd, theme, lang, isRTL }) {
+      const ref = React.useRef(null);
+      const t = STRINGS[lang];
+
+      const startDrag = (which) => (e) => {
+        e.preventDefault();
+        const move = (ev) => {
+          const rect = ref.current.getBoundingClientRect();
+          const cx = ev.touches ? ev.touches[0].clientX : ev.clientX;
+          // Subtract handle inset (15px each side) so 0% maps to the LEFT handle's
+          // resting position and 100% maps to the RIGHT handle's resting position.
+          const inset = 15;
+          const usable = Math.max(1, rect.width - inset * 2);
+          let pct = ((cx - rect.left - inset) / usable) * 100;
+          if (isRTL) pct = 100 - pct;
+          pct = Math.max(0, Math.min(100, Math.round(pct)));
+          if (which === "start") onStart(pct);
+          else onEnd(pct);
+        };
+        const up = () => {
+          window.removeEventListener("pointermove", move);
+          window.removeEventListener("pointerup", up);
+          window.removeEventListener("pointercancel", up);
+        };
+        window.addEventListener("pointermove", move);
+        window.addEventListener("pointerup", up);
+        window.addEventListener("pointercancel", up);
+      };
+
+      return (
+        <div style={{ padding: "12px 0", borderBottom: `1px solid ${theme.borderSubtle}` }}>
+          <div style={{
+            display: "flex", justifyContent: "space-between", alignItems: "center",
+            marginBottom: "12px",
+          }}>
+            <span style={{ fontSize: "0.875rem", fontWeight: 500, color: theme.text }}>
+              {t.stateOfCharge}
+            </span>
+            <span style={{
+              fontSize: "0.85rem", fontWeight: 700,
+              fontFamily: "'Roboto Mono', 'SF Mono', monospace",
+              fontFeatureSettings: '"tnum"',
+            }}>
+              <span style={{ color: theme.start }}>{start}%</span>
+              <span style={{ color: theme.textFaint, margin: "0 6px" }}>→</span>
+              <span style={{ color: theme.yellowDeep }}>{end}%</span>
+            </span>
+          </div>
+          <div ref={ref} style={{
+            position: "relative", height: "36px", borderRadius: "18px",
+            background: theme.sliderTrack,
+            border: `1px solid ${theme.border}`,
+            touchAction: "none",
+          }}>
+            {/* Range fill (gradient) — positioned within the inset zone so it stays under the handles */}
+            <div style={{
+              position: "absolute", top: "3px", bottom: "3px",
+              [isRTL ? "right" : "left"]: `calc(15px + (100% - 30px) * ${start} / 100)`,
+              width: `calc((100% - 30px) * ${(end - start)} / 100)`,
+              background: `linear-gradient(${isRTL ? "270deg" : "90deg"}, ${theme.start}, ${theme.end})`,
+              borderRadius: "15px",
+              transition: "left 0.08s linear, right 0.08s linear, width 0.08s linear",
+            }} />
+            {/* Start handle */}
+            <SocKnob pct={start} color={theme.start} onPointerDown={startDrag("start")} isRTL={isRTL} />
+            {/* End handle */}
+            <SocKnob pct={end} color={theme.yellowDeep} onPointerDown={startDrag("end")} isRTL={isRTL} />
+          </div>
+        </div>
+      );
+    }
+
+    function SocKnob({ pct, color, onPointerDown, isRTL }) {
+      // Position the handle's CENTER along the track such that at 0% the handle's
+      // LEFT edge aligns with the track's left edge, and at 100% the handle's RIGHT
+      // edge aligns with the track's right edge. Track has 30px reserved for handle width.
+      return (
+        <div onPointerDown={onPointerDown} style={{
+          position: "absolute", top: "50%",
+          [isRTL ? "right" : "left"]: `calc(15px + (100% - 30px) * ${pct} / 100)`,
+          transform: isRTL ? "translate(50%, -50%)" : "translate(-50%, -50%)",
+          width: "30px", height: "30px",
+          borderRadius: "15px",
+          background: "#fff",
+          border: `3px solid ${color}`,
+          boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
+          cursor: "grab", touchAction: "none",
+          transition: "left 0.08s linear, right 0.08s linear",
+        }} />
+      );
+    }
+
+    // Sliding 2-up charger toggle. Animated pill slides between options.
+    function ChargerToggle({ value, onChange, t, theme, isRTL }) {
+      const isWall = value === "wall";
+      return (
+        <div style={{
+          position: "relative",
+          display: "grid", gridTemplateColumns: "1fr 1fr",
+          background: theme.cardBgInactive,
+          borderRadius: "14px",
+          padding: "4px",
+          border: `1px solid ${theme.border}`,
+        }}>
+          <div style={{
+            position: "absolute", top: "4px", bottom: "4px",
+            [isRTL ? "right" : "left"]: isWall ? "4px" : "50%",
+            width: "calc(50% - 4px)",
+            background: theme.yellow,
+            borderRadius: "10px",
+            transition: "left 0.22s cubic-bezier(.2,.7,.3,1), right 0.22s cubic-bezier(.2,.7,.3,1)",
+            boxShadow: "0 1px 4px rgba(252,212,65,0.45)",
+          }} />
+          {[
+            { k: "wall", label: t.wallPlug, sub: "Mode 2 · 2.2 kW" },
+            { k: "ac11", label: t.acCharger, sub: "Type 2 · 11 kW" },
+          ].map(({ k, label, sub }) => {
+            const active = value === k;
+            return (
+              <button key={k} onClick={() => onChange(k)} style={{
+                position: "relative", zIndex: 1,
+                padding: "12px 6px",
+                background: "transparent", border: "none",
+                color: active ? theme.onYellow : theme.textFaint,
+                cursor: "pointer", textAlign: "center",
+                borderRadius: "10px",
+                fontFamily: "inherit",
+              }}>
+                <div style={{ fontSize: "0.85rem", fontWeight: 700 }}>{label}</div>
+                <div style={{
+                  fontSize: "0.65rem", opacity: 0.75, marginTop: "2px",
+                  fontVariantNumeric: "tabular-nums",
+                  fontFamily: "'Roboto Mono', 'SF Mono', monospace",
+                }}>{sub}</div>
+              </button>
+            );
+          })}
+        </div>
+      );
+    }
+
+    // Hero cost card — gold gradient with energy/time/range stats and monthly/annual chips.
+    function HeroCostCard({ result, theme, t, formatRate, currencySymbol, currencyAfter, isRTL, lang }) {
+      return (
+        <div style={{
+          margin: "4px 0 16px",
+          borderRadius: "24px",
+          padding: "20px 22px",
+          background: theme.accentCardGradient,
+          border: "1px solid rgba(0,0,0,0.06)",
+          position: "relative", overflow: "hidden",
+          boxShadow: theme.heroShadow,
+          direction: isRTL ? "rtl" : "ltr",
+          textAlign: isRTL ? "right" : "left",
+        }}>
+          <div style={{
+            position: "absolute", top: "-40px",
+            [isRTL ? "left" : "right"]: "-40px",
+            width: "160px", height: "160px", borderRadius: "999px",
+            background: "radial-gradient(circle, rgba(255,255,255,0.5), transparent 70%)",
+            pointerEvents: "none",
+          }} />
+          <div style={{
+            fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.08em",
+            textTransform: "uppercase", color: "rgba(0,0,0,0.55)",
+          }}>{t.costPerCharge}</div>
+          <div style={{
+            display: "flex",
+            alignItems: "baseline",
+            gap: "6px",
+            marginTop: "6px",
+            // Inherit RTL from parent so the row anchors to the right side of the card
+            // in Arabic. Inner number span is force-LTR so digits read correctly.
+            direction: isRTL ? "rtl" : "ltr",
+            justifyContent: "flex-start",
+          }}>
+            <span style={{ fontSize: "0.9rem", fontWeight: 700, color: "rgba(0,0,0,0.7)" }}>
+              {currencySymbol}
+            </span>
+            <span style={{
+              fontSize: "3.5rem", fontWeight: 300, letterSpacing: "-0.04em",
+              lineHeight: 0.95, color: "#0F0E0B",
+              fontFeatureSettings: '"tnum"',
+              fontFamily: "'Roboto', system-ui, sans-serif",
+              direction: "ltr", unicodeBidi: "isolate",
+            }}>{formatRate(result.costPerCharge, 2)}</span>
+          </div>
+          <div style={{
+            display: "flex", gap: 0, marginTop: "16px", paddingTop: "14px",
+            borderTop: "1px solid rgba(0,0,0,0.1)",
+          }}>
+            <HeroStat label={t.energyShort} value={`${result.energyToBattery.toFixed(1)} kWh`} isRTL={isRTL} />
+            <HeroDiv />
+            <HeroStat label={t.timeShort} value={result.chargingTimeShort} isRTL={isRTL} />
+            <HeroDiv />
+            <HeroStat label={t.rangeShort} value={`${result.startSOC}→${result.endSOC}%`} isRTL={isRTL} />
+          </div>
+          <div style={{ display: "flex", gap: "8px", marginTop: "14px" }}>
+            <SubChip label={t.monthly} symbol={currencySymbol} value={formatRate(result.monthlyCost, 0)} isRTL={isRTL} />
+            <SubChip label={t.annual} symbol={currencySymbol} value={formatRate(result.annualCost, 0)} isRTL={isRTL} />
+          </div>
+        </div>
+      );
+    }
+    function HeroStat({ label, value, isRTL }) {
+      return (
+        <div style={{ flex: 1, minWidth: 0, textAlign: isRTL ? "right" : "left" }}>
+          <div style={{
+            fontSize: "0.65rem", color: "rgba(0,0,0,0.55)",
+            textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 600,
+          }}>{label}</div>
+          <div style={{
+            fontSize: "0.85rem", fontWeight: 700, color: "#0F0E0B",
+            fontFamily: "'Roboto Mono', 'SF Mono', monospace",
+            fontFeatureSettings: '"tnum"', marginTop: "2px",
+            whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+            direction: "ltr",
+            textAlign: isRTL ? "right" : "left",
+          }}>{value}</div>
+        </div>
+      );
+    }
+    function HeroDiv() {
+      return <div style={{ width: "1px", background: "rgba(0,0,0,0.12)", margin: "0 12px" }} />;
+    }
+    function SubChip({ label, symbol, value, isRTL }) {
+      return (
+        <div style={{
+          flex: 1, padding: "10px 12px",
+          background: "rgba(0,0,0,0.06)", borderRadius: "12px",
+          textAlign: isRTL ? "right" : "left",
+        }}>
+          <div style={{
+            fontSize: "0.65rem", fontWeight: 700,
+            color: "rgba(0,0,0,0.55)",
+            textTransform: "uppercase", letterSpacing: "0.06em",
+          }}>{label}</div>
+          <div style={{
+            fontSize: "0.95rem", fontWeight: 600, color: "#0F0E0B",
+            fontFamily: "'Roboto Mono', 'SF Mono', monospace",
+            fontFeatureSettings: '"tnum"', marginTop: "3px",
+            whiteSpace: "nowrap",
+          }}>{symbol} {value}</div>
+        </div>
+      );
+    }
+
     function Slider({ label, value, min, max, step, unit, onChange, accent, theme, isRTL }) {
       const [inputVal, setInputVal] = useState(String(value));
       const pct = ((value - min) / (max - min)) * 100;
@@ -1276,7 +1736,7 @@
                   width: "52px", background: "transparent",
                   border: "none",
                   padding: 0, color: theme.text,
-                  fontFamily: "'DM Mono', monospace",
+                  fontFamily: "'Roboto Mono', 'SF Mono', monospace",
                   fontWeight: 700,
                   textAlign: "center", outline: "none",
                 }}
@@ -1285,7 +1745,7 @@
                 fontSize: "0.7rem",
                 color: alpha(accent, 0.85),
                 fontWeight: 600,
-                fontFamily: "'DM Mono', monospace",
+                fontFamily: "'Roboto Mono', 'SF Mono', monospace",
               }}>{unit.trim()}</span>
             </div>
           </div>
@@ -1416,54 +1876,111 @@
       );
     }
 
-    function Section({ title, children, isRTL, theme, infoTitle, infoBody, lang }) {
+    function Section({ title, children, isRTL, theme, infoTitle, infoBody, lang, collapsible, defaultExpanded = false }) {
       const [popoverOpen, setPopoverOpen] = useState(false);
+      const [expanded, setExpanded] = useState(defaultExpanded);
       const t = STRINGS[lang || "en"];
+
+      const headerStyle = {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        marginBottom: collapsible && !expanded ? 0 : "0.6rem",
+        cursor: collapsible ? "pointer" : "default",
+        userSelect: "none",
+        WebkitTapHighlightColor: "transparent",
+      };
+
+      const headerInner = (
+        <>
+          <div style={{
+            display: "flex", alignItems: "center", gap: "0.5rem",
+            flex: 1, minWidth: 0,
+          }}>
+            {collapsible && (
+              <span style={{
+                display: "inline-flex", alignItems: "center", justifyContent: "center",
+                width: "18px", height: "18px",
+                color: theme.textFaint,
+                fontSize: "0.7rem", flexShrink: 0,
+                transform: expanded ? "rotate(90deg)" : (isRTL ? "rotate(180deg)" : "rotate(0deg)"),
+                transition: "transform 0.2s ease",
+              }}>▶</span>
+            )}
+            <div style={{
+              fontSize: "0.78rem", color: theme.text, letterSpacing: "-0.01em",
+              textTransform: "none", fontWeight: 700,
+            }}>{title}</div>
+          </div>
+          {infoBody && (
+            <button
+              onClick={(e) => { e.stopPropagation(); setPopoverOpen(true); track("tooltip_open", { section: infoTitle }); }}
+              aria-label={`Info about ${infoTitle}`}
+              style={{
+                width: "44px", height: "44px",
+                margin: "-12px",  // negate the extra space so layout doesn't shift
+                background: "transparent",
+                border: "none",
+                cursor: "pointer", display: "flex",
+                alignItems: "center", justifyContent: "center",
+                flexShrink: 0, padding: 0,
+                WebkitTapHighlightColor: "transparent",
+              }}
+            >
+              <span style={{
+                width: "20px", height: "20px",
+                borderRadius: "50%",
+                background: alpha(theme.yellow, 0.15),
+                border: `1px solid ${alpha(theme.yellow, 0.4)}`,
+                color: theme.yellowText,
+                fontSize: "0.7rem", fontWeight: 700,
+                display: "flex",
+                alignItems: "center", justifyContent: "center",
+                fontFamily: "Georgia, serif", fontStyle: "italic",
+                lineHeight: 1,
+                pointerEvents: "none",
+              }}>i</span>
+            </button>
+          )}
+        </>
+      );
+
+      const handleHeaderClick = () => {
+        if (!collapsible) return;
+        const newExpanded = !expanded;
+        setExpanded(newExpanded);
+        track("section_toggle", { section: title, expanded: newExpanded });
+      };
 
       return (
         <div style={{
           background: theme.cardBg, border: `1px solid ${theme.border}`,
-          boxShadow: theme.cardShadow, borderRadius: "14px",
-          padding: "1.4rem", marginBottom: "0.75rem",
+          boxShadow: theme.cardShadow, borderRadius: "20px",
+          padding: "1rem 1.1rem", marginBottom: "0.75rem",
           position: "relative",
         }}>
-          <div style={{
-            display: "flex", alignItems: "center", justifyContent: "space-between",
-            marginBottom: "1.2rem",
-          }}>
-            <div style={{ fontSize: "0.65rem", color: theme.textFaint, letterSpacing: "0.1em", textTransform: "uppercase" }}>{title}</div>
-            {infoBody && (
-              <button
-                onClick={(e) => { e.stopPropagation(); setPopoverOpen(true); track("tooltip_open", { section: infoTitle }); }}
-                aria-label={`Info about ${infoTitle}`}
-                style={{
-                  width: "44px", height: "44px",
-                  margin: "-12px",  // negate the extra space so layout doesn't shift
-                  background: "transparent",
-                  border: "none",
-                  cursor: "pointer", display: "flex",
-                  alignItems: "center", justifyContent: "center",
-                  flexShrink: 0, padding: 0,
-                  WebkitTapHighlightColor: "transparent",
-                }}
-              >
-                <span style={{
-                  width: "20px", height: "20px",
-                  borderRadius: "50%",
-                  background: alpha(theme.yellow, 0.15),
-                  border: `1px solid ${alpha(theme.yellow, 0.4)}`,
-                  color: theme.yellowText,
-                  fontSize: "0.7rem", fontWeight: 700,
-                  display: "flex",
-                  alignItems: "center", justifyContent: "center",
-                  fontFamily: "Georgia, serif", fontStyle: "italic",
-                  lineHeight: 1,
-                  pointerEvents: "none",
-                }}>i</span>
-              </button>
-            )}
-          </div>
-          {children}
+          {collapsible ? (
+            <div role="button"
+                 tabIndex={0}
+                 aria-expanded={expanded}
+                 onClick={handleHeaderClick}
+                 onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleHeaderClick(); } }}
+                 style={headerStyle}>
+              {headerInner}
+            </div>
+          ) : (
+            <div style={headerStyle}>{headerInner}</div>
+          )}
+
+          {/* Body — always rendered, but collapsed when collapsible & !expanded */}
+          {(!collapsible || expanded) && (
+            <div style={{
+              animation: collapsible ? "sectionExpand 0.22s ease" : "none",
+              overflow: "hidden",
+            }}>
+              {children}
+            </div>
+          )}
 
           {/* Tooltip popover */}
           {popoverOpen && (
@@ -1633,7 +2150,7 @@
                       flexShrink: 0,
                     }}>
                       <span>{c.name[lang]}</span>
-                      <span style={{ fontSize: "0.7rem", color: theme.textFaint, fontFamily: "'DM Mono', monospace" }}>{c.currency}</span>
+                      <span style={{ fontSize: "0.7rem", color: theme.textFaint, fontFamily: "'Roboto Mono', 'SF Mono', monospace" }}>{c.currency}</span>
                     </button>
                   );
                 })
@@ -1681,7 +2198,7 @@
                     border: `1px solid ${active ? theme.yellow : theme.border}`,
                     borderRadius: "8px", padding: "0.85rem 1rem",
                     cursor: "pointer",
-                    fontFamily: l.code === "ar" ? "'Tajawal', sans-serif" : "'DM Mono', monospace",
+                    fontFamily: l.code === "ar" ? "'Tajawal', sans-serif" : "'Roboto', system-ui, sans-serif",
                     color: theme.text,
                     display: "flex", alignItems: "center", gap: "0.7rem",
                     fontSize: "0.95rem", fontWeight: active ? 700 : 500,
@@ -1877,7 +2394,7 @@
                 }}>
                   <span style={{ flex: 1 }}>{item.name}</span>
                   {step === "variant" && (
-                    <span style={{ fontSize: "0.72rem", color: theme.textFaint, fontFamily: "'DM Mono', monospace" }}>
+                    <span style={{ fontSize: "0.72rem", color: theme.textFaint, fontFamily: "'Roboto Mono', 'SF Mono', monospace" }}>
                       {item.kwh} kWh · {item.years}
                     </span>
                   )}
@@ -2074,7 +2591,7 @@
                     display: "flex", alignItems: "center", justifyContent: "center",
                     fontSize: "0.9rem", fontWeight: 700,
                     flexShrink: 0,
-                    fontFamily: "'DM Mono', monospace",
+                    fontFamily: "'Roboto Mono', 'SF Mono', monospace",
                   }}>{s.num}</div>
                   <div style={{ flex: 1 }}>
                     <div style={{
@@ -2299,6 +2816,23 @@
       const chargingTime = chargingHours < 1
         ? `~${Math.round(chargingHours * 60)} ${t.min}`
         : `~${chargingHours.toFixed(1)} ${t.hrs}`;
+      // Compact form for hero card stat row (fits in narrow column)
+      const chargingTimeShort = chargingHours < 1
+        ? `${Math.round(chargingHours * 60)}m`
+        : (() => {
+            const H = Math.floor(chargingHours);
+            const M = Math.round((chargingHours - H) * 60);
+            return M === 0 ? `${H}h` : `${H}h ${M}m`;
+          })();
+
+      // Aggregated for HeroCostCard
+      const result = {
+        costPerCharge, monthlyCost, annualCost,
+        energyToBattery, energyFromWall, chargingHours,
+        chargingTime, chargingTimeShort,
+        chargesPerMonth, chargePct,
+        startSOC, endSOC,
+      };
 
       const countryData = country ? COUNTRIES[country] : null;
 
@@ -2331,17 +2865,23 @@
             gap: "0.5rem",
           }}>
             {/* Brand */}
-            <div style={{ display: "flex", alignItems: "center", gap: "0.55rem", minWidth: 0 }}>
-              <img src="icon-192.png" alt="Charge Calculator" style={{ width: "34px", height: "34px", borderRadius: "8px", flexShrink: 0, display: "block" }} />
-              <div style={{ minWidth: 0 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.55rem", minWidth: 0, flex: "1 1 auto", overflow: "hidden" }}>
+              <img src="icon-192.png" alt="Charge Calculator" style={{ width: "32px", height: "32px", borderRadius: "8px", flexShrink: 0, display: "block" }} />
+              <div style={{ minWidth: 0, overflow: "hidden" }}>
                 <div style={{
-                  fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Bebas Neue', sans-serif",
-                  fontSize: isRTL ? "1.05rem" : "1.2rem",
-                  fontWeight: 800, letterSpacing: isRTL ? "0" : "0.04em",
-                  color: theme.yellowText, lineHeight: 1.05,
+                  fontFamily: "'Roboto', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
+                  fontSize: isRTL ? "0.95rem" : "1rem",
+                  fontWeight: 800, letterSpacing: isRTL ? "0" : "0.02em",
+                  color: theme.yellowText, lineHeight: 1.1,
                   whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
                 }}>{t.appTitle}</div>
-                <div style={{ fontSize: "0.55rem", color: theme.textVeryFaint, letterSpacing: "0.08em", marginTop: "0.1rem" }}>{t.subtitle}</div>
+                <div style={{
+                  fontSize: "0.55rem", color: theme.textVeryFaint, letterSpacing: "0.08em",
+                  marginTop: "0.1rem",
+                  whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+                }}>{t.subtitle}</div>
               </div>
             </div>
 
@@ -2362,7 +2902,7 @@
                     fontSize: "0.7rem", color: "#000",
                     cursor: "pointer", flexShrink: 0,
                     fontWeight: 700,
-                    fontFamily: lang === "ar" ? "'Tajawal', sans-serif" : "'DM Mono', monospace",
+                    fontFamily: lang === "ar" ? "'Tajawal', sans-serif" : "'Roboto', system-ui, sans-serif",
                     letterSpacing: "0.04em",
                     animation: "installPulse 2.5s ease-in-out infinite",
                   }}
@@ -2399,7 +2939,7 @@
                   border: `1px solid ${alpha(theme.yellow, 0.3)}`,
                   borderRadius: "8px", padding: "0 0.55rem", height: "32px",
                   color: theme.yellowText,
-                  fontFamily: lang === "ar" ? "'Tajawal', sans-serif" : "'DM Mono', monospace",
+                  fontFamily: lang === "ar" ? "'Tajawal', sans-serif" : "'Roboto', system-ui, sans-serif",
                   fontSize: "0.7rem",
                   fontWeight: 700, cursor: "pointer", flexShrink: 0,
                   letterSpacing: "0.04em",
@@ -2426,7 +2966,7 @@
               {countryData ? countryData.name[lang] : t.detecting}
             </span>
             {countryData && (
-              <span style={{ fontSize: "0.65rem", color: theme.textFaint, fontFamily: "'DM Mono', monospace" }}>
+              <span style={{ fontSize: "0.65rem", color: theme.textFaint, fontFamily: "'Roboto Mono', 'SF Mono', monospace" }}>
                 · {countryData.currency}
               </span>
             )}
@@ -2435,115 +2975,213 @@
             </span>
           </button>
 
-          {/* Result Cards */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.6rem", marginBottom: "1.5rem" }}>
+          {/* Hero gold cost card — Option A "Refined" */}
+          <div style={{
+            margin: "0 0 1rem 0",
+            borderRadius: "20px",
+            padding: "1.25rem 1.4rem",
+            background: theme.accentCardGradient,
+            border: `1px solid ${alpha(theme.yellow, 0.2)}`,
+            boxShadow: theme.heroShadow,
+            position: "relative",
+            overflow: "hidden",
+            textAlign: isRTL ? "right" : "left",
+          }}>
+            {/* Glow accent */}
             <div style={{
-              gridColumn: "1 / -1", background: theme.accentCardGradient,
-              border: `1px solid ${alpha(theme.yellow, isDark ? 0.2 : 0.4)}`,
-              boxShadow: theme.cardShadow, borderRadius: "14px",
-              padding: "1.4rem 1.5rem", position: "relative", overflow: "hidden",
-              textAlign: isRTL ? "right" : "left",
-            }}>
-              <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: `linear-gradient(90deg, transparent, ${theme.yellow}, transparent)` }} />
-              <div style={{ fontSize: "0.65rem", color: theme.textFaint, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "0.3rem" }}>{t.costPerCharge}</div>
-              <div style={{ fontSize: "2.1rem", fontWeight: 800, color: theme.yellowText, lineHeight: 1, marginBottom: "0.4rem", fontFamily: "'DM Mono', monospace" }}>
-                {fmt(costPerCharge, 2)}
-              </div>
-              <div style={{ fontSize: "0.72rem", color: theme.textMuted, fontFamily: "'DM Mono', monospace" }}>
-                {energyFromWall.toFixed(1)} kWh {t.fromWall} · {chargingTime} · {chargePct}% {t.charged}
-              </div>
+              position: "absolute", top: -40, [isRTL ? "left" : "right"]: -40,
+              width: 160, height: 160, borderRadius: "50%",
+              background: "radial-gradient(circle, rgba(255,255,255,0.5), transparent 70%)",
+              pointerEvents: "none",
+            }} />
+
+            {/* Label */}
+            <div style={{
+              fontSize: "0.65rem", fontWeight: 700, letterSpacing: "0.08em",
+              textTransform: "uppercase", color: "rgba(0,0,0,0.55)",
+            }}>{t.costPerCharge}</div>
+
+            {/* Big number */}
+            <div style={{ display: "flex", alignItems: "baseline", gap: "0.4rem", marginTop: "0.3rem", flexDirection: isRTL ? "row-reverse" : "row" }}>
+              <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "rgba(0,0,0,0.7)", fontFamily: t.fontFamily }}>
+                {countryData ? countryData.symbol : ""}
+              </span>
+              <span style={{
+                fontSize: "3rem", fontWeight: 300, letterSpacing: "-0.04em",
+                lineHeight: 0.95, color: "#0F0E0B",
+                fontFamily: "'Roboto Mono', 'SF Mono', monospace",
+                fontFeatureSettings: '"tnum"',
+              }}>{fmt(costPerCharge, 2).replace(/^[^\d-]+/, "")}</span>
             </div>
 
-            {[
-              { label: t.monthly, value: fmt(monthlyCost, 1), sub: `${chargesPerMonth} ${t.charges}`, accent: theme.green },
-              { label: t.annual, value: fmt(annualCost, 0), sub: t.estimated, accent: theme.blue },
-            ].map(card => (
-              <div key={card.label} style={{
-                background: theme.cardBg,
-                border: `1px solid ${alpha(card.accent, isDark ? 0.1 : 0.2)}`,
-                boxShadow: theme.cardShadow, borderRadius: "14px",
-                padding: "1rem 1.1rem", position: "relative",
-                overflow: "hidden", textAlign: "center"
-              }}>
-                <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: `linear-gradient(90deg, transparent, ${card.accent}, transparent)` }} />
-                <div style={{ fontSize: "0.65rem", color: theme.textFaint, letterSpacing: "0.08em", marginBottom: "0.3rem" }}>{card.label}</div>
-                <div style={{ fontSize: "1.2rem", fontWeight: 800, color: card.accent, lineHeight: 1, fontFamily: "'DM Mono', monospace" }}>{card.value}</div>
-                <div style={{ fontSize: "0.68rem", color: theme.textVeryFaint, marginTop: "0.25rem" }}>{card.sub}</div>
-              </div>
-            ))}
+            {/* Sub-stats: Energy / Time / Range */}
+            <div style={{
+              display: "flex", marginTop: "1rem", paddingTop: "0.85rem",
+              borderTop: "1px solid rgba(0,0,0,0.1)",
+              flexDirection: isRTL ? "row-reverse" : "row",
+            }}>
+              {[
+                { label: lang === "ar" ? "الطاقة" : lang === "fr" ? "Énergie" : lang === "es" ? "Energía" : "Energy",
+                  value: `${energyToBattery.toFixed(1)} kWh` },
+                { label: lang === "ar" ? "الوقت" : lang === "fr" ? "Temps" : lang === "es" ? "Tiempo" : "Time",
+                  value: chargingTime },
+                { label: lang === "ar" ? "النطاق" : lang === "fr" ? "Plage" : lang === "es" ? "Rango" : "Range",
+                  value: `${startSOC}→${endSOC}%` },
+              ].map((stat, i, arr) => (
+                <React.Fragment key={stat.label}>
+                  <div style={{ flex: 1, textAlign: "center" }}>
+                    <div style={{
+                      fontSize: "0.6rem", color: "rgba(0,0,0,0.5)",
+                      textTransform: "uppercase", letterSpacing: "0.07em", fontWeight: 600,
+                    }}>{stat.label}</div>
+                    <div style={{
+                      fontSize: "0.82rem", fontWeight: 700, color: "#0F0E0B",
+                      fontFeatureSettings: '"tnum"', marginTop: "0.15rem",
+                      fontFamily: "'Roboto Mono', 'SF Mono', monospace",
+                    }}>{stat.value}</div>
+                  </div>
+                  {i < arr.length - 1 && (
+                    <div style={{ width: 1, background: "rgba(0,0,0,0.12)", margin: "0 0.4rem" }} />
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+
+            {/* Monthly + Annual sub-chips */}
+            <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.85rem", flexDirection: isRTL ? "row-reverse" : "row" }}>
+              {[
+                { label: t.monthly, value: fmt(monthlyCost, 1) },
+                { label: t.annual, value: fmt(annualCost, 0) },
+              ].map(chip => (
+                <div key={chip.label} style={{
+                  flex: 1, padding: "0.6rem 0.75rem",
+                  background: "rgba(0,0,0,0.06)", borderRadius: "12px",
+                  textAlign: isRTL ? "right" : "left",
+                }}>
+                  <div style={{
+                    fontSize: "0.6rem", fontWeight: 700,
+                    color: "rgba(0,0,0,0.55)",
+                    textTransform: "uppercase", letterSpacing: "0.07em",
+                  }}>{chip.label}</div>
+                  <div style={{
+                    fontSize: "0.95rem", fontWeight: 600, color: "#0F0E0B",
+                    fontFamily: "'Roboto Mono', 'SF Mono', monospace",
+                    fontFeatureSettings: '"tnum"', marginTop: "0.1rem",
+                  }}>{chip.value}</div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Charger Type */}
+          {/* Charger Type — Sliding 2-up toggle */}
           <Section title={t.chargerType} isRTL={isRTL} theme={theme} lang={lang} infoTitle={t.tooltipChargerTitle} infoBody={t.tooltipChargerBody}>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.6rem" }}>
-              {CHARGERS.map(c => {
-                const active = chargerId === c.id;
-                return (
-                  <button key={c.id} onClick={() => {
-                    setChargerId(c.id);
-                    track("charger_type_select", { charger_type: c.id, charger_kw: c.kw });
-                  }} style={{
-                    background: active ? theme.chargerCardActive : theme.chargerCardInactive,
-                    border: `1.5px solid ${active ? theme.borderActive : theme.border}`,
-                    borderRadius: "10px", padding: "0.85rem 0.8rem",
-                    cursor: "pointer", textAlign: isRTL ? "right" : "left",
-                    transition: "all 0.15s", fontFamily: t.fontFamily,
-                  }}>
-                    <div style={{ fontSize: "1.3rem", marginBottom: "0.3rem" }}>{c.icon}</div>
-                    <div style={{ fontSize: "0.82rem", fontWeight: 700, color: active ? theme.yellowText : theme.textMuted }}>{c.label}</div>
-                    <div style={{ fontSize: "0.63rem", color: active ? alpha(theme.yellowText, 0.6) : theme.textFaint, marginTop: "0.15rem", fontFamily: "'DM Mono', monospace" }}>{c.sub}</div>
-                  </button>
-                );
-              })}
-            </div>
+            <ChargerToggle
+              value={chargerId}
+              onChange={(id) => {
+                setChargerId(id);
+                const c = CHARGERS.find(c => c.id === id);
+                track("charger_type_select", { charger_type: id, charger_kw: c.kw });
+              }}
+              t={t}
+              theme={theme}
+              isRTL={isRTL}
+            />
           </Section>
 
-          {/* Tariff */}
+          {/* Tariff — sliding 4-up segment matching charger toggle */}
           <Section title={t.tariff} isRTL={isRTL} theme={theme} lang={lang} infoTitle={t.tooltipTariffTitle} infoBody={t.tooltipTariffBody}>
             {countryData ? (
               <>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", marginBottom: "1rem" }}>
-                  {ratePresets.map(r => {
-                    const active = r.value !== null
+                {(() => {
+                  const activeIdx = ratePresets.findIndex(r =>
+                    r.value !== null
                       ? !customRate && Math.abs(rate - r.value) < 0.0001
-                      : customRate;
-                    return (
-                      <button key={r.key} onClick={() => {
-                        if (r.value !== null) {
-                          setCustomRate(false); setRate(r.value);
-                          track("tariff_select", { tariff_label: r.key, tariff_rate: r.value, country });
-                        } else {
-                          setCustomRate(true);
-                          track("tariff_select", { tariff_label: "Custom", country });
-                        }
-                      }} style={{
-                        padding: "0.4rem 0.7rem", fontSize: "0.7rem",
-                        background: active ? theme.rateActiveBg : theme.rateInactiveBg,
-                        color: active ? theme.rateActiveText : theme.rateInactiveText,
-                        border: `1px solid ${active ? theme.rateActiveBg : theme.rateInactiveBorder}`,
-                        borderRadius: "6px", cursor: "pointer",
-                        fontFamily: t.fontFamily,
-                        fontWeight: active ? 700 : 400, transition: "all 0.15s",
-                      }}>
-                        {r.label}{r.value !== null ? ` (${r.value})` : ""}
-                      </button>
-                    );
-                  })}
-                </div>
+                      : customRate
+                  );
+                  return (
+                    <div style={{
+                      position: "relative",
+                      display: "grid", gridTemplateColumns: "repeat(4, 1fr)",
+                      background: theme.cardBgInactive,
+                      borderRadius: "14px",
+                      padding: "4px",
+                      border: `1px solid ${theme.border}`,
+                      marginBottom: customRate ? "0.8rem" : "0.5rem",
+                    }}>
+                      {/* Sliding pill */}
+                      {activeIdx >= 0 && (
+                        <div style={{
+                          position: "absolute", top: "4px", bottom: "4px",
+                          [isRTL ? "right" : "left"]: `calc(4px + ${activeIdx} * (100% - 8px) / 4)`,
+                          width: "calc((100% - 8px) / 4)",
+                          background: theme.yellow,
+                          borderRadius: "10px",
+                          transition: "left 0.22s cubic-bezier(.2,.7,.3,1), right 0.22s cubic-bezier(.2,.7,.3,1)",
+                          boxShadow: "0 1px 4px rgba(252,212,65,0.45)",
+                        }} />
+                      )}
+                      {ratePresets.map(r => {
+                        const active = r.value !== null
+                          ? !customRate && Math.abs(rate - r.value) < 0.0001
+                          : customRate;
+                        return (
+                          <button key={r.key} onClick={() => {
+                            if (r.value !== null) {
+                              setCustomRate(false); setRate(r.value);
+                              track("tariff_select", { tariff_label: r.key, tariff_rate: r.value, country });
+                            } else {
+                              setCustomRate(true);
+                              track("tariff_select", { tariff_label: "Custom", country });
+                            }
+                          }} style={{
+                            position: "relative", zIndex: 1,
+                            padding: "10px 4px",
+                            background: "transparent", border: "none",
+                            color: active ? theme.onYellow : theme.textFaint,
+                            cursor: "pointer", textAlign: "center",
+                            borderRadius: "10px",
+                            fontFamily: "inherit",
+                          }}>
+                            <div style={{
+                              fontSize: "0.72rem", fontWeight: 700,
+                              textTransform: "capitalize",
+                            }}>{r.label}</div>
+                            <div style={{
+                              fontSize: "0.6rem",
+                              opacity: active ? 0.75 : 0.65,
+                              marginTop: "2px",
+                              fontFamily: "'Roboto Mono', 'SF Mono', monospace",
+                              fontFeatureSettings: '"tnum"',
+                              fontVariantNumeric: "tabular-nums",
+                            }}>{r.value !== null ? r.value.toFixed(3) : (customRate ? rate.toFixed(3) : "—")}</div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  );
+                })()}
 
                 {customRate && (
-                  <div style={{ marginBottom: "1rem" }}>
+                  <div style={{ marginBottom: "0.5rem" }}>
                     <div style={{ fontSize: "0.68rem", color: theme.textFaint, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "0.4rem" }}>{t.rateInput} ({countryData.currency})</div>
                     <input type="number" step="0.001" min="0.001" max="100" value={rate}
                       onChange={e => setRate(Number(e.target.value))}
                       onBlur={e => track("custom_rate_set", { rate: Number(e.target.value), country })}
-                      style={{ width: "100%", background: theme.inputBg, border: `1px solid ${theme.inputBorder}`, borderRadius: "8px", padding: "0.6rem 0.8rem", color: theme.text, fontFamily: "'DM Mono', monospace", fontSize: "1rem" }} />
+                      style={{ width: "100%", background: theme.inputBg, border: `1px solid ${theme.inputBorder}`, borderRadius: "8px", padding: "0.6rem 0.8rem", color: theme.text, fontFamily: "'Roboto Mono', 'SF Mono', monospace", fontSize: "1rem" }} />
                   </div>
                 )}
 
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: "0.5rem" }}>
-                  <span style={{ fontSize: "0.65rem", color: theme.textFaint }}>{t.activeRate}</span>
-                  <span style={{ fontSize: "1rem", fontWeight: 700, color: theme.yellowText, fontFamily: "'DM Mono', monospace" }}>{fmt(rate, 3)} / kWh</span>
+                <div style={{
+                  display: "flex", justifyContent: "space-between", alignItems: "center",
+                  paddingTop: "0.5rem", borderTop: `1px solid ${theme.borderSubtle}`,
+                  marginTop: "0.3rem",
+                }}>
+                  <span style={{ fontSize: "0.65rem", color: theme.textFaint, letterSpacing: "0.06em", textTransform: "uppercase" }}>{t.activeRate}</span>
+                  <span style={{
+                    fontSize: "0.85rem", fontWeight: 700, color: theme.yellowText,
+                    fontFamily: "'Roboto Mono', 'SF Mono', monospace",
+                    fontFeatureSettings: '"tnum"',
+                  }}>{fmt(rate, 3)} / kWh</span>
                 </div>
               </>
             ) : (
@@ -2570,7 +3208,7 @@
                       fontSize: "0.85rem", fontWeight: 700, color: theme.text,
                       whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
                     }}>{selectedVehicle.brandName} {selectedVehicle.modelName}</div>
-                    <div style={{ fontSize: "0.68rem", color: theme.textFaint, marginTop: "0.1rem", fontFamily: "'DM Mono', monospace" }}>
+                    <div style={{ fontSize: "0.68rem", color: theme.textFaint, marginTop: "0.1rem", fontFamily: "'Roboto Mono', 'SF Mono', monospace" }}>
                       {selectedVehicle.variantName} · {selectedVehicle.kwh} kWh
                     </div>
                   </div>
@@ -2620,22 +3258,38 @@
 
           {/* Battery */}
           <Section title={t.battery} isRTL={isRTL} theme={theme} lang={lang} infoTitle={t.tooltipBatteryTitle} infoBody={t.tooltipBatteryBody}>
-            <Slider label={t.capacity} value={battery} min={10} max={150} step={0.1} unit=" kWh" onChange={setBattery} accent={theme.yellow} theme={theme} isRTL={isRTL} />
-            <Slider label={t.startSOC} value={startSOC} min={0} max={99} step={1} unit="%" onChange={v => setStartSOC(Math.min(v, endSOC - 1))} accent={theme.orange} theme={theme} isRTL={isRTL} />
-            <Slider label={t.endSOC} value={endSOC} min={1} max={100} step={1} unit="%" onChange={v => setEndSOC(Math.max(v, startSOC + 1))} accent={theme.yellow} theme={theme} isRTL={isRTL} />
-            <Slider label={t.efficiency} value={efficiency} min={70} max={100} step={1} unit="%" onChange={setEfficiency} accent={theme.purple} theme={theme} isRTL={isRTL} />
+            <Stepper
+              label={t.capacity} value={battery} unit="kWh" color={theme.cap}
+              onChange={setBattery} step={0.1} min={5} max={200} dec={1}
+              theme={theme} isRTL={isRTL}
+            />
+            <DualSocSlider
+              start={startSOC} end={endSOC}
+              onStart={(v) => setStartSOC(Math.min(v, endSOC - 1))}
+              onEnd={(v) => setEndSOC(Math.max(v, startSOC + 1))}
+              theme={theme} lang={lang} isRTL={isRTL}
+            />
+            <Stepper
+              label={t.efficiency} value={efficiency} unit="%" color={theme.eff}
+              onChange={setEfficiency} step={1} min={50} max={100} dec={0}
+              theme={theme} isRTL={isRTL} last
+            />
           </Section>
 
           {/* Schedule */}
           <Section title={t.schedule} isRTL={isRTL} theme={theme} lang={lang} infoTitle={t.tooltipScheduleTitle} infoBody={t.tooltipScheduleBody}>
-            <Slider label={t.chargeEvery} value={freqDays} min={1} max={14} step={1} unit={t.days} onChange={setFreqDays} accent={theme.green} theme={theme} isRTL={isRTL} />
-            <div style={{ fontSize: "0.72rem", color: theme.textFaint, marginTop: "-0.8rem", textAlign: isRTL ? "right" : "left" }}>
+            <Stepper
+              label={t.chargeEvery} value={freqDays} unit={t.days.trim()} color={theme.schedule}
+              onChange={setFreqDays} step={1} min={1} max={30} dec={0}
+              theme={theme} isRTL={isRTL} last
+            />
+            <div style={{ fontSize: "0.72rem", color: theme.textFaint, marginTop: "0.6rem", textAlign: isRTL ? "right" : "left" }}>
               = {chargesPerMonth} {t.chargesPerMonth}
             </div>
           </Section>
 
           {/* Breakdown */}
-          <Section title={t.breakdown} isRTL={isRTL} theme={theme}>
+          <Section title={t.breakdown} isRTL={isRTL} theme={theme} collapsible defaultExpanded={false}>
             {[
               {
                 label: t.breakdownEnergy,
@@ -2685,7 +3339,7 @@
                         fontSize: "0.78rem",
                         color: group.highlight ? theme.text : theme.textMuted,
                         fontWeight: group.highlight ? 600 : 500,
-                        fontFamily: "'DM Mono', monospace",
+                        fontFamily: "'Roboto Mono', 'SF Mono', monospace",
                       }}>{v}</span>
                     </div>
                   ))}
@@ -2699,7 +3353,7 @@
             <div style={{ fontSize: "0.68rem", color: theme.textVeryFaint, fontFamily: t.fontFamily }}>
               {t.madeBy} <span style={{ color: theme.yellowText }}>@aksharawi</span> · {t.rights}
             </div>
-            <div style={{ fontSize: "0.6rem", color: theme.textGhost, letterSpacing: "0.1em", marginTop: "0.4rem", fontFamily: "'DM Mono', monospace" }}>
+            <div style={{ fontSize: "0.6rem", color: theme.textGhost, letterSpacing: "0.1em", marginTop: "0.4rem", fontFamily: "'Roboto Mono', 'SF Mono', monospace" }}>
               v{VERSION}
             </div>
           </div>
