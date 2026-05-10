@@ -6,8 +6,8 @@
   "dir": "ltr",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#fafafa",
-  "theme_color": "#F5C518",
+  "background_color": "#F8FAFB",
+  "theme_color": "#00C896",
   "orientation": "portrait",
   "categories": ["utilities", "productivity"],
   "icons": [
