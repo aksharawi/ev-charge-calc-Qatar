@@ -4,20 +4,20 @@
 
 **URL:** https://evcalculator.app
 **Author:** [@aksharawi](https://x.com/aksharawi)
-**Version:** 3.2.1
+**Version:** 3.3
 **Languages:** English, Arabic, French, Spanish
 **License:** All rights reserved
 
------
+---
 
 ## What It Does
 
 Charge Calculator helps EV and PHEV owners answer questions like:
 
-- “How much does it cost to fully charge my car?”
-- “What will I spend on charging per month?”
-- “How long will it take using a wall plug versus an AC charger?”
-- “What’s the battery capacity of my Tesla / BYD / Hyundai / etc.?”
+- "How much does it cost to fully charge my car?"
+- "What will I spend on charging per month?"
+- "How long will it take using a wall plug versus an AC charger?"
+- "What's the battery capacity of my Tesla / BYD / Hyundai / etc.?"
 
 Users either pick their car from a built-in database of 100+ models (battery is auto-filled) or enter their battery capacity manually. Then they set state of charge, electricity tariff, and charging frequency. The app calculates cost per charge, monthly cost, annual cost, and estimated charging time in real time.
 
@@ -35,12 +35,12 @@ Users either pick their car from a built-in database of 100+ models (battery is 
 ## How To Use It
 
 1. The app auto-detects your country on first visit and pre-fills typical electricity rates.
-1. (Optional) Tap “My Vehicle” → pick your car brand → model → variant. Battery capacity auto-fills.
-1. Choose your charger type: Wall Plug (slow) or AC Charger (fast).
-1. Adjust your battery capacity (kWh — already filled if you picked a vehicle), current charge level, and target charge level.
-1. Pick a tariff preset (Low / Medium / High) or enter a custom rate from your electricity bill.
-1. Set how often you charge (e.g., every 3 days).
-1. Read the live calculations: cost per charge, monthly cost, annual cost, and estimated charging time.
+2. (Optional) Tap "My Vehicle" → pick your car brand → model → variant. Battery capacity auto-fills.
+3. Choose your charger type: Wall Plug (slow) or AC Charger (fast).
+4. Adjust your battery capacity (kWh — already filled if you picked a vehicle), current charge level, and target charge level.
+5. Pick a tariff preset (Low / Medium / High) or enter a custom rate from your electricity bill.
+6. Set how often you charge (e.g., every 3 days).
+7. Read the live calculations: cost per charge, monthly cost, annual cost, and estimated charging time.
 
 ## Technical Details
 
@@ -52,26 +52,26 @@ Users either pick their car from a built-in database of 100+ models (battery is 
 
 ## Sample Vehicle Battery Capacities
 
-|Vehicle                |Variant       |Usable Battery|
-|-----------------------|--------------|--------------|
-|Tesla Model 3          |Long Range    |79 kWh        |
-|Tesla Model Y          |Standard Range|60 kWh        |
-|BYD Atto 3             |Standard      |60.5 kWh      |
-|Hyundai Ioniq 5        |Long Range    |77.4 kWh      |
-|Kia EV6                |GT            |77.4 kWh      |
-|VW ID.4                |Pro S         |82 kWh        |
-|BMW iX                 |xDrive50      |105.2 kWh     |
-|Polestar 2             |Long Range    |79 kWh        |
-|Toyota bZ4X            |Standard      |71.4 kWh      |
-|Toyota Prius Prime PHEV|Standard      |13.6 kWh      |
-|MG4                    |Long Range    |64 kWh        |
-|Rivian R1T             |Max Pack      |180 kWh       |
-|Denza B5               |PHEV          |31.8 kWh      |
-|Denza B8               |PHEV          |38.5 kWh      |
-|Jetour G700            |EREV          |52.4 kWh      |
-|Jetour Shanhai L9      |PHEV          |40.9 kWh      |
+| Vehicle | Variant | Usable Battery |
+|---|---|---|
+| Tesla Model 3 | Long Range | 79 kWh |
+| Tesla Model Y | Standard Range | 60 kWh |
+| BYD Atto 3 | Standard | 60.5 kWh |
+| Hyundai Ioniq 5 | Long Range | 77.4 kWh |
+| Kia EV6 | GT | 77.4 kWh |
+| VW ID.4 | Pro S | 82 kWh |
+| BMW iX | xDrive50 | 105.2 kWh |
+| Polestar 2 | Long Range | 79 kWh |
+| Toyota bZ4X | Standard | 71.4 kWh |
+| Toyota Prius Prime PHEV | Standard | 13.6 kWh |
+| MG4 | Long Range | 64 kWh |
+| Rivian R1T | Max Pack | 180 kWh |
+| Denza B5 | PHEV | 31.8 kWh |
+| Denza B8 | PHEV | 38.5 kWh |
+| Jetour G700 | EREV | 52.4 kWh |
+| Jetour Shanhai L9 | PHEV | 40.9 kWh |
 
------
+---
 
 ## Frequently Asked Questions (English)
 
@@ -93,15 +93,15 @@ Mode 2 charging uses a portable cable that plugs into a regular household wall s
 
 ### Which electric vehicles does the calculator support?
 
-The vehicle picker includes 108 popular EV and PHEV models from 35 brands: Tesla, BYD, Hyundai, Kia, Volkswagen, Audi, BMW, Mercedes-Benz, Porsche, Ford, Chevrolet, Nissan, Polestar, Volvo, Toyota, Honda, Mazda, Peugeot, Citroën, Opel, Renault, Jeep, Jetour, MG, Lucid, Rivian, Genesis, Lexus, MINI, Fiat, Mitsubishi, NIO, XPeng, Denza, Zeekr, Jaguar, Land Rover. Selecting your car auto-fills the battery capacity. If your model isn’t listed, you can enter the kWh manually.
+The vehicle picker includes 108 popular EV and PHEV models from 35 brands: Tesla, BYD, Hyundai, Kia, Volkswagen, Audi, BMW, Mercedes-Benz, Porsche, Ford, Chevrolet, Nissan, Polestar, Volvo, Toyota, Honda, Mazda, Peugeot, Citroën, Opel, Renault, Jeep, Jetour, MG, Lucid, Rivian, Genesis, Lexus, MINI, Fiat, Mitsubishi, NIO, XPeng, Denza, Zeekr, Jaguar, Land Rover. Selecting your car auto-fills the battery capacity. If your model isn't listed, you can enter the kWh manually.
 
------
+---
 
 ## Foire aux questions (Français)
 
-### Combien coûte la recharge d’une voiture électrique ?
+### Combien coûte la recharge d'une voiture électrique ?
 
-Le coût de recharge d’un véhicule électrique dépend de votre tarif d’électricité local et de la taille de la batterie. Pour une batterie typique de 30 kWh chargée de 20 % à 100 %, les coûts varient de 1 € à 15 € selon le pays.
+Le coût de recharge d'un véhicule électrique dépend de votre tarif d'électricité local et de la taille de la batterie. Pour une batterie typique de 30 kWh chargée de 20 % à 100 %, les coûts varient de 1 € à 15 € selon le pays.
 
 ### Combien de temps faut-il pour recharger un VE avec une prise murale ?
 
@@ -111,7 +111,7 @@ Avec une prise murale standard (Mode 2, 2,2 kW), recharger une batterie de 30 kW
 
 Le sélecteur de véhicules contient 108 modèles VE et PHEV populaires de 35 marques. Sélectionner votre voiture remplit automatiquement la capacité de la batterie.
 
------
+---
 
 ## Preguntas frecuentes (Español)
 
@@ -123,7 +123,7 @@ El coste de cargar un VE depende de tu tarifa eléctrica local y del tamaño de 
 
 El selector de vehículos incluye 108 modelos populares de VE y PHEV de 35 marcas. Al seleccionar tu coche, se rellena automáticamente la capacidad de la batería.
 
------
+---
 
 ## الأسئلة الشائعة (العربية)
 
@@ -135,7 +135,7 @@ El selector de vehículos incluye 108 modelos populares de VE y PHEV de 35 marca
 
 يتضمن منتقي السيارات 108 موديلات من السيارات الكهربائية والهجينة الشهيرة من 35 علامة تجارية. اختيار سيارتك يعبئ سعة البطارية تلقائياً.
 
------
+---
 
 ## Resources
 
@@ -144,6 +144,6 @@ El selector de vehículos incluye 108 modelos populares de VE y PHEV de 35 marca
 - **Robots:** https://evcalculator.app/robots.txt
 - **PWA manifest:** https://evcalculator.app/manifest.json
 
------
+---
 
-*Last updated: 2026-05-11*
+*Last updated: 2026-07-16*
