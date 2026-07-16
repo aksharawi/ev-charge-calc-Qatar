@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -8,7 +7,6 @@
   <!-- ═══════════════════════════════════════════
        PRIMARY SEO (GLOBAL)
   ═══════════════════════════════════════════ -->
-
   <title>EV Charge Cost Calculator | Worldwide Electricity Tool</title>
   <meta name="description" content="Calculate exactly how much it costs to charge your EV or hybrid anywhere in the world. Vehicle picker with 100+ models from Tesla, BYD, Hyundai and more. Auto-detects your country and currency. Free, works offline. — Calculez le coût de recharge de votre véhicule électrique. — Calcula el coste de carga de tu coche eléctrico. — احسب تكلفة شحن سيارتك الكهربائية." />
   <meta name="keywords" content="EV charging cost, electricity tariff calculator, electric vehicle charging calculator, hybrid car charging cost, PHEV charging calculator, EV calculator app, Tesla charging cost, BYD charging cost, EV battery capacity lookup, vehicle picker, coût recharge voiture électrique, calculateur recharge VE, tarif électricité, coste carga coche eléctrico, calculadora carga vehículo eléctrico, tarifa electricidad, حاسبة شحن السيارة الكهربائية, تكلفة شحن السيارة, تعريفة الكهرباء" />
@@ -28,7 +26,6 @@
   <!-- ═══════════════════════════════════════════
        OPEN GRAPH
   ═══════════════════════════════════════════ -->
-
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://evcalculator.app/" />
   <meta property="og:title" content="EV Charge Cost Calculator | حاسبة تكلفة شحن السيارة الكهربائية" />
@@ -44,7 +41,6 @@
   <meta property="og:site_name" content="Charge Calculator" />
 
   <!-- TWITTER -->
-
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="EV Charge Cost Calculator | حاسبة الشحن" />
   <meta name="twitter:description" content="Calculate your EV charging cost anywhere in the world. Wall plug or AC charger. Free & works offline. — احسب تكلفة شحن سيارتك الكهربائية حول العالم." />
@@ -52,7 +48,6 @@
   <meta name="twitter:creator" content="@aksharawi" />
 
   <!-- PWA / MOBILE -->
-
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="ChargeCalc" />
@@ -68,7 +63,6 @@
   <!-- ═══════════════════════════════════════════
        STRUCTURED DATA — bilingual, global scope
   ═══════════════════════════════════════════ -->
-
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -228,9 +222,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Roboto+Mono:wght@400;500;600;700&family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet" />
 
   <!-- GA4 -->
-
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-M4GLDGSHKG"></script>
-
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -337,21 +329,18 @@
       to   { opacity: 1; transform: translateY(0); max-height: 2000px; }
     }
   </style>
-
 </head>
 <body>
   <div id="root"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
 
   <script type="text/babel">
     const { useState, useEffect } = React;
 
-    const VERSION = "3.2.1";
+    const VERSION = "3.3";
 
     // ═══════════════════════════════════════════
     //  ANALYTICS HELPER
@@ -1020,6 +1009,9 @@
         searchPlaceholder: "Search country or currency...",
         noResults: "No countries found",
         noVehiclesFound: "No vehicles found",
+        share: "Share",
+        linkCopied: "Link copied!",
+        byCountry: "EV charging costs by country",
         close: "Close",
         installApp: "Install app",
         installLabel: "GET",
@@ -1121,6 +1113,9 @@
         searchPlaceholder: "ابحث عن دولة أو عملة...",
         noResults: "لم يتم العثور على دول",
         noVehiclesFound: "لم يتم العثور على سيارات",
+        share: "مشاركة",
+        linkCopied: "تم نسخ الرابط!",
+        byCountry: "تكاليف شحن السيارات حسب الدولة",
         close: "إغلاق",
         installApp: "تثبيت التطبيق",
         installLabel: "تثبيت",
@@ -1222,6 +1217,9 @@
         searchPlaceholder: "Rechercher un pays ou une devise...",
         noResults: "Aucun pays trouvé",
         noVehiclesFound: "Aucun véhicule trouvé",
+        share: "Partager",
+        linkCopied: "Lien copié !",
+        byCountry: "Coûts de recharge VE par pays",
         close: "Fermer",
         installApp: "Installer l'application",
         installLabel: "OBTENIR",
@@ -1323,6 +1321,9 @@
         searchPlaceholder: "Buscar país o moneda...",
         noResults: "No se encontraron países",
         noVehiclesFound: "No se encontraron vehículos",
+        share: "Compartir",
+        linkCopied: "¡Enlace copiado!",
+        byCountry: "Costes de carga VE por país",
         close: "Cerrar",
         installApp: "Instalar aplicación",
         installLabel: "OBTENER",
@@ -2653,6 +2654,7 @@
       const [countryModalOpen, setCountryModalOpen] = useState(false);
       const [languageModalOpen, setLanguageModalOpen] = useState(false);
       const [vehicleModalOpen, setVehicleModalOpen] = useState(false);
+      const [shareToast, setShareToast] = useState(false);
       const [selectedVehicle, setSelectedVehicle] = useState(null);
       const [battery, setBattery] = useState(31.8);
       const [startSOC, setStartSOC] = useState(20);
@@ -2788,6 +2790,44 @@
           track("country_detected", { country: finalCode, source });
         };
 
+        // ── Strategy 0: shared-link URL params override everything ──
+        try {
+          const params = new URLSearchParams(window.location.search);
+          const pc = (params.get("c") || "").toUpperCase();
+          if (pc && COUNTRIES[pc]) {
+            setCountry(pc);
+            const num = (key, min, max) => {
+              const v = parseFloat(params.get(key));
+              return (!isNaN(v) && v >= min && v <= max) ? v : null;
+            };
+            const kwh = num("kwh", 1, 300);
+            const s = num("s", 0, 99);
+            const e = num("e", 1, 100);
+            const eff = num("eff", 50, 100);
+            const r = num("r", 0.001, 100);
+            const f = num("f", 1, 60);
+            const ch = params.get("ch");
+            const plang = params.get("lang");
+            if (kwh !== null) setBattery(kwh);
+            if (s !== null) setStartSOC(s);
+            if (e !== null && (s === null || e > s)) setEndSOC(e);
+            if (eff !== null) setEfficiency(eff);
+            if (ch === "wall" || ch === "ac11") setChargerId(ch);
+            if (r !== null) {
+              setRate(r);
+              const c = COUNTRIES[pc];
+              const isPreset = [c.low, c.mid, c.high].some(p => Math.abs(p - r) < 0.0001);
+              setCustomRate(!isPreset);
+            } else {
+              setRate(COUNTRIES[pc].def);
+            }
+            if (f !== null) setFreqDays(f);
+            if (plang && STRINGS[plang]) setLang(plang);
+            track("shared_link_open", { country: pc });
+            return () => { didCancel = true; };
+          }
+        } catch {}
+
         // Strategy 1: IP geolocation
         fetch("https://ipapi.co/json/")
           .then(r => r.ok ? r.json() : Promise.reject())
@@ -2853,6 +2893,32 @@
       };
 
       const countryData = country ? COUNTRIES[country] : null;
+
+      // ── Share current calculation as URL ─────────────────────────
+      const handleShare = async () => {
+        const p = new URLSearchParams({
+          c: country || FALLBACK_COUNTRY,
+          kwh: String(battery),
+          s: String(startSOC),
+          e: String(endSOC),
+          eff: String(efficiency),
+          ch: chargerId,
+          r: String(rate),
+          f: String(freqDays),
+          lang,
+        });
+        const url = `https://evcalculator.app/?${p.toString()}`;
+        track("share_click", { method: navigator.share ? "native" : "clipboard", country });
+        try {
+          if (navigator.share) {
+            await navigator.share({ title: "Charge Calculator", url });
+          } else {
+            await navigator.clipboard.writeText(url);
+            setShareToast(true);
+            setTimeout(() => setShareToast(false), 2000);
+          }
+        } catch {/* user cancelled share sheet — fine */}
+      };
 
       // Generate rate presets based on detected country
       const ratePresets = countryData ? [
@@ -3012,6 +3078,27 @@
               background: "radial-gradient(circle, rgba(255,255,255,0.5), transparent 70%)",
               pointerEvents: "none",
             }} />
+
+            {/* Share button — corner opposite the label */}
+            <button
+              onClick={handleShare}
+              aria-label={t.share}
+              style={{
+                position: "absolute", top: "12px", [isRTL ? "left" : "right"]: "12px",
+                width: "36px", height: "36px", borderRadius: "50%",
+                background: "rgba(0,0,0,0.10)", border: "1px solid rgba(0,0,0,0.12)",
+                color: "#0F0E0B", cursor: "pointer",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: "1rem", lineHeight: 1, padding: 0,
+                WebkitTapHighlightColor: "transparent",
+                zIndex: 1,
+              }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ pointerEvents: "none" }}>
+                <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                <line x1="8.6" y1="10.5" x2="15.4" y2="6.5"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/>
+              </svg>
+            </button>
 
             {/* Label */}
             <div style={{
@@ -3368,6 +3455,12 @@
 
           {/* Footer */}
           <div style={{ textAlign: "center", marginTop: "1.4rem", paddingBottom: "1.5rem" }}>
+            <a href="/countries/" onClick={() => track("countries_hub_click", {})} style={{
+              display: "inline-block",
+              fontSize: "0.72rem", color: theme.yellowText, fontWeight: 500,
+              fontFamily: t.fontFamily, textDecoration: "none",
+              marginBottom: "0.7rem",
+            }}>{t.byCountry} →</a>
             <div style={{ fontSize: "0.68rem", color: theme.textVeryFaint, fontFamily: t.fontFamily }}>
               {t.madeBy} <span style={{ color: theme.yellowText }}>@aksharawi</span> · {t.rights}
             </div>
@@ -3375,6 +3468,23 @@
               v{VERSION}
             </div>
           </div>
+
+          {/* Share "link copied" toast */}
+          {shareToast && (
+            <div style={{
+              position: "fixed",
+              bottom: "calc(env(safe-area-inset-bottom, 0px) + 5.5rem)",
+              left: "50%", transform: "translateX(-50%)",
+              background: theme.black, color: theme.onBlack,
+              padding: "0.65rem 1.3rem", borderRadius: "999px",
+              fontSize: "0.82rem", fontWeight: 600, fontFamily: t.fontFamily,
+              boxShadow: "0 8px 30px rgba(0,0,0,0.35)",
+              zIndex: 1000, whiteSpace: "nowrap",
+              animation: "toastSlideUp 0.25s cubic-bezier(.2,.7,.3,1)",
+            }}>
+              {t.linkCopied}
+            </div>
+          )}
 
           {/* Country selection modal */}
           <CountryModal
@@ -3888,6 +3998,5 @@
       }
     })();
   </script>
-
 </body>
 </html>
